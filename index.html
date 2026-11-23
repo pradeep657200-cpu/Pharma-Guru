@@ -12,7 +12,7 @@
   <link rel="icon" type="image/png" sizes="192x192" href="./icon-192.png">
   <link rel="icon" type="image/png" sizes="512x512" href="./icon-512.png">
   <link rel="apple-touch-icon" href="./icon-512.png">
-  <title>Pharma Guru v2.0 — Universal Pharmacy Study OS</title>
+  <title>Pharma Guru v2.5 — Universal Pharmacy Study OS</title>
 <style>
 :root {
   --bg: #F4F1EA;
@@ -2112,6 +2112,104 @@ body[data-universe="mcq"] .pg-quick-actions { display: none !important; }
   flex-shrink: 0;
 }
 .chat-send-btn:disabled { opacity: 0.55; cursor: not-allowed; }
+
+/* === PHARMA GURU v2.5 FLAGSHIP EDTECH VISUAL POLISH === */
+@keyframes pgUniFade { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: translateY(0); } }
+.pg-uni-panel.active { animation: pgUniFade 0.24s cubic-bezier(0.22, 1, 0.36, 1); }
+
+/* Frosted Glass Optical Lens Pointer Ball + Breathing Radar Ring */
+@keyframes pgRadarPulse {
+  0% { box-shadow: 0 0 0 0 rgba(14, 165, 233, 0.45), 0 8px 22px rgba(2, 132, 199, 0.32); }
+  70% { box-shadow: 0 0 0 13px rgba(14, 165, 233, 0), 0 8px 22px rgba(2, 132, 199, 0.32); }
+  100% { box-shadow: 0 0 0 0 rgba(14, 165, 233, 0), 0 8px 22px rgba(2, 132, 199, 0.32); }
+}
+#pdf-pointer-ball {
+  width: 62px;
+  height: 62px;
+  margin-left: -31px;
+  margin-top: -31px;
+  backdrop-filter: blur(1.5px);
+  -webkit-backdrop-filter: blur(1.5px);
+  background: radial-gradient(circle, rgba(255,255,255,0.06) 0%, rgba(14,165,233,0.16) 62%, rgba(15,118,110,0.34) 100%);
+  border: 2.5px solid #0284C7;
+  animation: pgRadarPulse 2.2s infinite;
+}
+#pdf-pointer-ball::before, #pdf-pointer-ball::after {
+  content: "";
+  position: absolute;
+  background: rgba(2, 132, 199, 0.55);
+  pointer-events: none;
+}
+#pdf-pointer-ball::before { width: 1px; height: 100%; left: 50%; top: 0; }
+#pdf-pointer-ball::after { height: 1px; width: 100%; top: 50%; left: 0; }
+#pdf-pointer-ball.dragging { animation: none; }
+
+/* Flagship Glass Action Dock */
+.pdf-action-dock {
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  box-shadow: 0 6px 20px rgba(15, 118, 110, 0.10);
+}
+.pdf-explain-btn, .chat-send-btn {
+  transition: transform 0.15s ease, box-shadow 0.2s ease;
+}
+.pdf-explain-btn:active, .chat-send-btn:active, .pg-uni-btn:active { transform: scale(0.97); }
+
+/* Chat Message Entrance + Guru Avatar Header */
+@keyframes pgMsgPop { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+.chat-msg { animation: pgMsgPop 0.22s ease-out; }
+.guru-ai-head {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  margin-bottom: 6px;
+  font-size: 0.76rem;
+  font-weight: 800;
+  color: #0F766E;
+}
+[data-theme="night"] .guru-ai-head { color: #5EEAD4; }
+.guru-ai-avatar {
+  width: 24px;
+  height: 24px;
+  border-radius: 8px;
+  background: linear-gradient(135deg, #0F766E, #0284C7);
+  color: #FFFFFF;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.82rem;
+  box-shadow: 0 2px 6px rgba(15, 118, 110, 0.30);
+}
+
+/* Animated 3-Dot Typing Shimmer */
+.pg-typing-dots { display: inline-flex; align-items: center; gap: 5px; padding: 4px 2px; }
+.pg-typing-dots span {
+  width: 8px; height: 8px; border-radius: 50%; background: #0F766E;
+  animation: pgDotBounce 1.15s infinite ease-in-out both;
+}
+.pg-typing-dots span:nth-child(1) { animation-delay: -0.28s; }
+.pg-typing-dots span:nth-child(2) { animation-delay: -0.14s; }
+@keyframes pgDotBounce { 0%, 80%, 100% { transform: scale(0.45); opacity: 0.45; } 40% { transform: scale(1); opacity: 1; } }
+
+/* Rich Striped EdTech Comparison Tables inside Guru Cards */
+.guru-table-wrap { overflow-x: auto; margin: 8px 0; border-radius: 10px; border: 1px solid var(--border); }
+.guru-rich-table { width: 100%; border-collapse: collapse; font-size: 0.84rem; }
+.guru-rich-table th {
+  background: linear-gradient(135deg, rgba(15, 118, 110, 0.14), rgba(2, 132, 199, 0.14));
+  color: var(--text);
+  font-weight: 800;
+  text-align: left;
+  padding: 7px 10px;
+  border-bottom: 1.5px solid var(--border);
+}
+.guru-rich-table td {
+  padding: 7px 10px;
+  border-bottom: 1px solid var(--border);
+  vertical-align: top;
+}
+.guru-rich-table tr:last-child td { border-bottom: none; }
+.guru-rich-table tbody tr:nth-child(even) { background: rgba(148, 163, 184, 0.06); }
+
 @media (max-width: 600px) {
   .pg-uni-btn { font-size: 0.76rem; padding: 9px 5px; }
   .pdf-stage-outer { max-height: 55vh; padding: 6px; }
@@ -2136,7 +2234,7 @@ body[data-universe="mcq"] .pg-quick-actions { display: none !important; }
           </svg>
         </div>
         <div>
-          <h1 class="brand-title" id="app-chapter-title">Pharma Guru <span class="pg-ver-pill">v2.0</span></h1>
+          <h1 class="brand-title" id="app-chapter-title">Pharma Guru <span class="pg-ver-pill">v2.5 PRO</span></h1>
           <div class="chapter-sub">
             <span id="app-exam-subtitle">B.Pharm Universal Study OS • MCQ + PDF Pointer + AI Tutor</span>
             <button type="button" class="creator-sig" id="btn-creator-love" title="Optional appreciation">
@@ -4852,6 +4950,8 @@ function updateVoiceHeaderBtn() {
   if (!btn) return;
   const cfg = getVoiceConfig();
   btn.textContent = cfg.apiKey ? '🎙️ Pharma Guru' : '🎙️ Guru Setup';
+  const qBtn = document.getElementById('btn-quick-guru-cfg');
+  if (qBtn) qBtn.textContent = cfg.apiKey ? '✅ Guru API Ready' : '🔑 API Setup';
 }
 
 function openVoiceModal() {
@@ -5434,12 +5534,11 @@ async function speakWithStudioVoice(text, cfg, onFinish) {
   const styleDesc = 'Speak like a completely real, warm, charismatic human mentor from North India sitting right next to the student—authentic natural Indian Hinglish accent for both Hindi and English words, relaxed human breathing pauses, gentle smile in the voice, zero robotic stiffness.';
   for (const m of ttsModels) {
     try {
-      const url = `https://generativelanguage.googleapis.com/v1beta/models/${m}:generateContent`;
       const is38 = m.startsWith('gemini-3.8');
       const partObj = is38 ? { text: text, speech_metadata: { style: styleDesc } } : { text: `${styleDesc}\n${text}` };
-      const resp = await fetch(url, {
+      const resp = await pgFetchGemini(`models/${m}:generateContent`, cfg.apiKey, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'x-goog-api-key': cfg.apiKey },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           contents: [{ parts: [partObj] }],
           generationConfig: {
@@ -7739,7 +7838,7 @@ function bindEvents() {
   document.getElementById('btn-scroll-top').addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
 
   document.addEventListener('keydown', e => {
-    if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+    if (document.body.getAttribute('data-universe') !== 'mcq' || e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
     const key = e.key.toLowerCase();
     const { slice } = getActiveBatchSlice();
     const hist = getActiveHist();
@@ -8600,13 +8699,39 @@ if ('serviceWorker' in navigator && (location.protocol === 'https:' || location.
 
   function renderColorfulGuruCard(rawText) {
     const lines = String(rawText || '').replace(/\r/g, '').split('\n');
-    const htmlParts = ['<div class="guru-rich-card">'];
+    const htmlParts = ['<div class="guru-rich-card"><div class="guru-ai-head"><span class="guru-ai-avatar">🩺</span><span>Pharma Guru</span></div>'];
     let inList = false;
     const closeList = () => { if (inList) { htmlParts.push('</ul>'); inList = false; } };
 
     for (let i = 0; i < lines.length; i++) {
       const line = lines[i].trim();
       if (!line) { closeList(); continue; }
+      // Markdown Comparison Table block (| Col1 | Col2 |)
+      if (/^\|.+\|$/.test(line)) {
+        closeList();
+        const tblLines = [];
+        while (i < lines.length && /^\|.+\|$/.test(lines[i].trim())) {
+          tblLines.push(lines[i].trim());
+          i++;
+        }
+        i--;
+        const rows = tblLines
+          .filter(r => !/^\|[\s:\-|]+\|$/.test(r))
+          .map(r => r.slice(1, -1).split('|').map(c => c.trim()));
+        if (rows.length >= 1) {
+          let thtml = '<div class="guru-table-wrap"><table class="guru-rich-table"><thead><tr>';
+          rows[0].forEach(c => { thtml += `<th>${formatInlineRich(c)}</th>`; });
+          thtml += '</tr></thead><tbody>';
+          for (let r = 1; r < rows.length; r++) {
+            thtml += '<tr>';
+            rows[r].forEach(c => { thtml += `<td>${formatInlineRich(c)}</td>`; });
+            thtml += '</tr>';
+          }
+          thtml += '</tbody></table></div>';
+          htmlParts.push(thtml);
+        }
+        continue;
+      }
       if (/^##\s+/.test(line)) {
         closeList();
         htmlParts.push(`<div class="guru-rich-h2">${formatInlineRich(line.replace(/^##\s+/, ''))}</div>`);
@@ -8647,6 +8772,25 @@ if ('serviceWorker' in navigator && (location.protocol === 'https:' || location.
   // --- 3-UNIVERSE SWITCHER ---
   function setActiveUniverse(uni) {
     const valid = ['mcq', 'pdf', 'chat'].includes(uni) ? uni : 'mcq';
+    const prevUni = document.body.getAttribute('data-universe') || 'mcq';
+    if (prevUni !== valid) {
+      if (typeof stopActiveVoicePlayback === 'function') { try { stopActiveVoicePlayback(); } catch (e) {} }
+      stopActivePharmaAudio();
+      if (pdfMicActive && pdfMicRec) {
+        pdfMicActive = false;
+        const pm = document.getElementById('btn-pdf-voice-ask');
+        if (pm) { pm.classList.remove('recording'); pm.textContent = '🎤 Ask by Voice'; }
+        try { pdfMicRec.stop(); } catch (e) {}
+      }
+      if (chatMicActive && chatMicRec) {
+        chatMicActive = false;
+        const cm = document.getElementById('btn-chat-mic');
+        if (cm) { cm.classList.remove('recording'); cm.textContent = '🎤'; }
+        try { chatMicRec.stop(); } catch (e) {}
+      }
+      const stBtn = document.getElementById('btn-pdf-stop-audio');
+      if (stBtn) stBtn.style.display = 'none';
+    }
     document.body.setAttribute('data-universe', valid);
     safeSetStorage(PG_UNIVERSE_KEY, valid);
     document.querySelectorAll('.pg-uni-btn').forEach(b => {
@@ -9114,8 +9258,20 @@ CRITICAL RULES:
     const v = parseInt(e.target.value, 10);
     if (pdfDoc && v >= 1 && v <= pdfTotalPages) renderPdfPage(v);
   });
-  document.getElementById('btn-pdf-zoom-in').addEventListener('click', () => { if (pdfDoc) { pdfScale = Math.min(2.4, pdfScale + 0.25); renderPdfPage(pdfCurrentPage); } });
-  document.getElementById('btn-pdf-zoom-out').addEventListener('click', () => { if (pdfDoc) { pdfScale = Math.max(0.75, pdfScale - 0.25); renderPdfPage(pdfCurrentPage); } });
+  function applyDemoZoom() {
+    const c = document.getElementById('pdf-render-canvas');
+    if (c) c.style.maxWidth = `${Math.round(540 * (pdfScale / 1.25))}px`;
+  }
+  document.getElementById('btn-pdf-zoom-in').addEventListener('click', () => {
+    pdfScale = Math.min(2.4, pdfScale + 0.25);
+    if (pdfDoc) renderPdfPage(pdfCurrentPage);
+    else if (pdfIsDemo) applyDemoZoom();
+  });
+  document.getElementById('btn-pdf-zoom-out').addEventListener('click', () => {
+    pdfScale = Math.max(0.75, pdfScale - 0.25);
+    if (pdfDoc) renderPdfPage(pdfCurrentPage);
+    else if (pdfIsDemo) applyDemoZoom();
+  });
   document.getElementById('btn-pdf-pointer-toggle').addEventListener('click', (e) => {
     pdfPointerEnabled = !pdfPointerEnabled;
     e.currentTarget.textContent = pdfPointerEnabled ? '🎯 Pointer: ON' : '🎯 Pointer: OFF';
@@ -9341,7 +9497,7 @@ STRICT LANGUAGE & SCRIPT RULES (NEVER VIOLATE):
     const feed = document.getElementById('chat-feed');
     const loader = document.createElement('div');
     loader.className = 'chat-msg ai';
-    loader.innerHTML = '<div style="font-weight:800; color:#0F766E;">🧠 Pharma Guru सोच रहा है और colorful notes बना रहा है...</div>';
+    loader.innerHTML = '<div class="guru-ai-head"><span class="guru-ai-avatar">🩺</span><span>Pharma Guru लिख रहा है</span></div><div class="pg-typing-dots"><span></span><span></span><span></span></div>';
     feed.appendChild(loader);
     feed.scrollTop = feed.scrollHeight;
 
@@ -9371,8 +9527,13 @@ STRICT LANGUAGE & SCRIPT RULES (NEVER VIOLATE):
   }
 
   document.getElementById('btn-chat-send').addEventListener('click', () => sendAskGuruMessage());
-  document.getElementById('chat-text-input').addEventListener('keydown', (e) => {
-    if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendAskGuruMessage(); }
+  const chatTa = document.getElementById('chat-text-input');
+  chatTa.addEventListener('input', () => {
+    chatTa.style.height = 'auto';
+    chatTa.style.height = Math.min(110, chatTa.scrollHeight) + 'px';
+  });
+  chatTa.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); chatTa.style.height = 'auto'; sendAskGuruMessage(); }
   });
 
   // Voice Mic inside Ask Guru Chat Composer
@@ -9407,7 +9568,8 @@ STRICT LANGUAGE & SCRIPT RULES (NEVER VIOLATE):
     } catch (err) { showToast('🎤 Mic permission allow करो (HTTPS पर)'); }
   });
 
-  // Restore last active universe
+  // Restore last active universe & sync API badge
+  if (typeof updateVoiceHeaderBtn === 'function') updateVoiceHeaderBtn();
   setActiveUniverse(safeGetStorage(PG_UNIVERSE_KEY) || 'mcq');
 })();
 
