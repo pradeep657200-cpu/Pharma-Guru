@@ -12,7 +12,7 @@
   <link rel="icon" type="image/png" sizes="192x192" href="./icon-192.png">
   <link rel="icon" type="image/png" sizes="512x512" href="./icon-512.png">
   <link rel="apple-touch-icon" href="./icon-512.png">
-  <title>Pharma Guru v2.5 — Universal Pharmacy Study OS</title>
+  <title>Pharma Guru v3.0 — Universal Pharmacy Study OS</title>
 <style>
 :root {
   --bg: #F4F1EA;
@@ -1675,17 +1675,6 @@ body.theme-night .hm-cell.lv4 { background: #4ade80; }
 body[data-universe="pdf"] .mcq-only-el,
 body[data-universe="chat"] .mcq-only-el { display: none !important; }
 
-.pg-quick-actions {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  gap: 8px;
-  margin-top: 8px;
-  padding-top: 8px;
-  border-top: 1px dashed var(--border);
-}
-body[data-universe="mcq"] .pg-quick-actions { display: none !important; }
 
 /* === UNIVERSE 2: PDF POINTER TUTOR === */
 .pdf-shell {
@@ -2059,45 +2048,64 @@ body[data-universe="mcq"] .pg-quick-actions { display: none !important; }
 }
 .chat-composer {
   display: flex;
-  align-items: flex-end;
-  gap: 6px;
-  padding: 10px 12px;
+  flex-direction: column;
+  gap: 8px;
+  padding: 10px 12px 12px;
   background: var(--card);
   border-top: 1px solid var(--border);
 }
-.chat-icon-btn {
-  width: 40px;
-  height: 40px;
-  border-radius: 11px;
+.chat-textarea {
+  width: 100%;
+  box-sizing: border-box;
+  min-height: 54px;
+  max-height: 150px;
+  padding: 11px 14px;
+  border-radius: 13px;
+  border: 1.5px solid var(--border);
+  background: var(--bg);
+  color: var(--text);
+  font-family: inherit;
+  font-size: 0.96rem;
+  resize: none;
+  line-height: 1.42;
+  outline: none;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+.chat-textarea:focus {
+  border-color: #0F766E;
+  box-shadow: 0 0 0 3px rgba(15, 118, 110, 0.14);
+}
+.chat-composer-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+.chat-composer-tools {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+.chat-tool-pill {
+  height: 36px;
+  padding: 0 11px;
+  border-radius: 10px;
   border: 1px solid var(--border);
   background: var(--bg);
   color: var(--text);
-  font-size: 1.08rem;
+  font-size: 0.8rem;
+  font-weight: 800;
   cursor: pointer;
-  flex-shrink: 0;
-  display: flex;
+  display: inline-flex;
   align-items: center;
-  justify-content: center;
+  gap: 4px;
 }
-.chat-icon-btn.recording {
+.chat-tool-pill.recording {
   background: #E11D48;
   color: #FFFFFF;
   border-color: #E11D48;
   animation: pgPulseRec 1s infinite;
-}
-.chat-textarea {
-  flex: 1;
-  min-height: 40px;
-  max-height: 110px;
-  padding: 9px 12px;
-  border-radius: 11px;
-  border: 1px solid var(--border);
-  background: var(--bg);
-  color: var(--text);
-  font-family: inherit;
-  font-size: 0.9rem;
-  resize: none;
-  line-height: 1.35;
 }
 .chat-send-btn {
   height: 40px;
@@ -2234,7 +2242,7 @@ body[data-universe="mcq"] .pg-quick-actions { display: none !important; }
           </svg>
         </div>
         <div>
-          <h1 class="brand-title" id="app-chapter-title">Pharma Guru <span class="pg-ver-pill">v2.5 PRO</span></h1>
+          <h1 class="brand-title" id="app-chapter-title">Pharma Guru <span class="pg-ver-pill">v3.0</span></h1>
           <div class="chapter-sub">
             <span id="app-exam-subtitle">B.Pharm Universal Study OS • MCQ + PDF Pointer + AI Tutor</span>
             <button type="button" class="creator-sig" id="btn-creator-love" title="Optional appreciation">
@@ -2255,14 +2263,6 @@ body[data-universe="mcq"] .pg-quick-actions { display: none !important; }
       <button type="button" class="pg-uni-btn" data-uni="pdf" id="btn-uni-pdf">📄 PDF Pointer</button>
       <button type="button" class="pg-uni-btn" data-uni="chat" id="btn-uni-chat">💬 Ask Guru</button>
     </nav>
-
-    <div class="pg-quick-actions no-print" id="pg-quick-actions">
-      <span style="font-size:0.78rem; font-weight:700; color:var(--muted);" id="pg-uni-hint">📄 PDF पर Transparent Ball रखकर किसी भी लाइन या Diagram को आवाज़ में समझो</span>
-      <div style="display:flex; gap:6px; flex-wrap:wrap;">
-        <button type="button" class="ctrl-btn" id="btn-quick-guru-cfg">🔑 API / Voice Setup</button>
-        <button type="button" class="ctrl-btn" id="btn-quick-theme">🎨 Theme</button>
-      </div>
-    </div>
 
     <div class="controls-bar mcq-only-el">
       <div class="ctrl-group">
@@ -2514,12 +2514,9 @@ body[data-universe="mcq"] .pg-quick-actions { display: none !important; }
        ================================================================= -->
   <section class="pg-uni-panel no-print" id="universe-pdf-view">
     <div class="pdf-shell">
-      <div class="pdf-hero-strip">
-        <div>
-          <h2>📄 PDF Magic Pointer Tutor</h2>
-          <p>Transparent Ball को किसी भी Diagram, Structure या Line पर रखो — Pharma Guru बिल्कुल आसान भाषा में समझाएगा</p>
-        </div>
-        <button type="button" class="ctrl-btn" id="btn-pdf-voice-mode" style="background:rgba(255,255,255,0.18); color:#FFF; border-color:rgba(255,255,255,0.35);">🔊 Voice: ON</button>
+      <div class="pdf-hero-strip" style="padding:7px 12px; margin-bottom:9px;">
+        <h2 style="font-size:0.9rem;">📄 PDF Magic Pointer Tutor</h2>
+        <button type="button" class="ctrl-btn" id="btn-pdf-voice-mode" style="padding:4px 10px; font-size:0.76rem; background:rgba(255,255,255,0.18); color:#FFF; border-color:rgba(255,255,255,0.35);">🔊 Voice: ON</button>
       </div>
 
       <div class="pdf-toolbar">
@@ -2621,13 +2618,17 @@ body[data-universe="mcq"] .pg-quick-actions { display: none !important; }
       </div>
 
       <div class="chat-composer">
-        <button type="button" class="chat-icon-btn" id="btn-chat-camera" title="Take Photo with Camera">📷</button>
-        <input type="file" id="chat-camera-input" accept="image/*" capture="environment" style="display:none;">
-        <button type="button" class="chat-icon-btn" id="btn-chat-gallery" title="Upload from Gallery">🖼️</button>
-        <input type="file" id="chat-gallery-input" accept="image/*" style="display:none;">
-        <button type="button" class="chat-icon-btn" id="btn-chat-mic" title="Ask by Voice">🎤</button>
-        <textarea class="chat-textarea" id="chat-text-input" rows="1" placeholder="कोई भी doubt लिखो (या सिर्फ photo भेज दो)..."></textarea>
-        <button type="button" class="chat-send-btn" id="btn-chat-send">Send ➤</button>
+        <textarea class="chat-textarea" id="chat-text-input" rows="2" placeholder="यहाँ अपना कोई भी सवाल या doubt आराम से लिखो (या नीचे से Photo/Camera/Mic भेजो)..."></textarea>
+        <div class="chat-composer-bar">
+          <div class="chat-composer-tools">
+            <button type="button" class="chat-tool-pill" id="btn-chat-camera" title="Take Photo with Camera">📷 Camera</button>
+            <input type="file" id="chat-camera-input" accept="image/*" capture="environment" style="display:none;">
+            <button type="button" class="chat-tool-pill" id="btn-chat-gallery" title="Upload from Gallery">🖼️ Photo</button>
+            <input type="file" id="chat-gallery-input" accept="image/*" style="display:none;">
+            <button type="button" class="chat-tool-pill" id="btn-chat-mic" title="Ask by Voice">🎤 Mic</button>
+          </div>
+          <button type="button" class="chat-send-btn" id="btn-chat-send">Send ➤</button>
+        </div>
       </div>
     </div>
   </section>
@@ -8785,7 +8786,7 @@ if ('serviceWorker' in navigator && (location.protocol === 'https:' || location.
       if (chatMicActive && chatMicRec) {
         chatMicActive = false;
         const cm = document.getElementById('btn-chat-mic');
-        if (cm) { cm.classList.remove('recording'); cm.textContent = '🎤'; }
+        if (cm) { cm.classList.remove('recording'); cm.textContent = '🎤 Mic'; }
         try { chatMicRec.stop(); } catch (e) {}
       }
       const stBtn = document.getElementById('btn-pdf-stop-audio');
@@ -8800,12 +8801,7 @@ if ('serviceWorker' in navigator && (location.protocol === 'https:' || location.
     const chatPanel = document.getElementById('universe-chat-view');
     if (pdfPanel) pdfPanel.classList.toggle('active', valid === 'pdf');
     if (chatPanel) chatPanel.classList.toggle('active', valid === 'chat');
-    const hintEl = document.getElementById('pg-uni-hint');
-    if (hintEl) {
-      hintEl.textContent = valid === 'pdf'
-        ? '📄 PDF पर Transparent Ball रखकर किसी भी लाइन या Diagram को आवाज़ में समझो'
-        : '💬 Camera, Gallery, Mic या Text से कोई भी Doubt पूछो — आसान Hindi + English Tech Terms में';
-    }
+
     if (valid === 'pdf') initPdfVaultList();
     else if (valid === 'chat') renderChatFeed();
   }
@@ -8813,15 +8809,7 @@ if ('serviceWorker' in navigator && (location.protocol === 'https:' || location.
   document.querySelectorAll('.pg-uni-btn').forEach(btn => {
     btn.addEventListener('click', () => setActiveUniverse(btn.getAttribute('data-uni')));
   });
-  document.getElementById('btn-quick-guru-cfg').addEventListener('click', () => openVoiceModal());
-  document.getElementById('btn-quick-theme').addEventListener('click', () => {
-    const cycle = ['paper', 'sage', 'stage', 'night'];
-    const cur = document.documentElement.getAttribute('data-theme') || 'paper';
-    const next = cycle[(cycle.indexOf(cur) + 1) % cycle.length];
-    const mapBtn = { paper: 'btn-theme-paper', sage: 'btn-theme-sage', stage: 'btn-theme-stage', night: 'btn-theme-night' };
-    const t = document.getElementById(mapBtn[next]);
-    if (t) t.click();
-  });
+
 
   // ===================================================================
   // UNIVERSE 2: PDF POINTER TUTOR
@@ -9094,18 +9082,22 @@ if ('serviceWorker' in navigator && (location.protocol === 'https:' || location.
     return { fullB64, cropB64 };
   }
 
-  const PDF_POINTER_SYSTEM_PROMPT = `You are Pharma Guru, a warm, charismatic, super-clear North Indian / Purvanchal-style senior mentor teaching a B.Pharm student directly from their PDF notes.
-CRITICAL RULES:
-1. You receive TWO images: Image 1 is the FULL PDF page with a RED TARGET RING marking the exact spot where the student placed their pointer ball. Image 2 is a ZOOMED CLOSE-UP of that exact spot.
-2. Focus 100% on explaining whatever heading, line, drug name, diagram, arrow, flowchart, or chemical group is right inside/under that RED TARGET RING.
-3. TEACHING TONE (STRICT): Explain in the EASIEST, most effortless everyday Devanagari Hindi using relatable daily-life Indian/desi analogies so ANY student grasps it in 10 seconds flat! NEVER call the student "beginner", "first-time learner", or "weak" — speak like an encouraging older brother/friend.
-4. SCRIPT RULE (ZERO WORD SWAPPING): Keep ALL pharmacy, medical, chemistry, and exam technical terms strictly in English Latin script wrapped in backticks (e.g., \`Furosemide\`, \`Loop of Henle\`, \`Mechanism of Action\`, \`Schedule M\`), and write all explanatory Hindi in clean, simple Devanagari Hindi script. NEVER transliterate English technical words into Devanagari.
-5. FORMAT:
-   ## [Short Topic Title]
-   - 2–4 ultra-simple bullet points explaining the exact pointed spot
-   > 💡 देसी उदाहरण: [1 vivid everyday analogy]
-   > ✅ Exam में याद रखो: [1 crisp key exam point]
-6. If the student asks to move to the next page (e.g. "next page", "अगला पेज"), start your reply with [NEXT_PAGE] on the first line.`;
+  const PDF_POINTER_SYSTEM_PROMPT = `You are Pharma Guru, a legendary, warm, super-charismatic North Indian classroom teacher who makes the toughest B.Pharm & medical concepts feel ridiculously easy using vivid everyday village/desi analogies.
+
+ABSOLUTE NON-NEGOTIABLE RULES:
+1. VISION FOCUS: You receive TWO images — Image 1 is the FULL PDF page with a RED TARGET RING marking the exact spot where the student placed their pointer ball; Image 2 is a ZOOMED CLOSE-UP of that spot. Explain ONLY the exact heading, line, drug, diagram, arrow, or structure under that RED TARGET RING.
+2. IRONCLAD SCRIPT RULE (ZERO WORD SWAPPING — NEVER VIOLATE):
+   - Write ALL normal Hindi sentences, connectors, explanations, and everyday examples STRICTLY in clean, ultra-simple **Devanagari Hindi script** (देवनागरी हिंदी). NEVER write Hindi words in Roman/English letters (NO Hinglish like "yeh drug kaam karta hai"!).
+   - Keep ALL English pharmacy, medical, scientific, and exam technical terms STRICTLY in **English Latin script** wrapped in backticks (e.g., \`Furosemide\`, \`Loop of Henle\`, \`NKCC2 Symporter\`, \`Hypokalemia\`, \`Schedule M\`, \`Capping\`, \`Mechanism of Action\`). NEVER write English technical terms in Devanagari (NEVER write "फ्यूरोसेमाइड", "किडनी", "मैकेनिज़्म", "लूप ऑफ हेनले"!).
+   - ❌ WRONG: "Yeh Furosemide kidney mein kaam karta hai" OR "फ्यूरोसेमाइड किडनी के लूप ऑफ हेनले में काम करता है।"
+   - ✅ RIGHT: "देखो भाई, \`Furosemide\` एक तगड़ी \`Loop Diuretic\` दवा है। यह \`Kidney\` के \`Loop of Henle\` में जाकर \`Na+-K+-2Cl-\` पंप को ताला लगा देती है — बिल्कुल वैसे ही जैसे खेत की नाली में पानी रोकने वाला मेड़ हटा दिया जाए, तो सारा फालतू पानी सीधा \`Urine\` के रास्ते बाहर निकल जाता है!"
+3. ULTRA-SIMPLE DESI TEACHING STYLE: Explain like you are sitting right next to the student — zero heavy textbook Hindi, zero robotic tone, zero lecturing. Use 1 super-relatable everyday desi life example (पानी की टंकी, ताला-चाबी, ट्रैफिक पुलिस, खेत की नाली, चाय की छन्नी, etc.) so it sticks in 10 seconds!
+4. COLORFUL FORMAT (FOLLOW EXACTLY):
+   ## [Short English Technical Title]
+   - 2–4 छोटे, एकदम आसान देवनागरी हिंदी points (technical words हमेशा \`English\` में)
+   > 💡 देसी उदाहरण: [1 मज़ेदार रोज़मर्रा का उदाहरण]
+   > ✅ Exam में याद रखो: [1 ज़रूरी exam point जिसमें key terms \`English\` में हों]
+5. If the student asks for the next page ("next page", "अगला पेज"), start your reply with [NEXT_PAGE] on line 1.`;
 
   async function runPdfPointerExplain(userAskText, audioB64, audioMime) {
     if ((!pdfDoc && !pdfIsDemo) || pdfBusy) {
@@ -9130,7 +9122,7 @@ CRITICAL RULES:
         parts.push({ inlineData: { mimeType: audioMime || 'audio/webm', data: audioB64 } });
         parts.push({ text: `Student placed the red pointer ring on Page ${pdfCurrentPage}/${pdfTotalPages} and asked this voice question. Explain clearly!` });
       } else {
-        parts.push({ text: userAskText || `Page ${pdfCurrentPage}/${pdfTotalPages}: जहाँ Red Target Ring रखा है, उस exact हिस्से को एकदम आसान भाषा में समझा दो।` });
+        parts.push({ text: userAskText || `Page ${pdfCurrentPage}/${pdfTotalPages}: जहाँ Red Target Ring रखा है, उस exact हिस्से को एकदम आसान देवनागरी हिंदी और देसी उदाहरण में समझा दो (सारे Technical Terms सिर्फ \`English\` में रखना, Devanagari में बिल्कुल मत बदलना)।` });
       }
       const reply = await callPharmaMultimodal(parts, PDF_POINTER_SYSTEM_PROMPT, pdfTutorHistory);
       const wantsNext = reply.includes('[NEXT_PAGE]');
@@ -9339,19 +9331,22 @@ CRITICAL RULES:
   let chatMicActive = false;
 
   function buildAskGuruSystemPrompt() {
-    return `You are Pharma Guru, a warm, super-clear elder-brother B.Pharm mentor from Purvanchal/UP, India. Active Subject Context: ${chatActiveSubject}.
-STRICT LANGUAGE & SCRIPT RULES (NEVER VIOLATE):
-1. Write all explanations in the EASIEST, warmest, everyday Devanagari Hindi (natural Purvanchal/UP friendly clarity — ZERO heavy Shuddh-Sanskrit jargon, ZERO condescending remarks).
-2. STRICT LATIN-SCRIPT TECHNICAL TERMS (ZERO WORD SWAPPING): Every pharmacy, medical, chemistry, biology, and exam technical term MUST stay strictly in English Latin script wrapped in backticks (e.g., \`Pharmacokinetics\`, \`First-Pass Metabolism\`, \`Bioavailability\`, \`Loop Diuretics\`, \`Furosemide\`, \`Receptor\`, \`SAR\`, \`Schedule M\`). NEVER transliterate English technical terms into Devanagari!
-3. COLORFUL STRUCTURED PRESENTATION (ALWAYS USE THIS FORMAT):
-   ## [Clear Topic Heading]
-   - Crisp bullet points in ultra-simple Devanagari Hindi + \`English Tech Terms\`
-   ### 🔬 Main Concept / Mechanism
-   - Step-by-step easy breakdown (use arrows like A -> B -> C where helpful)
-   > 💡 देसी उदाहरण: [1 vivid daily-life analogy so the student never forgets it]
-   > ✅ Exam Copy में ऐसे लिखो: [2–3 crisp English exam-copy keywords/headings to score full marks]
-   > ⚠️ ध्यान देने वाली बात: [1 quick trap or short memory trick]
-4. If the student sends ONLY an image or voice clip with no text, automatically read/listen and explain it completely in this colorful format!`;
+    return `You are Pharma Guru, a legendary, warm, super-charismatic North Indian / Purvanchal classroom mentor who explains the toughest B.Pharm concepts in the simplest everyday language with unforgettable desi examples. Active Subject: ${chatActiveSubject}.
+
+IRONCLAD SCRIPT & LANGUAGE LAW (100% MANDATORY — ZERO WORD SWAPPING):
+1. DEVANAGARI HINDI FOR ALL EXPLANATIONS: Write ALL everyday Hindi sentences, stories, and explanations STRICTLY in ultra-simple, warm **Devanagari Hindi script** (बिल्कुल आम बोलचाल की पूर्वांचल/UP वाली आसान हिंदी — कठिन किताबी हिंदी बिल्कुल नहीं!). NEVER write Hindi sentences in Roman English letters (NO Hinglish like "yeh aise kaam karta hai"!).
+2. LATIN ENGLISH FOR ALL TECHNICAL TERMS: Keep EVERY pharmacy, medical, chemistry, biology, drug, organ, disease, and exam technical term STRICTLY in **English Latin script** wrapped in backticks (e.g., \`Bioavailability\`, \`First-Pass Metabolism\`, \`Furosemide\`, \`Receptor\`, \`Liver\`, \`Tablet Capping\`, \`Schedule M\`). NEVER transliterate English technical words into Devanagari (NEVER write "बायोअवेलेबिलिटी", "लिवर", "रिसेप्टर", "टैबलेट"!).
+   - ❌ WRONG: "First-pass metabolism mein liver dawa ko kam kar deta hai" OR "लिवर में फर्स्ट-पास मेटाबॉलिज्म होता है।"
+   - ✅ RIGHT: "देखो भाई, जब हम मुँह से \`Oral Drug\` खाते हैं, तो वह खून में पहुँचने से पहले सीधे \`Liver\` से होकर गुज़रती है। \`Liver\` एक सख्त \`Toll Tax\` चौकी की तरह दवा का कुछ हिस्सा वहीं तोड़ देता है — इसी को \`First-Pass Metabolism\` कहते हैं!"
+3. COLORFUL STRUCTURED PRESENTATION (USE THIS EXACT FORMAT):
+   ## [Topic Name in English]
+   - 2–4 एकदम आसान देवनागरी हिंदी points (सारे technical terms \`English\` में)
+   ### 🔬 असली खेल कैसे चलता है (Step-by-Step)
+   - आसान steps में समझाओ (जहाँ तुलना हो वहाँ clean Markdown comparison table बनाओ)
+   > 💡 देसी उदाहरण: [1 ऐसा मज़ेदार रोज़मर्रा का उदाहरण जिसे सुनकर हँसी भी आए और ज़िंदगी भर याद रहे]
+   > ✅ Exam Copy में ऐसे लिखो: [2–3 crisp \`English Headings/Keywords\` जिनसे AKTU copy में पूरे marks मिलें]
+   > ⚠️ याद रखने की Trick: [1 छोटा-सा super-easy याद रखने का जुगाड़]
+4. If the student sends ONLY a photo or voice clip without text, automatically read/listen and explain it completely in this exact colorful format!`;
   }
 
   function loadChatHistory() {
@@ -9508,7 +9503,7 @@ STRICT LANGUAGE & SCRIPT RULES (NEVER VIOLATE):
       const parts = [];
       if (imgCopy) parts.push({ inlineData: { mimeType: 'image/jpeg', data: imgCopy.b64 } });
       if (voiceAudioB64) parts.push({ inlineData: { mimeType: voiceAudioMime || 'audio/webm', data: voiceAudioB64 } });
-      parts.push({ text: txt || (voiceAudioB64 ? 'इस voice doubt को ध्यान से सुनकर आसान Hindi + English technical terms में समझा दो।' : 'इस photo में जो भी लिखा या बना है, उसे एकदम आसान Hindi और English technical terms में समझा दो।') });
+      parts.push({ text: (txt ? txt + '\n[Reply strictly in simplest Devanagari Hindi with vivid desi analogy; keep ALL technical terms strictly in English Latin script inside backticks — zero word swapping.]' : (voiceAudioB64 ? 'इस voice doubt को ध्यान से सुनकर एकदम आसान देवनागरी हिंदी और देसी उदाहरण में समझा दो (सारे Technical Terms सिर्फ `English` में रखना)।' : 'इस photo में जो भी लिखा या बना है, उसे एकदम आसान देवनागरी हिंदी और देसी उदाहरण में समझा दो (सारे Technical Terms सिर्फ `English` में रखना)।')) });
 
       const reply = await callPharmaMultimodal(parts, buildAskGuruSystemPrompt(), priorTurns);
       const updated = loadChatHistory();
@@ -9540,7 +9535,7 @@ STRICT LANGUAGE & SCRIPT RULES (NEVER VIOLATE):
   const btnChatMic = document.getElementById('btn-chat-mic');
   btnChatMic.addEventListener('click', async () => {
     if (chatMicActive && chatMicRec) {
-      chatMicActive = false; btnChatMic.classList.remove('recording'); btnChatMic.textContent = '🎤';
+      chatMicActive = false; btnChatMic.classList.remove('recording'); btnChatMic.textContent = '🎤 Mic';
       try { chatMicRec.stop(); } catch (e) {}
       return;
     }
@@ -9563,7 +9558,7 @@ STRICT LANGUAGE & SCRIPT RULES (NEVER VIOLATE):
       chatMicRec.start();
       chatMicActive = true;
       btnChatMic.classList.add('recording');
-      btnChatMic.textContent = '⏹️';
+      btnChatMic.textContent = '⏹️ Stop';
       showToast('🎤 बोलो... खत्म करके फिर से ⏹️ दबाओ');
     } catch (err) { showToast('🎤 Mic permission allow करो (HTTPS पर)'); }
   });
