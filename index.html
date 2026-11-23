@@ -1754,7 +1754,7 @@ body[data-universe="chat"] .mcq-only-el { display: none !important; }
   padding: 10px;
   -webkit-overflow-scrolling: touch;
 }
-[data-theme="night"] .pdf-stage-outer { background: #0B1120; }
+body.theme-night .pdf-stage-outer { background: #0B1120; }
 .pdf-canvas-wrap {
   position: relative;
   display: inline-block;
@@ -1970,7 +1970,7 @@ body[data-universe="chat"] .mcq-only-el { display: none !important; }
   font-size: 0.96rem;
   font-weight: 900;
 }
-[data-theme="night"] .guru-rich-h2 { color: #5EEAD4; border-left-color: #2DD4BF; }
+body.theme-night .guru-rich-h2 { color: #5EEAD4; border-left-color: #2DD4BF; }
 .guru-rich-h3 {
   margin: 8px 0 4px;
   color: #0369A1;
@@ -1979,7 +1979,7 @@ body[data-universe="chat"] .mcq-only-el { display: none !important; }
   border-bottom: 1.5px dashed rgba(3, 105, 161, 0.28);
   padding-bottom: 2px;
 }
-[data-theme="night"] .guru-rich-h3 { color: #7DD3FC; }
+body.theme-night .guru-rich-h3 { color: #7DD3FC; }
 .guru-rich-ul { margin: 5px 0 8px; padding-left: 18px; }
 .guru-rich-ul li { margin-bottom: 5px; }
 .guru-callout {
@@ -2001,7 +2001,7 @@ body[data-universe="chat"] .mcq-only-el { display: none !important; }
   font-weight: 800;
   font-family: ui-sans-serif, system-ui, -apple-system, sans-serif;
 }
-[data-theme="night"] .guru-tech-pill { background: rgba(56, 189, 248, 0.18); color: #7DD3FC; }
+body.theme-night .guru-tech-pill { background: rgba(56, 189, 248, 0.18); color: #7DD3FC; }
 .guru-card-actions {
   display: flex;
   gap: 8px;
@@ -2175,7 +2175,7 @@ body[data-universe="chat"] .mcq-only-el { display: none !important; }
   font-weight: 800;
   color: #0F766E;
 }
-[data-theme="night"] .guru-ai-head { color: #5EEAD4; }
+body.theme-night .guru-ai-head { color: #5EEAD4; }
 .guru-ai-avatar {
   width: 24px;
   height: 24px;
@@ -2217,6 +2217,129 @@ body[data-universe="chat"] .mcq-only-el { display: none !important; }
 }
 .guru-rich-table tr:last-child td { border-bottom: none; }
 .guru-rich-table tbody tr:nth-child(even) { background: rgba(148, 163, 184, 0.06); }
+
+
+/* === EYE-COMFORT NIGHT MODE (body.theme-night) FOR ALL 3 UNIVERSES === */
+body.theme-night .pg-universe-bar {
+  background: #0F172A;
+  border-color: #334155;
+}
+body.theme-night .pg-uni-btn {
+  color: #CBD5E1;
+}
+body.theme-night .pg-uni-btn:hover {
+  color: #F8FAFC;
+  background: rgba(56, 189, 248, 0.14);
+}
+body.theme-night .pg-uni-btn.active {
+  background: linear-gradient(135deg, #0D9488, #0284C7);
+  color: #FFFFFF;
+  box-shadow: 0 4px 14px rgba(13, 148, 136, 0.35);
+}
+body.theme-night .pdf-shell,
+body.theme-night .chat-shell {
+  background: #1E293B;
+  border-color: #334155;
+}
+body.theme-night .pdf-hero-strip,
+body.theme-night .chat-header {
+  background: linear-gradient(135deg, #115E59, #0C4A6E);
+  color: #F8FAFC;
+}
+body.theme-night .pdf-stage-outer {
+  background: #0B1120;
+  border-color: #334155;
+}
+/* Gentle warm anti-glare filter on white PDF sheets at night — crisp text, zero eye strain! */
+body.theme-night #pdf-render-canvas {
+  filter: brightness(0.88) sepia(0.08) contrast(1.03);
+}
+body.theme-night .pdf-action-dock {
+  background: linear-gradient(135deg, rgba(13, 148, 136, 0.16), rgba(2, 132, 199, 0.16));
+  border-color: rgba(45, 212, 191, 0.30);
+}
+body.theme-night .pdf-status-pill,
+body.theme-night .pdf-empty-state h3 {
+  color: #F1F5F9;
+}
+body.theme-night .pdf-select,
+body.theme-night .pdf-page-nav,
+body.theme-night .pdf-page-input,
+body.theme-night .chat-textarea,
+body.theme-night .chat-tool-pill,
+body.theme-night .chat-chip,
+body.theme-night .chat-subj-pill {
+  background: #0F172A;
+  color: #F1F5F9;
+  border-color: #334155;
+}
+body.theme-night .chat-textarea::placeholder { color: #94A3B8; }
+body.theme-night .chat-textarea:focus {
+  border-color: #2DD4BF;
+  box-shadow: 0 0 0 3px rgba(45, 212, 191, 0.18);
+}
+body.theme-night .chat-subj-pill.active {
+  background: #0D9488;
+  color: #FFFFFF;
+  border-color: #2DD4BF;
+}
+body.theme-night .chat-chip:hover {
+  border-color: #2DD4BF;
+  color: #5EEAD4;
+}
+body.theme-night .chat-feed { background: #0F172A; }
+body.theme-night .chat-msg.ai {
+  background: #1E293B;
+  color: #F1F5F9;
+  border-color: #334155;
+}
+body.theme-night .chat-msg.user {
+  background: linear-gradient(135deg, #0F766E, #0369A1);
+  color: #FFFFFF;
+}
+body.theme-night .guru-rich-card { color: #E2E8F0; }
+body.theme-night .guru-rich-card strong { color: #FFFFFF; }
+body.theme-night .guru-rich-h2 {
+  background: linear-gradient(135deg, rgba(45, 212, 191, 0.16), rgba(56, 189, 248, 0.16));
+  border-left-color: #2DD4BF;
+  color: #5EEAD4;
+}
+body.theme-night .guru-rich-h3 {
+  color: #7DD3FC;
+  border-bottom-color: rgba(125, 211, 252, 0.28);
+}
+body.theme-night .guru-tech-pill {
+  background: rgba(56, 189, 248, 0.20);
+  color: #BAE6FD;
+}
+body.theme-night .guru-callout {
+  background: rgba(251, 191, 36, 0.13);
+  border-left-color: #FBBF24;
+  color: #FEF3C7;
+}
+body.theme-night .guru-callout.exam {
+  background: rgba(52, 211, 153, 0.13);
+  border-left-color: #34D399;
+  color: #D1FAE5;
+}
+body.theme-night .guru-callout.trap {
+  background: rgba(251, 113, 133, 0.14);
+  border-left-color: #FB7185;
+  color: #FFE4E6;
+}
+body.theme-night .guru-rich-table th {
+  background: rgba(45, 212, 191, 0.16);
+  color: #F8FAFC;
+  border-bottom-color: #475569;
+}
+body.theme-night .guru-rich-table td {
+  color: #E2E8F0;
+  border-bottom-color: #334155;
+}
+body.theme-night .guru-rich-table tbody tr:nth-child(even) {
+  background: rgba(255, 255, 255, 0.04);
+}
+body.theme-night .pg-typing-dots span { background: #5EEAD4; }
 
 @media (max-width: 600px) {
   .pg-uni-btn { font-size: 0.76rem; padding: 9px 5px; }
