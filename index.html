@@ -12,7 +12,7 @@
   <link rel="icon" type="image/png" sizes="192x192" href="./icon-192.png">
   <link rel="icon" type="image/png" sizes="512x512" href="./icon-512.png">
   <link rel="apple-touch-icon" href="./icon-512.png">
-  <title>Pharma Guru — Universal Pharmacy Study OS</title>
+  <title>Pharma Guru v2.0 — Universal Pharmacy Study OS</title>
 <style>
 :root {
   --bg: #F4F1EA;
@@ -1624,26 +1624,38 @@ body.theme-night .hm-cell.lv4 { background: #4ade80; }
 
 
 /* =====================================================================
-   PHARMA GURU — 3-UNIVERSE SWITCHER + PDF POINTER TUTOR + ASK GURU CHAT
+   PHARMA GURU v2.0 — EDTECH-GRADE 3-UNIVERSE UI + PDF POINTER + CHAT
    ===================================================================== */
+.pg-ver-pill {
+  display: inline-block;
+  font-size: 0.62rem;
+  font-weight: 900;
+  padding: 2px 7px;
+  border-radius: 999px;
+  background: linear-gradient(135deg, #0F766E, #0284C7);
+  color: #FFFFFF;
+  vertical-align: middle;
+  margin-left: 4px;
+  letter-spacing: 0.04em;
+}
 .pg-universe-bar {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 8px;
   margin-top: 10px;
   padding: 5px;
-  background: var(--card-alt, rgba(15, 23, 42, 0.04));
+  background: var(--card-alt, rgba(15, 23, 42, 0.05));
   border: 1px solid var(--border);
-  border-radius: 14px;
+  border-radius: 15px;
 }
 .pg-uni-btn {
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 6px;
-  padding: 9px 10px;
+  padding: 10px 8px;
   border: 1px solid transparent;
-  border-radius: 10px;
+  border-radius: 11px;
   background: transparent;
   color: var(--muted);
   font-weight: 800;
@@ -1652,18 +1664,17 @@ body.theme-night .hm-cell.lv4 { background: #4ade80; }
   transition: all 0.2s ease;
   white-space: nowrap;
 }
-.pg-uni-btn:hover { color: var(--text); background: rgba(14, 165, 233, 0.08); }
+.pg-uni-btn:hover { color: var(--text); background: rgba(15, 118, 110, 0.08); }
 .pg-uni-btn.active {
   background: linear-gradient(135deg, #0F766E, #0284C7);
   color: #FFFFFF;
-  box-shadow: 0 4px 12px rgba(15, 118, 110, 0.28);
+  box-shadow: 0 4px 14px rgba(15, 118, 110, 0.32);
 }
 .pg-uni-panel { display: none; margin-top: 12px; }
 .pg-uni-panel.active { display: block; }
 body[data-universe="pdf"] .mcq-only-el,
 body[data-universe="chat"] .mcq-only-el { display: none !important; }
 
-/* Shared Top Mini Bar for PDF & Chat Universes */
 .pg-quick-actions {
   display: flex;
   align-items: center;
@@ -1680,10 +1691,24 @@ body[data-universe="mcq"] .pg-quick-actions { display: none !important; }
 .pdf-shell {
   background: var(--card);
   border: 1px solid var(--border);
-  border-radius: 16px;
+  border-radius: 18px;
   padding: 14px;
   box-shadow: var(--shadow);
 }
+.pdf-hero-strip {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 8px;
+  padding: 10px 14px;
+  margin-bottom: 12px;
+  border-radius: 13px;
+  background: linear-gradient(135deg, #0F766E, #0369A1);
+  color: #FFFFFF;
+}
+.pdf-hero-strip h2 { margin: 0; font-size: 0.98rem; font-weight: 900; }
+.pdf-hero-strip p { margin: 2px 0 0; font-size: 0.74rem; opacity: 0.92; }
 .pdf-toolbar {
   display: flex;
   flex-wrap: wrap;
@@ -1702,12 +1727,12 @@ body[data-universe="mcq"] .pg-quick-actions { display: none !important; }
   color: var(--text);
   font-size: 0.82rem;
   font-weight: 700;
-  max-width: 220px;
+  max-width: 210px;
 }
 .pdf-page-nav {
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 5px;
   background: var(--bg);
   border: 1px solid var(--border);
   border-radius: 10px;
@@ -1716,7 +1741,7 @@ body[data-universe="mcq"] .pg-quick-actions { display: none !important; }
   font-weight: 800;
 }
 .pdf-page-input {
-  width: 46px;
+  width: 44px;
   text-align: center;
   border: 1px solid var(--border);
   border-radius: 6px;
@@ -1733,7 +1758,7 @@ body[data-universe="mcq"] .pg-quick-actions { display: none !important; }
   border: 1px solid var(--border);
   border-radius: 14px;
   overflow: auto;
-  max-height: 68vh;
+  max-height: 66vh;
   display: flex;
   justify-content: center;
   align-items: flex-start;
@@ -1745,27 +1770,27 @@ body[data-universe="mcq"] .pg-quick-actions { display: none !important; }
   position: relative;
   display: inline-block;
   line-height: 0;
-  box-shadow: 0 8px 28px rgba(15, 23, 42, 0.22);
-  border-radius: 6px;
+  box-shadow: 0 10px 30px rgba(15, 23, 42, 0.24);
+  border-radius: 8px;
   background: #FFFFFF;
 }
 #pdf-render-canvas {
   display: block;
   max-width: 100%;
   height: auto;
-  border-radius: 6px;
+  border-radius: 8px;
 }
-/* Draggable Transparent Magic Pointer Ball */
+/* Apple-Glass Transparent Magic Pointer Ball */
 #pdf-pointer-ball {
   position: absolute;
-  width: 56px;
-  height: 56px;
-  margin-left: -28px;
-  margin-top: -28px;
+  width: 58px;
+  height: 58px;
+  margin-left: -29px;
+  margin-top: -29px;
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(14,165,233,0.12) 0%, rgba(14,165,233,0.28) 65%, rgba(2,132,199,0.45) 100%);
+  background: radial-gradient(circle, rgba(14,165,233,0.10) 0%, rgba(15,118,110,0.22) 65%, rgba(2,132,199,0.45) 100%);
   border: 2.5px solid #0284C7;
-  box-shadow: 0 0 0 4px rgba(14, 165, 233, 0.22), 0 6px 18px rgba(2, 132, 199, 0.35);
+  box-shadow: 0 0 0 5px rgba(14, 165, 233, 0.20), 0 6px 18px rgba(2, 132, 199, 0.36);
   cursor: grab;
   touch-action: none;
   z-index: 25;
@@ -1778,39 +1803,38 @@ body[data-universe="mcq"] .pg-quick-actions { display: none !important; }
 #pdf-pointer-ball.visible { display: flex; }
 #pdf-pointer-ball.dragging {
   cursor: grabbing;
-  transform: scale(1.12);
+  transform: scale(1.14);
   border-color: #E11D48;
-  box-shadow: 0 0 0 6px rgba(225, 29, 72, 0.22), 0 8px 22px rgba(225, 29, 72, 0.38);
+  box-shadow: 0 0 0 7px rgba(225, 29, 72, 0.22), 0 8px 24px rgba(225, 29, 72, 0.40);
 }
 #pdf-pointer-ball .ball-dot {
   width: 10px;
   height: 10px;
   border-radius: 50%;
-  background: rgba(225, 29, 72, 0.88);
-  box-shadow: 0 0 0 2px rgba(255,255,255,0.92);
+  background: rgba(225, 29, 72, 0.90);
+  box-shadow: 0 0 0 2px rgba(255,255,255,0.95);
   pointer-events: none;
 }
 #pdf-pointer-ball .ball-tag {
   position: absolute;
-  top: -24px;
+  top: -25px;
   left: 50%;
   transform: translateX(-50%);
   background: #0F172A;
   color: #FFFFFF;
   font-size: 10px;
   font-weight: 800;
-  padding: 2px 7px;
+  padding: 2px 8px;
   border-radius: 999px;
   white-space: nowrap;
   pointer-events: none;
-  letter-spacing: 0.02em;
-  opacity: 0.92;
+  opacity: 0.94;
 }
 .pdf-empty-state {
   text-align: center;
-  padding: 36px 18px;
+  padding: 34px 18px;
   color: var(--muted);
-  max-width: 440px;
+  max-width: 460px;
 }
 .pdf-empty-state h3 { margin: 8px 0 6px; color: var(--text); font-size: 1.08rem; }
 .pdf-action-dock {
@@ -1820,9 +1844,9 @@ body[data-universe="mcq"] .pg-quick-actions { display: none !important; }
   justify-content: space-between;
   gap: 8px;
   margin-top: 12px;
-  padding: 10px 12px;
+  padding: 11px 13px;
   background: linear-gradient(135deg, rgba(15, 118, 110, 0.08), rgba(2, 132, 199, 0.08));
-  border: 1px solid rgba(15, 118, 110, 0.24);
+  border: 1px solid rgba(15, 118, 110, 0.25);
   border-radius: 14px;
 }
 .pdf-explain-btn {
@@ -1851,29 +1875,16 @@ body[data-universe="mcq"] .pg-quick-actions { display: none !important; }
   animation: pgPulseRec 1s infinite;
   box-shadow: 0 0 0 4px rgba(225, 29, 72, 0.28);
 }
-@keyframes pgPulseRec {
-  0%, 100% { transform: scale(1); }
-  50% { transform: scale(1.04); }
-}
-.pdf-status-pill {
-  font-size: 0.8rem;
-  font-weight: 700;
-  color: var(--text);
-  display: flex;
-  align-items: center;
-  gap: 6px;
-}
-.pdf-answer-box {
-  margin-top: 12px;
-  display: none;
-}
+@keyframes pgPulseRec { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.04); } }
+.pdf-status-pill { font-size: 0.8rem; font-weight: 700; color: var(--text); }
+.pdf-answer-box { margin-top: 12px; display: none; }
 .pdf-answer-box.show { display: block; }
 
 /* === UNIVERSE 3: ASK GURU MULTIMODAL CHAT === */
 .chat-shell {
   background: var(--card);
   border: 1px solid var(--border);
-  border-radius: 16px;
+  border-radius: 18px;
   overflow: hidden;
   box-shadow: var(--shadow);
   display: flex;
@@ -1886,17 +1897,41 @@ body[data-universe="mcq"] .pg-quick-actions { display: none !important; }
   justify-content: space-between;
   flex-wrap: wrap;
   gap: 8px;
-  padding: 12px 14px;
+  padding: 12px 15px;
   background: linear-gradient(135deg, #0F766E, #0369A1);
   color: #FFFFFF;
 }
 .chat-header h2 { margin: 0; font-size: 1rem; font-weight: 900; }
-.chat-header p { margin: 2px 0 0; font-size: 0.76rem; opacity: 0.9; }
+.chat-header p { margin: 2px 0 0; font-size: 0.75rem; opacity: 0.92; }
+.chat-subject-bar {
+  display: flex;
+  gap: 6px;
+  overflow-x: auto;
+  padding: 8px 12px;
+  background: var(--card);
+  border-bottom: 1px solid var(--border);
+}
+.chat-subj-pill {
+  flex-shrink: 0;
+  padding: 5px 11px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: var(--bg);
+  color: var(--muted);
+  font-size: 0.74rem;
+  font-weight: 800;
+  cursor: pointer;
+}
+.chat-subj-pill.active {
+  background: #0F766E;
+  color: #FFFFFF;
+  border-color: #0F766E;
+}
 .chat-feed {
   flex: 1;
   padding: 14px;
   overflow-y: auto;
-  max-height: 58vh;
+  max-height: 55vh;
   display: flex;
   flex-direction: column;
   gap: 12px;
@@ -1907,7 +1942,7 @@ body[data-universe="mcq"] .pg-quick-actions { display: none !important; }
   border-radius: 15px;
   padding: 11px 14px;
   font-size: 0.92rem;
-  line-height: 1.55;
+  line-height: 1.56;
   word-wrap: break-word;
 }
 .chat-msg.user {
@@ -1934,9 +1969,7 @@ body[data-universe="mcq"] .pg-quick-actions { display: none !important; }
   border-bottom-left-radius: 4px;
   box-shadow: 0 3px 12px rgba(15, 23, 42, 0.06);
 }
-
-/* Colorful Structured Tutor Card Styling (Used in BOTH Universe 2 & Universe 3) */
-.guru-rich-card { font-size: 0.93rem; line-height: 1.62; color: var(--text); }
+.guru-rich-card { font-size: 0.93rem; line-height: 1.64; color: var(--text); }
 .guru-rich-h2 {
   display: inline-block;
   margin: 10px 0 6px;
@@ -1968,19 +2001,13 @@ body[data-universe="mcq"] .pg-quick-actions { display: none !important; }
   border-left: 4px solid #F59E0B;
   background: rgba(245, 158, 11, 0.10);
 }
-.guru-callout.exam {
-  border-left-color: #10B981;
-  background: rgba(16, 185, 129, 0.10);
-}
-.guru-callout.trap {
-  border-left-color: #E11D48;
-  background: rgba(225, 29, 72, 0.09);
-}
+.guru-callout.exam { border-left-color: #10B981; background: rgba(16, 185, 129, 0.10); }
+.guru-callout.trap { border-left-color: #E11D48; background: rgba(225, 29, 72, 0.09); }
 .guru-tech-pill {
   display: inline-block;
-  padding: 0 5px;
-  border-radius: 5px;
-  background: rgba(2, 132, 199, 0.11);
+  padding: 0 6px;
+  border-radius: 6px;
+  background: rgba(2, 132, 199, 0.12);
   color: #0369A1;
   font-weight: 800;
   font-family: ui-sans-serif, system-ui, -apple-system, sans-serif;
@@ -1989,11 +2016,11 @@ body[data-universe="mcq"] .pg-quick-actions { display: none !important; }
 .guru-card-actions {
   display: flex;
   gap: 8px;
+  flex-wrap: wrap;
   margin-top: 8px;
   padding-top: 7px;
   border-top: 1px dashed var(--border);
 }
-
 .chat-quick-chips {
   display: flex;
   gap: 6px;
@@ -2045,12 +2072,18 @@ body[data-universe="mcq"] .pg-quick-actions { display: none !important; }
   border: 1px solid var(--border);
   background: var(--bg);
   color: var(--text);
-  font-size: 1.1rem;
+  font-size: 1.08rem;
   cursor: pointer;
   flex-shrink: 0;
   display: flex;
   align-items: center;
   justify-content: center;
+}
+.chat-icon-btn.recording {
+  background: #E11D48;
+  color: #FFFFFF;
+  border-color: #E11D48;
+  animation: pgPulseRec 1s infinite;
 }
 .chat-textarea {
   flex: 1;
@@ -2080,9 +2113,9 @@ body[data-universe="mcq"] .pg-quick-actions { display: none !important; }
 }
 .chat-send-btn:disabled { opacity: 0.55; cursor: not-allowed; }
 @media (max-width: 600px) {
-  .pg-uni-btn { font-size: 0.76rem; padding: 8px 6px; }
-  .pdf-stage-outer { max-height: 56vh; padding: 6px; }
-  .chat-feed { max-height: 52vh; }
+  .pg-uni-btn { font-size: 0.76rem; padding: 9px 5px; }
+  .pdf-stage-outer { max-height: 55vh; padding: 6px; }
+  .chat-feed { max-height: 50vh; }
 }
 
 </style>
@@ -2096,14 +2129,14 @@ body[data-universe="mcq"] .pg-quick-actions { display: none !important; }
   <header class="top-header no-print">
     <div class="header-row-1">
       <div class="brand-block">
-        <div class="brand-emblem" aria-hidden="true">
+        <div class="brand-emblem" style="background:linear-gradient(135deg,#0F766E,#0284C7);" aria-hidden="true">
           <svg viewBox="0 0 32 32" width="22" height="22" fill="none" xmlns="http://www.w3.org/2000/svg">
             <rect x="4" y="4" width="24" height="24" rx="7" fill="rgba(255,255,255,0.18)" stroke="#FFFFFF" stroke-width="2"/>
             <path d="M16 9V23M9 16H23" stroke="#FFFFFF" stroke-width="2.8" stroke-linecap="round"/>
           </svg>
         </div>
         <div>
-          <h1 class="brand-title" id="app-chapter-title">Pharma Guru</h1>
+          <h1 class="brand-title" id="app-chapter-title">Pharma Guru <span class="pg-ver-pill">v2.0</span></h1>
           <div class="chapter-sub">
             <span id="app-exam-subtitle">B.Pharm Universal Study OS • MCQ + PDF Pointer + AI Tutor</span>
             <button type="button" class="creator-sig" id="btn-creator-love" title="Optional appreciation">
@@ -2125,11 +2158,10 @@ body[data-universe="mcq"] .pg-quick-actions { display: none !important; }
       <button type="button" class="pg-uni-btn" data-uni="chat" id="btn-uni-chat">💬 Ask Guru</button>
     </nav>
 
-    <!-- Compact Quick Bar visible in PDF & Chat Universes -->
     <div class="pg-quick-actions no-print" id="pg-quick-actions">
       <span style="font-size:0.78rem; font-weight:700; color:var(--muted);" id="pg-uni-hint">📄 PDF पर Transparent Ball रखकर किसी भी लाइन या Diagram को आवाज़ में समझो</span>
       <div style="display:flex; gap:6px; flex-wrap:wrap;">
-        <button type="button" class="ctrl-btn" id="btn-quick-guru-cfg">🎙️ API / Voice Setup</button>
+        <button type="button" class="ctrl-btn" id="btn-quick-guru-cfg">🔑 API / Voice Setup</button>
         <button type="button" class="ctrl-btn" id="btn-quick-theme">🎨 Theme</button>
       </div>
     </div>
@@ -2141,7 +2173,7 @@ body[data-universe="mcq"] .pg-quick-actions { display: none !important; }
         <button type="button" class="ctrl-btn" id="btn-open-cloudsync" title="Anki-Style Auto Cloud Progress Sync (iPad & Android)">☁️ Sync</button>
         <button type="button" class="ctrl-btn" id="btn-open-srs" title="Pharma SRS Spaced Repetition (1→3→7→15→30 Days · Midnight Auto-Unlock)">🧠 SRS: 0</button>
         <button type="button" class="ctrl-btn" id="btn-open-heatmap" title="Daily Study Streak & 90-Day Activity Heatmap">🔥 0d</button>
-        <button type="button" class="ctrl-btn" id="btn-open-voice" title="Pharma Guru — Live Interactive Voice Tutor Settings">🎙️ Pharma Guru</button>
+        <button type="button" class="ctrl-btn" id="btn-open-voice" title="Pharma Guru — Live Voice & AI Settings Settings">🎙️ Pharma Guru</button>
         <button type="button" class="ctrl-btn" id="btn-start-voice-quiz" title="Hands-Free Voice Quiz Mode — Reads Q &amp; Options, Confirms &amp; Locks by Voice, Auto-Advances Batch">🎯 Voice Quiz</button>
         <button type="button" class="ctrl-btn btn-success" id="btn-export-html" title="Download standalone HTML file with current chapter baked in for sharing">📦 Share HTML</button>
         <button type="button" class="ctrl-btn" id="btn-theme-paper" title="Warm Paper Theme">📜</button>
@@ -2384,10 +2416,19 @@ body[data-universe="mcq"] .pg-quick-actions { display: none !important; }
        ================================================================= -->
   <section class="pg-uni-panel no-print" id="universe-pdf-view">
     <div class="pdf-shell">
+      <div class="pdf-hero-strip">
+        <div>
+          <h2>📄 PDF Magic Pointer Tutor</h2>
+          <p>Transparent Ball को किसी भी Diagram, Structure या Line पर रखो — Pharma Guru बिल्कुल आसान भाषा में समझाएगा</p>
+        </div>
+        <button type="button" class="ctrl-btn" id="btn-pdf-voice-mode" style="background:rgba(255,255,255,0.18); color:#FFF; border-color:rgba(255,255,255,0.35);">🔊 Voice: ON</button>
+      </div>
+
       <div class="pdf-toolbar">
         <div class="pdf-toolbar-group">
           <button type="button" class="ctrl-btn btn-primary" id="btn-pdf-upload">📂 Load PDF</button>
           <input type="file" id="pdf-file-input" accept="application/pdf" style="display:none;">
+          <button type="button" class="ctrl-btn" id="btn-pdf-demo-page" title="Try Pointer Ball immediately on a built-in B.Pharm sheet">🧪 Demo Sheet</button>
           <select class="pdf-select" id="pdf-library-select" title="Saved PDFs in Vault">
             <option value="">-- Saved PDFs (0) --</option>
           </select>
@@ -2408,25 +2449,26 @@ body[data-universe="mcq"] .pg-quick-actions { display: none !important; }
         </div>
       </div>
 
-      <!-- PDF Canvas Stage + Transparent Draggable Pointer Ball -->
       <div class="pdf-stage-outer" id="pdf-stage-outer">
         <div class="pdf-empty-state" id="pdf-empty-state">
           <div style="font-size:2.4rem;">📄🎯</div>
           <h3>अपना Handwritten या College PDF यहाँ Load करो</h3>
-          <p style="font-size:0.86rem; line-height:1.5;">PDF load होते ही हर page पर एक <strong>Transparent Magic Pointer Ball</strong> आ जाएगी। उसे उंगली से किसी भी Diagram, Structure या Line पर रखो और <strong>Explain Here</strong> या <strong>Mic</strong> दबाओ — Pharma Guru बिल्कुल आसान भाषा में समझा देगा!</p>
-          <button type="button" class="pdf-explain-btn" id="btn-pdf-empty-upload" style="margin-top:8px;">📂 Choose PDF from Phone</button>
+          <p style="font-size:0.86rem; line-height:1.55;">PDF load होते ही page पर एक <strong>Transparent Magic Pointer Ball</strong> आ जाएगी। उसे उंगली से किसी भी Diagram, Structure या Line पर रखो और <strong>Explain Here</strong> या <strong>Mic</strong> दबाओ!</p>
+          <div style="display:flex; gap:8px; justify-content:center; flex-wrap:wrap; margin-top:10px;">
+            <button type="button" class="pdf-explain-btn" id="btn-pdf-empty-upload">📂 Choose PDF from Phone</button>
+            <button type="button" class="ctrl-btn" id="btn-pdf-empty-demo" style="padding:10px 14px; font-weight:800;">🧪 Try Demo Sheet</button>
+          </div>
         </div>
 
         <div class="pdf-canvas-wrap" id="pdf-canvas-wrap" style="display:none;">
           <canvas id="pdf-render-canvas"></canvas>
-          <div id="pdf-pointer-ball" class="visible" style="left:50%; top:40%;" title="Drag anywhere on page">
+          <div id="pdf-pointer-ball" class="visible" style="left:50%; top:42%;" title="Drag anywhere on page">
             <span class="ball-tag">🎯 Guru Lens</span>
             <span class="ball-dot"></span>
           </div>
         </div>
       </div>
 
-      <!-- PDF Voice & Vision Action Dock -->
       <div class="pdf-action-dock" id="pdf-action-dock">
         <div style="display:flex; gap:8px; flex-wrap:wrap; align-items:center;">
           <button type="button" class="pdf-explain-btn" id="btn-pdf-explain-here">🎙️ Explain Here</button>
@@ -2437,7 +2479,6 @@ body[data-universe="mcq"] .pg-quick-actions { display: none !important; }
         <div class="pdf-status-pill" id="pdf-tutor-status">🎯 Ball को कहीं भी रखो और Explain दबाओ</div>
       </div>
 
-      <!-- Live Colorful Explanation Card for Current Pointer Spot -->
       <div class="pdf-answer-box" id="pdf-answer-box">
         <div class="chat-msg ai" id="pdf-answer-content"></div>
       </div>
@@ -2445,16 +2486,25 @@ body[data-universe="mcq"] .pg-quick-actions { display: none !important; }
   </section>
 
   <!-- =================================================================
-       UNIVERSE 3: ASK GURU MULTIMODAL CHAT (CAMERA + GALLERY + TEXT)
+       UNIVERSE 3: ASK GURU MULTIMODAL CHAT (CAMERA + GALLERY + VOICE + TEXT)
        ================================================================= -->
   <section class="pg-uni-panel no-print" id="universe-chat-view">
     <div class="chat-shell">
       <div class="chat-header">
         <div>
-          <h2>💬 Ask Pharma Guru — Photo, Camera &amp; Doubt Tutor</h2>
-          <p>Camera से Photo खींचो, Gallery से डालो या कुछ भी लिखो — एकदम आसान Hindi + English Technical Terms में समझो</p>
+          <h2>💬 Ask Pharma Guru — Camera, Photo &amp; Doubt Tutor</h2>
+          <p>Camera से Photo खींचो, Gallery से डालो, बोलकर पूछो या लिखो — आसान Hindi + English Technical Terms में समझो</p>
         </div>
         <button type="button" class="ctrl-btn" id="btn-chat-clear" style="background:rgba(255,255,255,0.16); color:#FFF; border-color:rgba(255,255,255,0.3);">🗑️ Clear</button>
+      </div>
+
+      <div class="chat-subject-bar" id="chat-subject-bar">
+        <button type="button" class="chat-subj-pill active" data-subj="All B.Pharm Subjects">✨ All B.Pharm</button>
+        <button type="button" class="chat-subj-pill" data-subj="BP501T Medicinal Chemistry-II">⚗️ Med Chem-II</button>
+        <button type="button" class="chat-subj-pill" data-subj="BP502T Industrial Pharmacy-I">🏭 Ind Pharmacy-I</button>
+        <button type="button" class="chat-subj-pill" data-subj="BP503T Pharmacology-II">💊 Pharmacology-II</button>
+        <button type="button" class="chat-subj-pill" data-subj="BP504T Pharmacognosy-II">🌿 Pharmacognosy-II</button>
+        <button type="button" class="chat-subj-pill" data-subj="BP505T Pharmaceutical Jurisprudence">⚖️ Jurisprudence</button>
       </div>
 
       <div class="chat-feed" id="chat-feed"></div>
@@ -2477,6 +2527,7 @@ body[data-universe="mcq"] .pg-quick-actions { display: none !important; }
         <input type="file" id="chat-camera-input" accept="image/*" capture="environment" style="display:none;">
         <button type="button" class="chat-icon-btn" id="btn-chat-gallery" title="Upload from Gallery">🖼️</button>
         <input type="file" id="chat-gallery-input" accept="image/*" style="display:none;">
+        <button type="button" class="chat-icon-btn" id="btn-chat-mic" title="Ask by Voice">🎤</button>
         <textarea class="chat-textarea" id="chat-text-input" rows="1" placeholder="कोई भी doubt लिखो (या सिर्फ photo भेज दो)..."></textarea>
         <button type="button" class="chat-send-btn" id="btn-chat-send">Send ➤</button>
       </div>
@@ -2810,7 +2861,7 @@ body[data-universe="mcq"] .pg-quick-actions { display: none !important; }
   <div class="modal-box srs-modal-box" style="max-width:560px !important;">
     <div style="display:flex; justify-content:space-between; align-items:center; gap:10px; margin-bottom:10px;">
       <div>
-        <div style="font-size:1.12rem; font-weight:900; color:var(--text);">🎙️ Pharma Guru — Live Voice Tutor</div>
+        <div style="font-size:1.12rem; font-weight:900; color:var(--text);">🎙️ Pharma Guru — Live Voice & AI Settings</div>
         <div style="font-size:0.75rem; color:var(--muted);">हर सवाल के 🎙️ बटन पर Live बातचीत, Noise Cancellation और Instant Interrupt के साथ देसी गुरु स्टाइल</div>
       </div>
       <button type="button" class="ctrl-btn" id="btn-close-voice" style="padding:5px 11px;">✕</button>
@@ -2862,9 +2913,11 @@ body[data-universe="mcq"] .pg-quick-actions { display: none !important; }
       </div>
 
       <div style="display:flex; gap:8px; flex-wrap:wrap; margin-top:4px;">
-        <button type="button" class="ctrl-btn btn-primary" id="btn-save-voice-cfg" style="flex:1; padding:10px; font-weight:800;">💾 Save Pharma Guru Settings</button>
-        <button type="button" class="ctrl-btn btn-success" id="btn-test-voice" style="padding:10px 14px; font-weight:800;">🎙️ Test Live</button>
+        <button type="button" class="ctrl-btn btn-primary" id="btn-save-voice-cfg" style="flex:1; padding:10px; font-weight:800;">💾 Save Settings</button>
+        <button type="button" class="ctrl-btn" id="btn-verify-api-key" style="padding:10px 13px; font-weight:800; background:linear-gradient(135deg,#0F766E,#0284C7); color:#FFF; border:none;">🔍 Verify Key</button>
+        <button type="button" class="ctrl-btn btn-success" id="btn-test-voice" style="padding:10px 13px; font-weight:800;">🎙️ Test Voice</button>
       </div>
+      <div id="voice-key-diag" style="display:none; font-size:0.78rem; font-weight:700; padding:8px 11px; border-radius:9px; line-height:1.45;"></div>
 
       <div id="voice-status-note" style="font-size:0.74rem; color:var(--muted); line-height:1.5; background:rgba(128,128,128,0.06); padding:9px 11px; border-radius:8px;">
         ✨ <strong>कैसे काम करता है:</strong> किसी भी सवाल के बगल वाला <strong>🎙️</strong> बटन दबाओ — Pharma Guru तुरंत उस सवाल को समझकर आसान देसी हिंदी में explain करेगा और खुद पूछेगा कि तुम्हें कहाँ दिक्कत आ रही है। जैसे ही तुम धीरे से भी बोलोगे, वह <strong>तुरंत चुप होकर तुम्हारी बात सुनेगा</strong> (Live Barge-In + Echo/Noise Cancellation)! दोबारा 🎙️ दबाते ही बंद हो जाएगा।
@@ -2901,7 +2954,7 @@ body[data-universe="mcq"] .pg-quick-actions { display: none !important; }
 /* =====================================================================
    BAKED CHAPTER PAYLOAD (AUTO-REPLACED WHEN EXPORTING SHAREABLE HTML)
    ===================================================================== */
-const DEFAULT_CHAPTER_PAYLOAD = /*BRAHMASTRA_PAYLOAD_START*/{"chapterTitle": "B.Pharm 5th Sem Starter Demo (Pharmacology & Pharmaceutics)", "targetExam": "AKTU B.Pharm 5th Semester • PCI Syllabus", "questions": [{"id": 1, "topic": "BP503T • Diuretics (Loop of Henle)", "exam": "AKTU 5th Sem PYQ", "q": "Furosemide (a high-ceiling loop diuretic) produces its primary diuretic action by inhibiting which exact cotransporter in the Thick Ascending Limb of Loop of Henle?", "opts": ["Na+-Cl- symporter in the early distal convoluted tubule", "Na+-K+-2Cl- (NKCC2) symporter in the thick ascending limb", "Epithelial Na+ channel (ENaC) in the collecting duct", "Carbonic anhydrase enzyme in the proximal convoluted tubule"], "ans": 1, "exp": "Furosemide blocks the **Na+-K+-2Cl- (NKCC2) symporter** on the luminal membrane of the Thick Ascending Limb (TAL) of the Loop of Henle, preventing reabsorption of ~25% of filtered Na+ and causing rapid, powerful diuresis.", "hook": "Loop = 2 Cl + 1 Na + 1 K -> 'Na-K-2Cl' को Furosemide ताला लगा देता है!"}, {"id": 2, "topic": "BP502T • Industrial Pharmacy-I (Tablets)", "exam": "AKTU 5th Sem PYQ", "q": "During tablet compression, partial or complete separation of the top or bottom crown of a tablet from the main body is called:", "opts": ["Lamination", "Mottling", "Capping", "Picking"], "ans": 2, "exp": "**Capping** is the partial or complete separation of the top or bottom crown of a tablet from its main body due to air entrapment, excessive fines, or high compression speed. (Lamination = splitting into two or more horizontal layers; Mottling = unequal color distribution).", "hook": "सिर की टोपी (Cap) उतरे तो Capping, और परतें (Layers) अलग हों तो Lamination!"}, {"id": 3, "topic": "BP505T • Pharmaceutical Jurisprudence", "exam": "AKTU 5th Sem PYQ", "q": "Under the Drugs and Cosmetics Rules, 1945, which Schedule specifies the Good Manufacturing Practices (GMP) and requirements of factory premises, plant, and equipment?", "opts": ["Schedule G", "Schedule H", "Schedule M", "Schedule X"], "ans": 2, "exp": "**Schedule M** lays down Good Manufacturing Practices (GMP) and requirements of premises, plant, and equipment for pharmaceutical manufacturing units in India.", "hook": "M for Manufacturing = Schedule M (GMP)!"}, {"id": 4, "topic": "BP501T • Medicinal Chemistry-II", "exam": "AKTU 5th Sem PYQ", "q": "Which ACE inhibitor is administered as an active drug directly (NOT a prodrug) and contains a sulfhydryl (-SH) group responsible for metallic taste and skin rash?", "opts": ["Enalapril", "Captopril", "Ramipril", "Perindopril"], "ans": 1, "exp": "**Captopril** (along with Lisinopril) is an active ACE inhibitor and not a prodrug. Its **sulfhydryl (-SH)** group binds Zn2+ at the active site of ACE, which also causes characteristic side effects like dysgeusia (metallic taste) and rashes.", "hook": "Captopril में 'Cap' पहले से Active है (No Prodrug) और -SH से Metallic Taste आता है!"}]}/*BRAHMASTRA_PAYLOAD_END*/;
+const DEFAULT_CHAPTER_PAYLOAD = /*BRAHMASTRA_PAYLOAD_START*/{"chapterTitle": "B.Pharm 5th Sem Starter Demo (Pharmacology & Pharmaceutics)", "targetExam": "AKTU B.Pharm 5th Semester • PCI Syllabus", "questions": [{"id": 1, "topic": "BP503T • Diuretics (Loop of Henle)", "exam": "AKTU 5th Sem PYQ", "q": "Furosemide (a high-ceiling loop diuretic) produces its primary diuretic action by inhibiting which exact cotransporter in the Thick Ascending Limb of Loop of Henle?", "opts": ["Na+-Cl- symporter in the early distal convoluted tubule", "Na+-K+-2Cl- (NKCC2) symporter in the thick ascending limb", "Epithelial Na+ channel (ENaC) in the collecting duct", "Carbonic anhydrase enzyme in the proximal convoluted tubule"], "ans": 1, "exp": "Furosemide blocks the **Na+-K+-2Cl- (NKCC2) symporter** on the luminal membrane of the Thick Ascending Limb (TAL) of the Loop of Henle, preventing reabsorption of ~25% of filtered Na+ and causing rapid, powerful diuresis.", "hook": "Loop = 2 Cl + 1 Na + 1 K -> 'Na-K-2Cl' को Furosemide ताला लगा देता है!"}, {"id": 2, "topic": "BP502T • Industrial Pharmacy-I (Tablets)", "exam": "AKTU 5th Sem PYQ", "q": "During tablet compression, partial or complete separation of the top or bottom crown of a tablet from the main body is called:", "opts": ["Lamination", "Mottling", "Capping", "Picking"], "ans": 2, "exp": "**Capping** is the partial or complete separation of the top or bottom crown of a tablet from its main body due to air entrapment, excessive fines, or high compression speed. (Lamination = horizontal layer splitting; Mottling = unequal color distribution).", "hook": "सिर की टोपी (Cap) उतरे तो Capping, और परतें (Layers) अलग हों तो Lamination!"}, {"id": 3, "topic": "BP505T • Pharmaceutical Jurisprudence", "exam": "AKTU 5th Sem PYQ", "q": "Under the Drugs and Cosmetics Rules, 1945, which Schedule specifies Good Manufacturing Practices (GMP) and requirements of factory premises, plant, and equipment?", "opts": ["Schedule G", "Schedule H", "Schedule M", "Schedule X"], "ans": 2, "exp": "**Schedule M** lays down Good Manufacturing Practices (GMP) and requirements of premises, plant, and equipment for pharmaceutical manufacturing units in India.", "hook": "M for Manufacturing = Schedule M (GMP)!"}, {"id": 4, "topic": "BP501T • Medicinal Chemistry-II", "exam": "AKTU 5th Sem PYQ", "q": "Which ACE inhibitor is administered directly as an active drug (NOT a prodrug) and contains a sulfhydryl (-SH) group responsible for metallic taste and skin rash?", "opts": ["Enalapril", "Captopril", "Ramipril", "Perindopril"], "ans": 1, "exp": "**Captopril** (along with Lisinopril) is an active ACE inhibitor and not a prodrug. Its **sulfhydryl (-SH)** group binds Zn2+ at the active site of ACE, causing characteristic dysgeusia (metallic taste) and rashes.", "hook": "Captopril में 'Cap' पहले से Active है (No Prodrug) और -SH से Metallic Taste आता है!"}]}/*BRAHMASTRA_PAYLOAD_END*/;
 const DEFAULT_VAULT_PACKS = /*BRAHMASTRA_VAULT_START*/[]/*BRAHMASTRA_VAULT_END*/;
 const DEFAULT_VAULT_PROFILE = /*BRAHMASTRA_VAULT_ID_START*/{"id":"default","name":"Main Vault (Default)"}/*BRAHMASTRA_VAULT_ID_END*/;
 
@@ -4778,7 +4831,7 @@ function getVoiceConfig() {
     const p = raw ? JSON.parse(raw) : {};
     const validModes = ['auto_hybrid', 'https_turbo'];
     return {
-      apiKey: String(p.apiKey || '').trim(),
+      apiKey: String(p.apiKey || '').replace(/[^\x21-\x7E]/g, ''),
       model: validModes.includes(p.model) ? p.model : 'auto_hybrid',
       voiceName: p.voiceName || 'Kore',
       style: p.style || 'patna_guru',
@@ -5278,29 +5331,88 @@ function tryStartInstantLiveWebSocket(q, qidTag, btnEl, cfg) {
 }
 
 // ENGINE B: TURBO HTTPS MULTIMODAL FALLBACK (2X FASTER WITH gemini-3.5-flash-lite FIRST!)
+let __pgCachedWorkingModel = '';
+function sanitizePharmaApiKey(raw) {
+  return String(raw || '').replace(/[^\x21-\x7E]/g, '');
+}
+async function pgFetchGemini(path, apiKey, fetchOpts) {
+  const cleanKey = sanitizePharmaApiKey(apiKey);
+  if (!cleanKey) throw new Error('API Key खाली है — Settings में paste करो');
+  const baseUrl = `https://generativelanguage.googleapis.com/v1beta/${path}`;
+  const hdrs = Object.assign({}, (fetchOpts && fetchOpts.headers) || {}, { 'x-goog-api-key': cleanKey });
+  let resp = await fetch(baseUrl, Object.assign({}, fetchOpts || {}, { headers: hdrs }));
+  if ((resp.status === 401 || resp.status === 403) && cleanKey.startsWith('AIza')) {
+    const qUrl = `${baseUrl}${baseUrl.includes('?') ? '&' : '?'}key=${encodeURIComponent(cleanKey)}`;
+    const hdrsNoKey = Object.assign({}, (fetchOpts && fetchOpts.headers) || {});
+    resp = await fetch(qUrl, Object.assign({}, fetchOpts || {}, { headers: hdrsNoKey }));
+  }
+  return resp;
+}
+async function pgDiscoverFlashModels(apiKey) {
+  try {
+    const resp = await pgFetchGemini('models?pageSize=60', apiKey, { method: 'GET' });
+    if (!resp.ok) return [];
+    const data = await resp.json();
+    const list = (data && Array.isArray(data.models)) ? data.models : [];
+    const usable = list
+      .filter(m => m && m.name && Array.isArray(m.supportedGenerationMethods) && m.supportedGenerationMethods.includes('generateContent'))
+      .map(m => String(m.name).replace(/^models\//, ''))
+      .filter(n => /gemini/i.test(n) && !/embedding|tts|imagen|veo|aqa|robotics/i.test(n));
+    usable.sort((a, b) => {
+      const rank = (x) => (/2\.5-flash(?!-image)/i.test(x) ? 0 : /flash/i.test(x) ? 1 : 2);
+      return rank(a) - rank(b);
+    });
+    return usable.slice(0, 6);
+  } catch (e) { return []; }
+}
+async function pgParseApiError(resp) {
+  try {
+    const j = await resp.json();
+    const msg = j && j.error && j.error.message ? String(j.error.message) : '';
+    if (msg) return `HTTP ${resp.status}: ${msg.slice(0, 110)}`;
+  } catch (e) {}
+  return `HTTP ${resp.status}`;
+}
+
 async function callGuruBrain(userParts, cfg) {
-  const models = ['gemini-3.5-flash-lite', 'gemini-3.8-flash', 'gemini-2.5-flash'];
+  const cleanKey = sanitizePharmaApiKey(cfg.apiKey);
+  const baseModels = ['gemini-2.5-flash', 'gemini-2.5-flash-lite', 'gemini-3.5-flash-lite', 'gemini-3.8-flash', 'gemini-2.0-flash'];
+  const models = __pgCachedWorkingModel
+    ? [__pgCachedWorkingModel, ...baseModels.filter(x => x !== __pgCachedWorkingModel)]
+    : baseModels.slice();
   const sysText = buildTitanGuruSystemPrompt(guruActiveQ, cfg);
   guruChatHistory.push({ role: 'user', parts: userParts });
   let lastErr = null;
-  for (const m of models) {
+  let triedDiscovery = false;
+  for (let i = 0; i < models.length; i++) {
+    const m = models[i];
     try {
-      const url = `https://generativelanguage.googleapis.com/v1beta/models/${m}:generateContent`;
-      const resp = await fetch(url, {
+      const resp = await pgFetchGemini(`models/${m}:generateContent`, cleanKey, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'x-goog-api-key': cfg.apiKey },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           systemInstruction: { parts: [{ text: sysText }] },
           contents: guruChatHistory,
-          generationConfig: { temperature: 0.82, maxOutputTokens: 180 }
+          generationConfig: { temperature: 0.82, maxOutputTokens: 220 }
         }),
         signal: guruAbortCtrl ? guruAbortCtrl.signal : undefined
       });
-      if (!resp.ok) { lastErr = new Error(`HTTP ${resp.status}`); continue; }
+      if (!resp.ok) {
+        const errMsg = await pgParseApiError(resp);
+        lastErr = new Error(errMsg);
+        if (resp.status === 400 && /API_KEY_INVALID|API key not valid/i.test(errMsg)) break;
+        if (i === models.length - 1 && !triedDiscovery) {
+          triedDiscovery = true;
+          const disc = await pgDiscoverFlashModels(cleanKey);
+          disc.forEach(dm => { if (!models.includes(dm)) models.push(dm); });
+        }
+        continue;
+      }
       const json = await resp.json();
       const reply = json && json.candidates && json.candidates[0] && json.candidates[0].content &&
         json.candidates[0].content.parts && json.candidates[0].content.parts.map(p => p.text || '').join(' ').trim();
       if (reply) {
+        __pgCachedWorkingModel = m;
         const lastUser = guruChatHistory[guruChatHistory.length - 1];
         if (lastUser && Array.isArray(lastUser.parts) && lastUser.parts.some(p => p.inlineData)) {
           lastUser.parts = [{ text: '[Student spoke an audio doubt]' }];
@@ -5512,7 +5624,7 @@ async function sendGuruTurn(userInput) {
   } catch (err) {
     if (err && err.name === 'AbortError') return;
     updateGuruDockState('Connection issue · Retry below', false);
-    showToast('⚠️ Titan Guru: ' + (err.message || 'Check API Key / Internet'));
+    showToast('⚠️ Pharma Guru: ' + (err.message || 'Check API Key / Internet'));
   }
 }
 
@@ -5520,7 +5632,7 @@ async function startTitanGuruLive(q, qidTag, btnEl) {
   const cfg = getVoiceConfig();
   if (!cfg.apiKey) {
     openVoiceModal();
-    showToast('🔑 पहले Titan Guru Settings में अपनी Private Key paste कर दो!');
+    showToast('🔑 पहले Pharma Guru Settings में अपनी Private Key paste कर दो!');
     return;
   }
   if (navigator.onLine === false) {
@@ -8335,39 +8447,107 @@ if ('serviceWorker' in navigator && (location.protocol === 'https:' || location.
 }
 
 /* =====================================================================
-   PHARMA GURU — 3-UNIVERSE ENGINE (SWITCHER + PDF POINTER + ASK GURU)
+   PHARMA GURU v2.0 — 3-UNIVERSE ENGINE + VERIFY KEY + PDF POINTER + CHAT
    ===================================================================== */
 (function initPharmaGuruUniverses() {
-  const PG_UNIVERSE_KEY = 'pharma_guru_active_universe_v1';
-  const PG_CHAT_KEY = 'pharma_guru_ask_chat_history_v1';
+  const PG_UNIVERSE_KEY = 'pharma_guru_active_universe_v2';
+  const PG_CHAT_KEY = 'pharma_guru_ask_chat_history_v2';
   const PG_PDF_DB_NAME = 'PharmaGuruPdfVaultDB';
   const PG_PDF_STORE = 'pdfs';
 
-  // --- Shared Multimodal Gemini Vision/Text Helper (Uses Single API Key) ---
+  // --- 1-Tap Live API Key Verification inside Settings Modal ---
+  const btnVerifyKey = document.getElementById('btn-verify-api-key');
+  const diagEl = document.getElementById('voice-key-diag');
+  if (btnVerifyKey && diagEl) {
+    btnVerifyKey.addEventListener('click', async () => {
+      const keyInput = document.getElementById('voice-api-key');
+      const cleanKey = sanitizePharmaApiKey(keyInput ? keyInput.value : '');
+      if (keyInput) keyInput.value = cleanKey;
+      diagEl.style.display = 'block';
+      if (!cleanKey) {
+        diagEl.style.background = 'rgba(225,29,72,0.10)';
+        diagEl.style.color = '#BE123C';
+        diagEl.textContent = '❌ पहले ऊपर box में अपनी API Key paste करो!';
+        return;
+      }
+      saveVoiceConfig({
+        apiKey: cleanKey,
+        model: document.getElementById('voice-model-sel').value,
+        voiceName: document.getElementById('voice-name-sel').value,
+        style: document.getElementById('voice-style-sel').value,
+        scope: document.getElementById('voice-scope-sel').value
+      });
+      diagEl.style.background = 'rgba(2,132,199,0.10)';
+      diagEl.style.color = '#0369A1';
+      diagEl.textContent = '⏳ API Key verify हो रही है और सबसे तेज़ model चुना जा रहा है...';
+      btnVerifyKey.disabled = true;
+      try {
+        const discovered = await pgDiscoverFlashModels(cleanKey);
+        const testModels = [...new Set([...discovered, 'gemini-2.5-flash', 'gemini-2.5-flash-lite', 'gemini-3.5-flash-lite', 'gemini-2.0-flash'])];
+        let okModel = '';
+        let lastErr = '';
+        for (const m of testModels) {
+          const resp = await pgFetchGemini(`models/${m}:generateContent`, cleanKey, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              contents: [{ role: 'user', parts: [{ text: 'Reply OK' }] }],
+              generationConfig: { maxOutputTokens: 8 }
+            })
+          });
+          if (resp.ok) { okModel = m; break; }
+          lastErr = await pgParseApiError(resp);
+          if (resp.status === 400 && /API_KEY_INVALID|API key not valid/i.test(lastErr)) break;
+        }
+        if (okModel) {
+          __pgCachedWorkingModel = okModel;
+          diagEl.style.background = 'rgba(16,185,129,0.12)';
+          diagEl.style.color = '#047857';
+          diagEl.textContent = `✅ API Key 100% Active है! Auto-connected to ${okModel} — अब तीनों Universes मक्खन चलेंगे।`;
+        } else {
+          diagEl.style.background = 'rgba(225,29,72,0.10)';
+          diagEl.style.color = '#BE123C';
+          diagEl.textContent = `❌ Key Error: ${lastErr || 'Invalid key या internet बंद है'} — Google AI Studio से नई unrestricted key copy करके paste करो।`;
+        }
+      } catch (e) {
+        diagEl.style.background = 'rgba(225,29,72,0.10)';
+        diagEl.style.color = '#BE123C';
+        diagEl.textContent = '❌ Network Error: ' + (e && e.message ? e.message : 'Internet check करो');
+      } finally {
+        btnVerifyKey.disabled = false;
+      }
+    });
+  }
+
+  // --- Shared Multimodal Vision/Audio/Text Helper (Auto-Discovery + Exact Diagnostics) ---
   async function callPharmaMultimodal(parts, systemInstruction, historyTurns) {
     const cfg = getVoiceConfig();
-    if (!cfg.apiKey) {
+    const cleanKey = sanitizePharmaApiKey(cfg.apiKey);
+    if (!cleanKey) {
       openVoiceModal();
       throw new Error('NO_API_KEY');
     }
-    const models = ['gemini-3.5-flash-lite', 'gemini-2.5-flash', 'gemini-2.0-flash'];
+    const baseModels = ['gemini-2.5-flash', 'gemini-2.5-flash-lite', 'gemini-3.5-flash-lite', 'gemini-3.8-flash', 'gemini-2.0-flash'];
+    const models = __pgCachedWorkingModel
+      ? [__pgCachedWorkingModel, ...baseModels.filter(x => x !== __pgCachedWorkingModel)]
+      : baseModels.slice();
+
     const contents = [];
     if (Array.isArray(historyTurns)) {
       for (const t of historyTurns.slice(-8)) {
-        if (t && t.role && t.text) {
-          contents.push({ role: t.role, parts: [{ text: t.text }] });
-        }
+        if (t && t.role && t.text) contents.push({ role: t.role, parts: [{ text: t.text }] });
       }
     }
     contents.push({ role: 'user', parts: parts });
 
     let lastErr = 'Network or API key error';
-    for (const m of models) {
+    let triedDiscovery = false;
+    for (let i = 0; i < models.length; i++) {
+      const m = models[i];
       try {
-        const url = `https://generativelanguage.googleapis.com/v1beta/models/${m}:generateContent`;
-        const resp = await fetch(url, {
+        const resp = await pgFetchGemini(`models/${m}:generateContent`, cleanKey, {
           method: 'POST',
-          headers: { 'Content-Type': 'application/json', 'x-goog-api-key': cfg.apiKey },
+          headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
             systemInstruction: { parts: [{ text: systemInstruction }] },
             contents: contents,
@@ -8375,7 +8555,13 @@ if ('serviceWorker' in navigator && (location.protocol === 'https:' || location.
           })
         });
         if (!resp.ok) {
-          lastErr = `HTTP ${resp.status}`;
+          lastErr = await pgParseApiError(resp);
+          if (resp.status === 400 && /API_KEY_INVALID|API key not valid/i.test(lastErr)) break;
+          if (i === models.length - 1 && !triedDiscovery) {
+            triedDiscovery = true;
+            const disc = await pgDiscoverFlashModels(cleanKey);
+            disc.forEach(dm => { if (!models.includes(dm)) models.push(dm); });
+          }
           continue;
         }
         const data = await resp.json();
@@ -8383,7 +8569,10 @@ if ('serviceWorker' in navigator && (location.protocol === 'https:' || location.
           data.candidates[0].content && data.candidates[0].content.parts
           ? data.candidates[0].content.parts.map(p => p.text || '').join('\n').trim()
           : '';
-        if (text) return text;
+        if (text) {
+          __pgCachedWorkingModel = m;
+          return text;
+        }
       } catch (e) {
         lastErr = e && e.message ? e.message : 'Request failed';
       }
@@ -8391,7 +8580,7 @@ if ('serviceWorker' in navigator && (location.protocol === 'https:' || location.
     throw new Error(lastErr);
   }
 
-  // --- Colorful Structured Tutor Card Formatter (Safe HTML + LaTeX + Pills) ---
+  // --- Colorful Structured Tutor Card Formatter (Safe HTML + renderRichMath + Tech Pills) ---
   function escapeHtmlSafe(s) {
     return String(s || '')
       .replace(/&/g, '&amp;')
@@ -8401,15 +8590,11 @@ if ('serviceWorker' in navigator && (location.protocol === 'https:' || location.
   }
 
   function formatInlineRich(str) {
-    let out = escapeHtmlSafe(str);
-    // Bold **text**
+    let out = (typeof renderRichMath === 'function')
+      ? renderRichMath(String(str || ''))
+      : escapeHtmlSafe(str);
     out = out.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
-    // Inline code `TechTerm` -> crisp Latin English tech pill
     out = out.replace(/`([^`]+)`/g, '<span class="guru-tech-pill">$1</span>');
-    // Render LaTeX if app's renderMathInString exists
-    if (typeof renderRichMath === 'function') {
-      try { out = renderRichMath(out); } catch (e) {}
-    }
     return out;
   }
 
@@ -8417,15 +8602,11 @@ if ('serviceWorker' in navigator && (location.protocol === 'https:' || location.
     const lines = String(rawText || '').replace(/\r/g, '').split('\n');
     const htmlParts = ['<div class="guru-rich-card">'];
     let inList = false;
-
-    const closeList = () => {
-      if (inList) { htmlParts.push('</ul>'); inList = false; }
-    };
+    const closeList = () => { if (inList) { htmlParts.push('</ul>'); inList = false; } };
 
     for (let i = 0; i < lines.length; i++) {
       const line = lines[i].trim();
       if (!line) { closeList(); continue; }
-
       if (/^##\s+/.test(line)) {
         closeList();
         htmlParts.push(`<div class="guru-rich-h2">${formatInlineRich(line.replace(/^##\s+/, ''))}</div>`);
@@ -8441,8 +8622,7 @@ if ('serviceWorker' in navigator && (location.protocol === 'https:' || location.
         htmlParts.push(`<div class="${cls}">${formatInlineRich(body)}</div>`);
       } else if (/^[-*•]\s+/.test(line) || /^\d+\.\s+/.test(line)) {
         if (!inList) { htmlParts.push('<ul class="guru-rich-ul">'); inList = true; }
-        const item = line.replace(/^([-*•]|\d+\.)\s+/, '');
-        htmlParts.push(`<li>${formatInlineRich(item)}</li>`);
+        htmlParts.push(`<li>${formatInlineRich(line.replace(/^([-*•]|\d+\.)\s+/, ''))}</li>`);
       } else {
         closeList();
         htmlParts.push(`<p style="margin:5px 0;">${formatInlineRich(line)}</p>`);
@@ -8452,17 +8632,16 @@ if ('serviceWorker' in navigator && (location.protocol === 'https:' || location.
     htmlParts.push('</div>');
     return htmlParts.join('');
   }
-
-  // Expose helper for unit testing
   window.__pgRenderColorfulGuruCard = renderColorfulGuruCard;
 
   function cleanTextForTTS(raw) {
-    return String(raw || '')
-      .replace(/[#>*_`]/g, ' ')
-      .replace(/\[NEXT_PAGE\]/g, '')
-      .replace(/\s+/g, ' ')
-      .trim()
-      .slice(0, 1400);
+    return String(raw || '').replace(/[#>*_`]/g, ' ').replace(/\[NEXT_PAGE\]/g, '').replace(/\s+/g, ' ').trim().slice(0, 1400);
+  }
+
+  function stopActivePharmaAudio() {
+    if (guruAbortCtrl) { try { guruAbortCtrl.abort(); } catch (e) {} guruAbortCtrl = null; }
+    if (guruAudioEl) { try { guruAudioEl.pause(); guruAudioEl = null; } catch (e) {} }
+    if (window.speechSynthesis) { try { window.speechSynthesis.cancel(); } catch (e) {} }
   }
 
   // --- 3-UNIVERSE SWITCHER ---
@@ -8470,7 +8649,6 @@ if ('serviceWorker' in navigator && (location.protocol === 'https:' || location.
     const valid = ['mcq', 'pdf', 'chat'].includes(uni) ? uni : 'mcq';
     document.body.setAttribute('data-universe', valid);
     safeSetStorage(PG_UNIVERSE_KEY, valid);
-
     document.querySelectorAll('.pg-uni-btn').forEach(b => {
       b.classList.toggle('active', b.getAttribute('data-uni') === valid);
     });
@@ -8478,54 +8656,42 @@ if ('serviceWorker' in navigator && (location.protocol === 'https:' || location.
     const chatPanel = document.getElementById('universe-chat-view');
     if (pdfPanel) pdfPanel.classList.toggle('active', valid === 'pdf');
     if (chatPanel) chatPanel.classList.toggle('active', valid === 'chat');
-
     const hintEl = document.getElementById('pg-uni-hint');
     if (hintEl) {
       hintEl.textContent = valid === 'pdf'
         ? '📄 PDF पर Transparent Ball रखकर किसी भी लाइन या Diagram को आवाज़ में समझो'
-        : '💬 Camera, Gallery या Text से कोई भी Doubt पूछो — आसान Hindi + English Tech Terms में';
+        : '💬 Camera, Gallery, Mic या Text से कोई भी Doubt पूछो — आसान Hindi + English Tech Terms में';
     }
-    if (valid === 'pdf') {
-      initPdfVaultList();
-    } else if (valid === 'chat') {
-      renderChatFeed();
-    }
+    if (valid === 'pdf') initPdfVaultList();
+    else if (valid === 'chat') renderChatFeed();
   }
 
   document.querySelectorAll('.pg-uni-btn').forEach(btn => {
     btn.addEventListener('click', () => setActiveUniverse(btn.getAttribute('data-uni')));
   });
-
-  const btnQuickCfg = document.getElementById('btn-quick-guru-cfg');
-  if (btnQuickCfg) btnQuickCfg.addEventListener('click', () => openVoiceModal());
-  const btnQuickTheme = document.getElementById('btn-quick-theme');
-  if (btnQuickTheme) {
-    const themeCycle = ['paper', 'sage', 'stage', 'night'];
-    btnQuickTheme.addEventListener('click', () => {
-      const cur = document.documentElement.getAttribute('data-theme') || 'paper';
-      const next = themeCycle[(themeCycle.indexOf(cur) + 1) % themeCycle.length];
-      const mapBtn = { paper: 'btn-theme-paper', sage: 'btn-theme-sage', stage: 'btn-theme-stage', night: 'btn-theme-night' };
-      const targetBtn = document.getElementById(mapBtn[next]);
-      if (targetBtn) targetBtn.click();
-    });
-  }
+  document.getElementById('btn-quick-guru-cfg').addEventListener('click', () => openVoiceModal());
+  document.getElementById('btn-quick-theme').addEventListener('click', () => {
+    const cycle = ['paper', 'sage', 'stage', 'night'];
+    const cur = document.documentElement.getAttribute('data-theme') || 'paper';
+    const next = cycle[(cycle.indexOf(cur) + 1) % cycle.length];
+    const mapBtn = { paper: 'btn-theme-paper', sage: 'btn-theme-sage', stage: 'btn-theme-stage', night: 'btn-theme-night' };
+    const t = document.getElementById(mapBtn[next]);
+    if (t) t.click();
+  });
 
   // ===================================================================
-  // UNIVERSE 2: PDF POINTER TUTOR (PDF.js + IndexedDB + Pointer Ball)
+  // UNIVERSE 2: PDF POINTER TUTOR
   // ===================================================================
   let pdfDoc = null;
+  let pdfIsDemo = false;
   let pdfRenderTask = null;
   let pdfCurrentId = '';
-
-  function stopActivePharmaAudio() {
-    if (guruAbortCtrl) { try { guruAbortCtrl.abort(); } catch (e) {} guruAbortCtrl = null; }
-    stopActivePharmaAudio();
-  }
   let pdfCurrentPage = 1;
   let pdfTotalPages = 0;
   let pdfScale = 1.25;
   let pdfPointerEnabled = true;
-  let pdfPointerNorm = { x: 0.50, y: 0.40 };
+  let pdfVoiceAutoPlay = true;
+  let pdfPointerNorm = { x: 0.50, y: 0.42 };
   let pdfTutorHistory = [];
   let pdfBusy = false;
   let pdfMicRec = null;
@@ -8536,44 +8702,130 @@ if ('serviceWorker' in navigator && (location.protocol === 'https:' || location.
     return new Promise((resolve, reject) => {
       const req = indexedDB.open(PG_PDF_DB_NAME, 1);
       req.onupgradeneeded = () => {
-        const db = req.result;
-        if (!db.objectStoreNames.contains(PG_PDF_STORE)) {
-          db.createObjectStore(PG_PDF_STORE, { keyPath: 'id' });
+        if (!req.result.objectStoreNames.contains(PG_PDF_STORE)) {
+          req.result.createObjectStore(PG_PDF_STORE, { keyPath: 'id' });
         }
       };
       req.onsuccess = () => resolve(req.result);
       req.onerror = () => reject(req.error);
     });
   }
-
-  async function savePdfToVault(record) {
+  async function savePdfToVault(rec) {
     const db = await openPdfDB();
-    return new Promise((resolve, reject) => {
+    return new Promise((res, rej) => {
       const tx = db.transaction(PG_PDF_STORE, 'readwrite');
-      tx.objectStore(PG_PDF_STORE).put(record);
-      tx.oncomplete = () => resolve();
-      tx.onerror = () => reject(tx.error);
+      tx.objectStore(PG_PDF_STORE).put(rec);
+      tx.oncomplete = () => res();
+      tx.onerror = () => rej(tx.error);
     });
   }
-
   async function getAllPdfsFromVault() {
     const db = await openPdfDB();
-    return new Promise((resolve, reject) => {
+    return new Promise((res, rej) => {
       const tx = db.transaction(PG_PDF_STORE, 'readonly');
-      const req = tx.objectStore(PG_PDF_STORE).getAll();
-      req.onsuccess = () => resolve(req.result || []);
-      req.onerror = () => reject(req.error);
+      const r = tx.objectStore(PG_PDF_STORE).getAll();
+      r.onsuccess = () => res(r.result || []);
+      r.onerror = () => rej(r.error);
+    });
+  }
+  async function deletePdfFromVault(id) {
+    const db = await openPdfDB();
+    return new Promise((res, rej) => {
+      const tx = db.transaction(PG_PDF_STORE, 'readwrite');
+      tx.objectStore(PG_PDF_STORE).delete(id);
+      tx.oncomplete = () => res();
+      tx.onerror = () => rej(tx.error);
     });
   }
 
-  async function deletePdfFromVault(id) {
-    const db = await openPdfDB();
-    return new Promise((resolve, reject) => {
-      const tx = db.transaction(PG_PDF_STORE, 'readwrite');
-      tx.objectStore(PG_PDF_STORE).delete(id);
-      tx.oncomplete = () => resolve();
-      tx.onerror = () => reject(tx.error);
+  function ensurePdfJsReady() {
+    if (window.pdfjsLib) {
+      if (!window.pdfjsLib.GlobalWorkerOptions.workerSrc) {
+        window.pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+      }
+      return Promise.resolve(true);
+    }
+    return new Promise((resolve) => {
+      const s = document.createElement('script');
+      s.src = 'https://unpkg.com/pdfjs-dist@3.11.174/build/pdf.min.js';
+      s.onload = () => {
+        if (window.pdfjsLib) {
+          window.pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://unpkg.com/pdfjs-dist@3.11.174/build/pdf.worker.min.js';
+          resolve(true);
+        } else resolve(false);
+      };
+      s.onerror = () => resolve(false);
+      document.head.appendChild(s);
     });
+  }
+
+  function renderBuiltInDemoSheet() {
+    pdfDoc = null;
+    pdfIsDemo = true;
+    pdfTotalPages = 1;
+    pdfCurrentPage = 1;
+    pdfTutorHistory = [];
+    document.getElementById('pdf-empty-state').style.display = 'none';
+    document.getElementById('pdf-canvas-wrap').style.display = 'inline-block';
+    document.getElementById('pdf-page-input').value = 1;
+    document.getElementById('pdf-page-total').textContent = '/ 1';
+
+    const canvas = document.getElementById('pdf-render-canvas');
+    const W = 720, H = 960;
+    canvas.width = W; canvas.height = H;
+    canvas.style.width = '100%'; canvas.style.maxWidth = '540px'; canvas.style.height = 'auto';
+    const ctx = canvas.getContext('2d');
+    // Ruled white notebook sheet
+    ctx.fillStyle = '#FFFFFF'; ctx.fillRect(0, 0, W, H);
+    ctx.strokeStyle = '#CBD5E1'; ctx.lineWidth = 1;
+    for (let y = 90; y < H - 30; y += 34) { ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(W, y); ctx.stroke(); }
+    ctx.strokeStyle = '#FB7185'; ctx.lineWidth = 2;
+    ctx.beginPath(); ctx.moveTo(74, 0); ctx.lineTo(74, H); ctx.stroke();
+
+    ctx.fillStyle = '#1E3A8A'; ctx.font = 'bold 34px sans-serif';
+    ctx.fillText('LOOP DIURETICS (FUROSEMIDE)', 95, 62);
+    ctx.fillStyle = '#0F766E'; ctx.font = 'bold 22px sans-serif';
+    ctx.fillText('1. Mechanism of Action (NKCC2 Blockade):', 95, 130);
+    ctx.fillStyle = '#1E293B'; ctx.font = '20px sans-serif';
+    ctx.fillText('* Acts on Thick Ascending Limb (TAL) of Loop of Henle.', 98, 168);
+    ctx.fillText('* Inhibits Na+ - K+ - 2Cl- (NKCC2) symporter.', 98, 204);
+    ctx.fillText('* Prevents ~25% Na+ reabsorption -> Powerful Diuresis.', 98, 240);
+
+    // Simple hand-drawn style Nephron diagram box
+    ctx.strokeStyle = '#0284C7'; ctx.lineWidth = 3;
+    ctx.strokeRect(110, 285, 520, 250);
+    ctx.fillStyle = '#FEF08A'; ctx.fillRect(140, 320, 210, 56);
+    ctx.strokeStyle = '#B45309'; ctx.lineWidth = 2; ctx.strokeRect(140, 320, 210, 56);
+    ctx.fillStyle = '#0F172A'; ctx.font = 'bold 19px sans-serif';
+    ctx.fillText('Thick Ascending Limb', 152, 355);
+    ctx.fillStyle = '#E11D48'; ctx.font = 'bold 20px sans-serif';
+    ctx.fillText('FUROSEMIDE BLOCKS ->', 150, 425);
+    ctx.fillStyle = '#FCE7F3'; ctx.fillRect(390, 395, 210, 56);
+    ctx.strokeStyle = '#BE123C'; ctx.strokeRect(390, 395, 210, 56);
+    ctx.fillStyle = '#881337'; ctx.font = 'bold 19px sans-serif';
+    ctx.fillText('Na+ - K+ - 2Cl- Pump', 405, 430);
+    ctx.fillStyle = '#047857'; ctx.font = 'bold 19px sans-serif';
+    ctx.fillText('Result: High Urine Output + K+ & Ca2+ Loss', 145, 500);
+
+    ctx.fillStyle = '#0F766E'; ctx.font = 'bold 22px sans-serif';
+    ctx.fillText('2. Major Adverse Effects:', 95, 595);
+    ctx.fillStyle = '#1E293B'; ctx.font = '20px sans-serif';
+    ctx.fillText('* Hypokalemia (Low K+) & Hypomagnesemia', 98, 632);
+    ctx.fillText('* Ototoxicity (Ear damage at high IV doses)', 98, 668);
+    ctx.fillText('* Hyperuricemia (can trigger Gout)', 98, 704);
+
+    // Yellow Sticky Note
+    ctx.fillStyle = '#FEF08A'; ctx.fillRect(370, 755, 310, 145);
+    ctx.strokeStyle = '#CA8A04'; ctx.lineWidth = 2; ctx.strokeRect(370, 755, 310, 145);
+    ctx.fillStyle = '#B91C1C'; ctx.font = 'bold 20px sans-serif';
+    ctx.fillText('GPAT / AKTU TRICK:', 390, 790);
+    ctx.fillStyle = '#1E3A8A'; ctx.font = '18px sans-serif';
+    ctx.fillText('OH DANG! = Ototoxicity,', 390, 825);
+    ctx.fillText('Hypokalemia, Dehydration,', 390, 853);
+    ctx.fillText('Allergy, Nephritis, Gout!', 390, 881);
+
+    updatePointerBallCss();
+    document.getElementById('pdf-tutor-status').textContent = '🧪 Demo Sheet Ready — Ball को कहीं भी रखो और Explain दबाओ!';
   }
 
   async function initPdfVaultList(autoSelectId) {
@@ -8598,45 +8850,33 @@ if ('serviceWorker' in navigator && (location.protocol === 'https:' || location.
           const found = list.find(x => x.id === pickId);
           if (found) await loadPdfFromBuffer(found.id, found.name, found.data, found.lastPage || 1);
         }
-      } else {
-        if (delBtn) delBtn.style.display = 'none';
+      } else if (delBtn) {
+        delBtn.style.display = 'none';
       }
     } catch (e) {}
   }
 
-  function ensurePdfJsReady() {
-    if (!window.pdfjsLib) {
-      showToast('⚠️ PDF engine load हो रहा है — कृपया internet check करें');
-      return false;
-    }
-    if (!window.pdfjsLib.GlobalWorkerOptions.workerSrc) {
-      window.pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
-    }
-    return true;
-  }
-
   async function loadPdfFromBuffer(id, name, arrayBuffer, startPage) {
-    if (!ensurePdfJsReady()) return;
-    const statusEl = document.getElementById('pdf-tutor-status');
-    if (statusEl) statusEl.textContent = '⏳ Loading PDF...';
+    const ok = await ensurePdfJsReady();
+    if (!ok) { showToast('⚠️ PDF.js load नहीं हो पाया — internet check करो'); return; }
+    document.getElementById('pdf-tutor-status').textContent = '⏳ Loading PDF...';
     try {
-      const copyBuf = arrayBuffer.slice(0);
-      const task = window.pdfjsLib.getDocument({ data: copyBuf });
+      const task = window.pdfjsLib.getDocument({ data: arrayBuffer.slice(0) });
       pdfDoc = await task.promise;
+      pdfIsDemo = false;
       pdfCurrentId = id;
       pdfTotalPages = pdfDoc.numPages;
       pdfCurrentPage = Math.max(1, Math.min(startPage || 1, pdfTotalPages));
       pdfTutorHistory = [];
-
       document.getElementById('pdf-empty-state').style.display = 'none';
       document.getElementById('pdf-canvas-wrap').style.display = 'inline-block';
       document.getElementById('pdf-page-total').textContent = `/ ${pdfTotalPages}`;
       document.getElementById('pdf-page-input').max = pdfTotalPages;
       await renderPdfPage(pdfCurrentPage);
-      if (statusEl) statusEl.textContent = `🎯 ${name} — Ball रखकर Explain दबाओ`;
+      document.getElementById('pdf-tutor-status').textContent = `🎯 ${name} — Ball रखकर Explain दबाओ`;
     } catch (err) {
-      if (statusEl) statusEl.textContent = '❌ PDF खोलने में दिक्कत आई';
-      showToast('❌ Invalid or corrupted PDF file');
+      document.getElementById('pdf-tutor-status').textContent = '❌ PDF खोलने में दिक्कत आई';
+      showToast('❌ Invalid PDF file');
     }
   }
 
@@ -8644,7 +8884,6 @@ if ('serviceWorker' in navigator && (location.protocol === 'https:' || location.
     if (!pdfDoc) return;
     pdfCurrentPage = Math.max(1, Math.min(pageNum, pdfTotalPages));
     document.getElementById('pdf-page-input').value = pdfCurrentPage;
-
     const page = await pdfDoc.getPage(pdfCurrentPage);
     const stageOuter = document.getElementById('pdf-stage-outer');
     const availW = Math.max(300, (stageOuter ? stageOuter.clientWidth : 360) - 24);
@@ -8652,31 +8891,19 @@ if ('serviceWorker' in navigator && (location.protocol === 'https:' || location.
     const fitScale = (availW / baseVp.width) * (pdfScale / 1.25);
     const dpr = Math.min(window.devicePixelRatio || 1, 2);
     const vp = page.getViewport({ scale: fitScale });
-
     const canvas = document.getElementById('pdf-render-canvas');
     const ctx = canvas.getContext('2d');
     canvas.width = Math.floor(vp.width * dpr);
     canvas.height = Math.floor(vp.height * dpr);
     canvas.style.width = `${Math.floor(vp.width)}px`;
     canvas.style.height = `${Math.floor(vp.height)}px`;
-
-    if (pdfRenderTask) {
-      try { pdfRenderTask.cancel(); } catch (e) {}
-      pdfRenderTask = null;
-    }
+    if (pdfRenderTask) { try { pdfRenderTask.cancel(); } catch (e) {} pdfRenderTask = null; }
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     pdfRenderTask = page.render({ canvasContext: ctx, viewport: vp });
-    try {
-      await pdfRenderTask.promise;
-    } catch (e) {
-      if (e && e.name === 'RenderingCancelledException') return;
-      throw e;
-    } finally {
-      pdfRenderTask = null;
-    }
+    try { await pdfRenderTask.promise; }
+    catch (e) { if (e && e.name === 'RenderingCancelledException') return; throw e; }
+    finally { pdfRenderTask = null; }
     updatePointerBallCss();
-
-    // Persist lastPage in IndexedDB quietly
     try {
       const list = await getAllPdfsFromVault();
       const rec = list.find(x => x.id === pdfCurrentId);
@@ -8687,66 +8914,49 @@ if ('serviceWorker' in navigator && (location.protocol === 'https:' || location.
   function updatePointerBallCss() {
     const ball = document.getElementById('pdf-pointer-ball');
     if (!ball) return;
-    ball.classList.toggle('visible', pdfPointerEnabled && !!pdfDoc);
+    ball.classList.toggle('visible', pdfPointerEnabled && (!!pdfDoc || pdfIsDemo));
     ball.style.left = `${(pdfPointerNorm.x * 100).toFixed(2)}%`;
     ball.style.top = `${(pdfPointerNorm.y * 100).toFixed(2)}%`;
   }
 
-  // Dual-Snapshot Capture: 1) Full Page w/ Target Ring at (normX, normY), 2) Zoomed HD Crop around Ball
   function capturePdfPointerSnapshots(canvas, normX, normY) {
-    const cw = canvas.width;
-    const ch = canvas.height;
-    // 1. Full Page Snapshot (max 1024px wide) with clear target ring
+    const cw = canvas.width, ch = canvas.height;
     const fullScale = Math.min(1, 1024 / Math.max(1, cw));
     const fc = document.createElement('canvas');
     fc.width = Math.max(1, Math.round(cw * fullScale));
     fc.height = Math.max(1, Math.round(ch * fullScale));
     const fctx = fc.getContext('2d');
     fctx.drawImage(canvas, 0, 0, fc.width, fc.height);
-
-    const tx = normX * fc.width;
-    const ty = normY * fc.height;
+    const tx = normX * fc.width, ty = normY * fc.height;
     const r = Math.max(18, Math.round(fc.width * 0.045));
     fctx.save();
-    fctx.strokeStyle = '#E11D48';
-    fctx.lineWidth = 4;
-    fctx.beginPath();
-    fctx.arc(tx, ty, r, 0, Math.PI * 2);
-    fctx.stroke();
-    fctx.fillStyle = 'rgba(225, 29, 72, 0.20)';
-    fctx.fill();
-    fctx.fillStyle = '#E11D48';
-    fctx.beginPath();
-    fctx.arc(tx, ty, 5, 0, Math.PI * 2);
-    fctx.fill();
+    fctx.strokeStyle = '#E11D48'; fctx.lineWidth = 4;
+    fctx.beginPath(); fctx.arc(tx, ty, r, 0, Math.PI * 2); fctx.stroke();
+    fctx.fillStyle = 'rgba(225, 29, 72, 0.20)'; fctx.fill();
+    fctx.fillStyle = '#E11D48'; fctx.beginPath(); fctx.arc(tx, ty, 5, 0, Math.PI * 2); fctx.fill();
     fctx.restore();
     const fullB64 = fc.toDataURL('image/jpeg', 0.84).split(',')[1];
 
-    // 2. Zoomed HD Crop Snapshot around Pointer Ball (42% width x 30% height)
     const cropW = Math.min(cw, Math.max(120, Math.round(cw * 0.46)));
     const cropH = Math.min(ch, Math.max(100, Math.round(ch * 0.32)));
     const sx = Math.max(0, Math.min(cw - cropW, Math.round(normX * cw - cropW / 2)));
     const sy = Math.max(0, Math.min(ch - cropH, Math.round(normY * ch - cropH / 2)));
-
     const zc = document.createElement('canvas');
     const zScale = Math.min(1.4, 780 / Math.max(1, cropW));
     zc.width = Math.max(1, Math.round(cropW * zScale));
     zc.height = Math.max(1, Math.round(cropH * zScale));
-    const zctx = zc.getContext('2d');
-    zctx.drawImage(canvas, sx, sy, cropW, cropH, 0, 0, zc.width, zc.height);
+    zc.getContext('2d').drawImage(canvas, sx, sy, cropW, cropH, 0, 0, zc.width, zc.height);
     const cropB64 = zc.toDataURL('image/jpeg', 0.88).split(',')[1];
-
-    return { fullB64, cropB64, cropRect: { sx, sy, cropW, cropH } };
+    return { fullB64, cropB64 };
   }
-  window.__pgCapturePdfPointerSnapshots = capturePdfPointerSnapshots;
 
   const PDF_POINTER_SYSTEM_PROMPT = `You are Pharma Guru, a warm, charismatic, super-clear North Indian / Purvanchal-style senior mentor teaching a B.Pharm student directly from their PDF notes.
 CRITICAL RULES:
 1. You receive TWO images: Image 1 is the FULL PDF page with a RED TARGET RING marking the exact spot where the student placed their pointer ball. Image 2 is a ZOOMED CLOSE-UP of that exact spot.
 2. Focus 100% on explaining whatever heading, line, drug name, diagram, arrow, flowchart, or chemical group is right inside/under that RED TARGET RING.
-3. TEACHING TONE (STRICT): Explain in the EASIEST, most effortless everyday Devanagari Hindi using relatable daily-life Indian/desi analogies so ANY student grasps it in 10 seconds flat! NEVER call the student "beginner", "first-time learner", or "weak" — speak like an encouraging, respectful older brother/friend.
+3. TEACHING TONE (STRICT): Explain in the EASIEST, most effortless everyday Devanagari Hindi using relatable daily-life Indian/desi analogies so ANY student grasps it in 10 seconds flat! NEVER call the student "beginner", "first-time learner", or "weak" — speak like an encouraging older brother/friend.
 4. SCRIPT RULE (ZERO WORD SWAPPING): Keep ALL pharmacy, medical, chemistry, and exam technical terms strictly in English Latin script wrapped in backticks (e.g., \`Furosemide\`, \`Loop of Henle\`, \`Mechanism of Action\`, \`Schedule M\`), and write all explanatory Hindi in clean, simple Devanagari Hindi script. NEVER transliterate English technical words into Devanagari.
-5. FORMAT: Keep it crisp, scannable, and colorful using:
+5. FORMAT:
    ## [Short Topic Title]
    - 2–4 ultra-simple bullet points explaining the exact pointed spot
    > 💡 देसी उदाहरण: [1 vivid everyday analogy]
@@ -8754,8 +8964,8 @@ CRITICAL RULES:
 6. If the student asks to move to the next page (e.g. "next page", "अगला पेज"), start your reply with [NEXT_PAGE] on the first line.`;
 
   async function runPdfPointerExplain(userAskText, audioB64, audioMime) {
-    if (!pdfDoc || pdfBusy) {
-      if (!pdfDoc) showToast('📂 पहले कोई PDF load करो!');
+    if ((!pdfDoc && !pdfIsDemo) || pdfBusy) {
+      if (!pdfDoc && !pdfIsDemo) showToast('📂 पहले PDF load करो या 🧪 Demo Sheet दबाओ!');
       return;
     }
     unlockGuruAudioSync();
@@ -8763,9 +8973,8 @@ CRITICAL RULES:
     const statusEl = document.getElementById('pdf-tutor-status');
     const btnEx = document.getElementById('btn-pdf-explain-here');
     const btnStop = document.getElementById('btn-pdf-stop-audio');
-    if (btnEx) btnEx.disabled = true;
-    if (statusEl) statusEl.textContent = '🧠 Pharma Guru उस spot को देख रहा है...';
-
+    btnEx.disabled = true;
+    statusEl.textContent = '🧠 Pharma Guru उस spot को देख रहा है...';
     try {
       const canvas = document.getElementById('pdf-render-canvas');
       const snaps = capturePdfPointerSnapshots(canvas, pdfPointerNorm.x, pdfPointerNorm.y);
@@ -8779,12 +8988,10 @@ CRITICAL RULES:
       } else {
         parts.push({ text: userAskText || `Page ${pdfCurrentPage}/${pdfTotalPages}: जहाँ Red Target Ring रखा है, उस exact हिस्से को एकदम आसान भाषा में समझा दो।` });
       }
-
       const reply = await callPharmaMultimodal(parts, PDF_POINTER_SYSTEM_PROMPT, pdfTutorHistory);
-      const wantsNextPage = reply.includes('[NEXT_PAGE]');
+      const wantsNext = reply.includes('[NEXT_PAGE]');
       const cleanReply = reply.replace(/\[NEXT_PAGE\]/g, '').trim();
-
-      pdfTutorHistory.push({ role: 'user', text: userAskText || `[Pointed at Page ${pdfCurrentPage}]` });
+      pdfTutorHistory.push({ role: 'user', text: userAskText || `[Pointed Page ${pdfCurrentPage}]` });
       pdfTutorHistory.push({ role: 'model', text: cleanReply });
       if (pdfTutorHistory.length > 10) pdfTutorHistory = pdfTutorHistory.slice(-10);
 
@@ -8793,205 +9000,167 @@ CRITICAL RULES:
       ansContent.innerHTML = renderColorfulGuruCard(cleanReply) + `
         <div class="guru-card-actions">
           <button type="button" class="ctrl-btn" id="btn-pdf-replay-voice">🔊 फिर से सुनो</button>
+          <button type="button" class="ctrl-btn" id="btn-pdf-copy-ans">📋 Copy</button>
         </div>`;
       ansBox.classList.add('show');
-      const replayBtn = document.getElementById('btn-pdf-replay-voice');
-      if (replayBtn) {
-        replayBtn.addEventListener('click', () => {
-          unlockGuruAudioSync();
-          stopActivePharmaAudio();
-          if (btnStop) btnStop.style.display = 'inline-flex';
-          speakWithStudioVoice(cleanTextForTTS(cleanReply), getVoiceConfig(), () => {
-            if (btnStop) btnStop.style.display = 'none';
-          });
-        });
-      }
-
-      if (wantsNextPage && pdfCurrentPage < pdfTotalPages) {
-        await renderPdfPage(pdfCurrentPage + 1);
-      }
-
-      stopActivePharmaAudio();
-      if (statusEl) statusEl.textContent = '🔊 Pharma Guru समझा रहा है...';
-      if (btnStop) btnStop.style.display = 'inline-flex';
-      await speakWithStudioVoice(cleanTextForTTS(cleanReply), getVoiceConfig(), () => {
-        if (btnStop) btnStop.style.display = 'none';
-        if (statusEl) statusEl.textContent = '✅ समझ आ गया? Ball आगे बढ़ाओ या "आगे समझाओ" दबाओ';
+      document.getElementById('btn-pdf-replay-voice').addEventListener('click', () => {
+        unlockGuruAudioSync(); stopActivePharmaAudio();
+        btnStop.style.display = 'inline-flex';
+        speakWithStudioVoice(cleanTextForTTS(cleanReply), getVoiceConfig(), () => { btnStop.style.display = 'none'; });
       });
+      document.getElementById('btn-pdf-copy-ans').addEventListener('click', () => {
+        navigator.clipboard.writeText(cleanReply).then(() => showToast('📋 Copied!')).catch(() => {});
+      });
+
+      if (wantsNext && pdfDoc && pdfCurrentPage < pdfTotalPages) await renderPdfPage(pdfCurrentPage + 1);
+
+      if (pdfVoiceAutoPlay) {
+        stopActivePharmaAudio();
+        statusEl.textContent = '🔊 Pharma Guru समझा रहा है...';
+        btnStop.style.display = 'inline-flex';
+        await speakWithStudioVoice(cleanTextForTTS(cleanReply), getVoiceConfig(), () => {
+          btnStop.style.display = 'none';
+          statusEl.textContent = '✅ समझ आ गया? Ball आगे बढ़ाओ या "आगे समझाओ" दबाओ';
+        });
+      } else {
+        statusEl.textContent = '✅ नीचे explanation तैयार है (Silent Mode)';
+      }
     } catch (err) {
       if (err && err.message === 'NO_API_KEY') {
-        if (statusEl) statusEl.textContent = '🔑 पहले Pharma Guru API Key डालो';
+        statusEl.textContent = '🔑 पहले API / Voice Setup में अपनी Key डालो';
       } else {
-        if (statusEl) statusEl.textContent = '❌ Explain नहीं हो पाया — net/API key check करो';
-        showToast('❌ ' + (err && err.message ? err.message : 'Explain failed'));
+        const msg = err && err.message ? err.message : 'Explain failed';
+        statusEl.textContent = '❌ ' + msg;
+        showToast('❌ ' + msg);
       }
     } finally {
       pdfBusy = false;
-      if (btnEx) btnEx.disabled = false;
+      btnEx.disabled = false;
     }
   }
 
-  // Pointer Ball Drag & Tap-to-Move on PDF Canvas
+  // Ball drag & tap
   const ballEl = document.getElementById('pdf-pointer-ball');
   const wrapEl = document.getElementById('pdf-canvas-wrap');
   let draggingBall = false;
-
-  function moveBallToClientXY(clientX, clientY) {
-    const canvas = document.getElementById('pdf-render-canvas');
-    if (!canvas) return;
-    const rect = canvas.getBoundingClientRect();
+  function moveBallToClientXY(cx, cy) {
+    const rect = document.getElementById('pdf-render-canvas').getBoundingClientRect();
     if (!rect.width || !rect.height) return;
-    pdfPointerNorm.x = Math.max(0.03, Math.min(0.97, (clientX - rect.left) / rect.width));
-    pdfPointerNorm.y = Math.max(0.03, Math.min(0.97, (clientY - rect.top) / rect.height));
+    pdfPointerNorm.x = Math.max(0.03, Math.min(0.97, (cx - rect.left) / rect.width));
+    pdfPointerNorm.y = Math.max(0.03, Math.min(0.97, (cy - rect.top) / rect.height));
     updatePointerBallCss();
   }
+  ballEl.addEventListener('pointerdown', (e) => {
+    e.preventDefault(); e.stopPropagation(); draggingBall = true; ballEl.classList.add('dragging');
+    if (ballEl.setPointerCapture) ballEl.setPointerCapture(e.pointerId);
+  });
+  ballEl.addEventListener('pointermove', (e) => { if (draggingBall) { e.preventDefault(); moveBallToClientXY(e.clientX, e.clientY); } });
+  const endDrag = () => { draggingBall = false; ballEl.classList.remove('dragging'); };
+  ballEl.addEventListener('pointerup', endDrag);
+  ballEl.addEventListener('pointercancel', endDrag);
+  wrapEl.addEventListener('click', (e) => {
+    if (!pdfPointerEnabled || draggingBall || e.target.closest('#pdf-pointer-ball')) return;
+    moveBallToClientXY(e.clientX, e.clientY);
+  });
 
-  if (ballEl) {
-    ballEl.addEventListener('pointerdown', (e) => {
-      e.preventDefault();
-      e.stopPropagation();
-      draggingBall = true;
-      ballEl.classList.add('dragging');
-      if (ballEl.setPointerCapture) ballEl.setPointerCapture(e.pointerId);
-    });
-    ballEl.addEventListener('pointermove', (e) => {
-      if (!draggingBall) return;
-      e.preventDefault();
-      moveBallToClientXY(e.clientX, e.clientY);
-    });
-    const endDrag = () => {
-      draggingBall = false;
-      ballEl.classList.remove('dragging');
-    };
-    ballEl.addEventListener('pointerup', endDrag);
-    ballEl.addEventListener('pointercancel', endDrag);
-  }
-  if (wrapEl) {
-    wrapEl.addEventListener('click', (e) => {
-      if (!pdfPointerEnabled || draggingBall || e.target.closest('#pdf-pointer-ball')) return;
-      moveBallToClientXY(e.clientX, e.clientY);
-    });
-  }
-
-  // PDF Toolbar Listeners
+  // PDF Controls
   const pdfFileInput = document.getElementById('pdf-file-input');
-  const triggerPdfUpload = () => pdfFileInput && pdfFileInput.click();
-  document.getElementById('btn-pdf-upload').addEventListener('click', triggerPdfUpload);
-  document.getElementById('btn-pdf-empty-upload').addEventListener('click', triggerPdfUpload);
+  document.getElementById('btn-pdf-upload').addEventListener('click', () => pdfFileInput.click());
+  document.getElementById('btn-pdf-empty-upload').addEventListener('click', () => pdfFileInput.click());
+  document.getElementById('btn-pdf-demo-page').addEventListener('click', renderBuiltInDemoSheet);
+  document.getElementById('btn-pdf-empty-demo').addEventListener('click', renderBuiltInDemoSheet);
+  document.getElementById('btn-pdf-voice-mode').addEventListener('click', (e) => {
+    pdfVoiceAutoPlay = !pdfVoiceAutoPlay;
+    e.currentTarget.textContent = pdfVoiceAutoPlay ? '🔊 Voice: ON' : '🔇 Text Only';
+  });
 
   pdfFileInput.addEventListener('change', async (e) => {
     const f = e.target.files && e.target.files[0];
     if (!f) return;
     const buf = await f.arrayBuffer();
-    if (!ensurePdfJsReady()) return;
+    if (!(await ensurePdfJsReady())) { showToast('⚠️ PDF.js load नहीं हो पाया'); return; }
     try {
       const probe = await window.pdfjsLib.getDocument({ data: buf.slice(0) }).promise;
       const id = 'pdf_' + Date.now();
-      await savePdfToVault({
-        id,
-        name: f.name.replace(/\.pdf$/i, ''),
-        size: f.size,
-        addedAt: Date.now(),
-        lastPage: 1,
-        totalPages: probe.numPages,
-        data: buf
-      });
+      await savePdfToVault({ id, name: f.name.replace(/\.pdf$/i, ''), size: f.size, addedAt: Date.now(), lastPage: 1, totalPages: probe.numPages, data: buf });
       await initPdfVaultList(id);
       showToast(`📄 ${f.name} Vault में save हो गया!`);
-    } catch (err) {
-      showToast('❌ यह valid PDF file नहीं है');
-    }
+    } catch (err) { showToast('❌ यह valid PDF file नहीं है'); }
     e.target.value = '';
   });
 
   document.getElementById('pdf-library-select').addEventListener('change', async (e) => {
     const id = e.target.value;
     if (!id) return;
-    const list = await getAllPdfsFromVault();
-    const found = list.find(x => x.id === id);
+    const found = (await getAllPdfsFromVault()).find(x => x.id === id);
     if (found) {
       document.getElementById('btn-pdf-delete').style.display = 'inline-flex';
       await loadPdfFromBuffer(found.id, found.name, found.data, found.lastPage || 1);
     }
   });
-
   document.getElementById('btn-pdf-delete').addEventListener('click', async () => {
     if (!pdfCurrentId) return;
     await deletePdfFromVault(pdfCurrentId);
-    pdfDoc = null;
-    pdfCurrentId = '';
+    pdfDoc = null; pdfIsDemo = false; pdfCurrentId = '';
     document.getElementById('pdf-canvas-wrap').style.display = 'none';
     document.getElementById('pdf-empty-state').style.display = 'block';
     document.getElementById('pdf-page-total').textContent = '/ 0';
     await initPdfVaultList();
     showToast('🗑️ PDF हटाया गया');
   });
-
   document.getElementById('btn-pdf-prev').addEventListener('click', () => pdfDoc && renderPdfPage(pdfCurrentPage - 1));
   document.getElementById('btn-pdf-next').addEventListener('click', () => pdfDoc && renderPdfPage(pdfCurrentPage + 1));
   document.getElementById('pdf-page-input').addEventListener('change', (e) => {
     const v = parseInt(e.target.value, 10);
     if (pdfDoc && v >= 1 && v <= pdfTotalPages) renderPdfPage(v);
   });
-  document.getElementById('btn-pdf-zoom-in').addEventListener('click', () => {
-    if (!pdfDoc) return;
-    pdfScale = Math.min(2.4, pdfScale + 0.25);
-    renderPdfPage(pdfCurrentPage);
-  });
-  document.getElementById('btn-pdf-zoom-out').addEventListener('click', () => {
-    if (!pdfDoc) return;
-    pdfScale = Math.max(0.75, pdfScale - 0.25);
-    renderPdfPage(pdfCurrentPage);
-  });
+  document.getElementById('btn-pdf-zoom-in').addEventListener('click', () => { if (pdfDoc) { pdfScale = Math.min(2.4, pdfScale + 0.25); renderPdfPage(pdfCurrentPage); } });
+  document.getElementById('btn-pdf-zoom-out').addEventListener('click', () => { if (pdfDoc) { pdfScale = Math.max(0.75, pdfScale - 0.25); renderPdfPage(pdfCurrentPage); } });
   document.getElementById('btn-pdf-pointer-toggle').addEventListener('click', (e) => {
     pdfPointerEnabled = !pdfPointerEnabled;
     e.currentTarget.textContent = pdfPointerEnabled ? '🎯 Pointer: ON' : '🎯 Pointer: OFF';
     e.currentTarget.classList.toggle('active', pdfPointerEnabled);
     updatePointerBallCss();
   });
-
-  document.getElementById('btn-pdf-explain-here').addEventListener('click', () => {
-    runPdfPointerExplain();
-  });
-  document.getElementById('btn-pdf-next-explain').addEventListener('click', () => {
-    runPdfPointerExplain(`पिछला point समझ आ गया! अब Page ${pdfCurrentPage} पर इसी के आगे का अगला हिस्सा समझा दो (या अगर page खत्म हो गया हो तो [NEXT_PAGE] लिखकर अगले page की शुरुआत बताओ)।`);
-  });
+  document.getElementById('btn-pdf-explain-here').addEventListener('click', () => runPdfPointerExplain());
+  document.getElementById('btn-pdf-next-explain').addEventListener('click', () => runPdfPointerExplain(`पिछला point समझ आ गया! अब Page ${pdfCurrentPage} पर इसी के आगे का अगला हिस्सा समझा दो (या page खत्म हो तो [NEXT_PAGE] लिखकर अगले page की शुरुआत बताओ)।`));
   document.getElementById('btn-pdf-stop-audio').addEventListener('click', () => {
     stopActivePharmaAudio();
     document.getElementById('btn-pdf-stop-audio').style.display = 'none';
     document.getElementById('pdf-tutor-status').textContent = '⏹️ Voice रुकी हुई है';
   });
 
-  // Voice Ask Button on PDF (Tap to Record -> Tap Again to Send)
+  function pickSafeAudioMime() {
+    if (window.MediaRecorder && typeof MediaRecorder.isTypeSupported === 'function') {
+      if (MediaRecorder.isTypeSupported('audio/webm;codecs=opus')) return 'audio/webm;codecs=opus';
+      if (MediaRecorder.isTypeSupported('audio/webm')) return 'audio/webm';
+      if (MediaRecorder.isTypeSupported('audio/mp4')) return 'audio/mp4';
+    }
+    return '';
+  }
+
   const btnPdfMic = document.getElementById('btn-pdf-voice-ask');
   btnPdfMic.addEventListener('click', async () => {
-    if (!pdfDoc) { showToast('📂 पहले कोई PDF load करो!'); return; }
+    if (!pdfDoc && !pdfIsDemo) { showToast('📂 पहले PDF load करो या Demo Sheet दबाओ!'); return; }
     unlockGuruAudioSync();
     if (pdfMicActive && pdfMicRec) {
-      pdfMicActive = false;
-      btnPdfMic.classList.remove('recording');
-      btnPdfMic.textContent = '🎤 Ask by Voice';
+      pdfMicActive = false; btnPdfMic.classList.remove('recording'); btnPdfMic.textContent = '🎤 Ask by Voice';
       try { pdfMicRec.stop(); } catch (e) {}
       return;
     }
     try {
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
       pdfMicChunks = [];
-      let mime = '';
-      if (window.MediaRecorder && typeof MediaRecorder.isTypeSupported === 'function') {
-        if (MediaRecorder.isTypeSupported('audio/webm;codecs=opus')) mime = 'audio/webm;codecs=opus';
-        else if (MediaRecorder.isTypeSupported('audio/webm')) mime = 'audio/webm';
-        else if (MediaRecorder.isTypeSupported('audio/mp4')) mime = 'audio/mp4';
-      }
+      const mime = pickSafeAudioMime();
       pdfMicRec = mime ? new MediaRecorder(stream, { mimeType: mime }) : new MediaRecorder(stream);
       pdfMicRec.ondataavailable = (ev) => { if (ev.data && ev.data.size > 0) pdfMicChunks.push(ev.data); };
       pdfMicRec.onstop = () => {
         stream.getTracks().forEach(t => t.stop());
-        const blob = new Blob(pdfMicChunks, { type: mime });
+        const blob = new Blob(pdfMicChunks, { type: mime || 'audio/webm' });
         const reader = new FileReader();
         reader.onloadend = () => {
           const b64 = String(reader.result || '').split(',')[1];
-          if (b64) runPdfPointerExplain('', b64, mime);
+          if (b64) runPdfPointerExplain('', b64, mime || 'audio/webm');
         };
         reader.readAsDataURL(blob);
       };
@@ -9000,43 +9169,41 @@ CRITICAL RULES:
       btnPdfMic.classList.add('recording');
       btnPdfMic.textContent = '⏹️ Done Speaking';
       document.getElementById('pdf-tutor-status').textContent = '🎤 बोलो... (बोलकर Done Speaking दबाओ)';
-    } catch (err) {
-      showToast('🎤 Mic permission allow करो (HTTPS पर)');
-    }
+    } catch (err) { showToast('🎤 Mic permission allow करो (HTTPS पर)'); }
   });
 
   // ===================================================================
-  // UNIVERSE 3: ASK GURU MULTIMODAL CHAT (CAMERA + GALLERY + TEXT)
+  // UNIVERSE 3: ASK GURU MULTIMODAL CHAT (CAMERA + GALLERY + MIC + TEXT)
   // ===================================================================
-  let chatPendingImg = null; // { b64, dataUrl }
+  let chatPendingImg = null;
+  let chatActiveSubject = 'All B.Pharm Subjects';
   let chatBusy = false;
+  let chatMicRec = null;
+  let chatMicChunks = [];
+  let chatMicActive = false;
 
-  const ASK_GURU_SYSTEM_PROMPT = `You are Pharma Guru, a warm, super-clear, elder-brother style B.Pharm & Science mentor from Purvanchal/UP, India.
+  function buildAskGuruSystemPrompt() {
+    return `You are Pharma Guru, a warm, super-clear elder-brother B.Pharm mentor from Purvanchal/UP, India. Active Subject Context: ${chatActiveSubject}.
 STRICT LANGUAGE & SCRIPT RULES (NEVER VIOLATE):
-1. Write all explanations in the EASIEST, warmest, everyday Devanagari Hindi (natural Purvanchal/North Indian friendly clarity — ZERO heavy Shuddh-Sanskrit jargon, ZERO condescending remarks).
+1. Write all explanations in the EASIEST, warmest, everyday Devanagari Hindi (natural Purvanchal/UP friendly clarity — ZERO heavy Shuddh-Sanskrit jargon, ZERO condescending remarks).
 2. STRICT LATIN-SCRIPT TECHNICAL TERMS (ZERO WORD SWAPPING): Every pharmacy, medical, chemistry, biology, and exam technical term MUST stay strictly in English Latin script wrapped in backticks (e.g., \`Pharmacokinetics\`, \`First-Pass Metabolism\`, \`Bioavailability\`, \`Loop Diuretics\`, \`Furosemide\`, \`Receptor\`, \`SAR\`, \`Schedule M\`). NEVER transliterate English technical terms into Devanagari!
 3. COLORFUL STRUCTURED PRESENTATION (ALWAYS USE THIS FORMAT):
    ## [Clear Topic Heading]
    - Crisp bullet points in ultra-simple Devanagari Hindi + \`English Tech Terms\`
    ### 🔬 Main Concept / Mechanism
    - Step-by-step easy breakdown (use arrows like A -> B -> C where helpful)
-   > 💡 देसी उदाहरण: [1 super relatable daily-life analogy so the student never forgets it]
+   > 💡 देसी उदाहरण: [1 vivid daily-life analogy so the student never forgets it]
    > ✅ Exam Copy में ऐसे लिखो: [2–3 crisp English exam-copy keywords/headings to score full marks]
    > ⚠️ ध्यान देने वाली बात: [1 quick trap or short memory trick]
-4. If the student sends ONLY an image with no text, automatically read the image (handwritten note, book page, diagram, or question) and explain it completely in this colorful format!`;
-
-  function loadChatHistory() {
-    try {
-      const raw = safeGetStorage(PG_CHAT_KEY);
-      return raw ? JSON.parse(raw) : [];
-    } catch (e) { return []; }
+4. If the student sends ONLY an image or voice clip with no text, automatically read/listen and explain it completely in this colorful format!`;
   }
 
+  function loadChatHistory() {
+    try { const raw = safeGetStorage(PG_CHAT_KEY); return raw ? JSON.parse(raw) : []; } catch (e) { return []; }
+  }
   function saveChatHistory(list) {
-    try {
-      safeSetStorage(PG_CHAT_KEY, JSON.stringify(list.slice(-30)));
-    } catch (e) {
-      // If images make localStorage full, trim images from older messages
+    try { safeSetStorage(PG_CHAT_KEY, JSON.stringify(list.slice(-30))); }
+    catch (e) {
       const slim = list.slice(-20).map((m, idx, arr) => idx < arr.length - 4 ? { ...m, imgThumb: '' } : m);
       try { safeSetStorage(PG_CHAT_KEY, JSON.stringify(slim)); } catch (e2) {}
     }
@@ -9047,19 +9214,17 @@ STRICT LANGUAGE & SCRIPT RULES (NEVER VIOLATE):
     if (!feed) return;
     const hist = loadChatHistory();
     feed.innerHTML = '';
-
     if (hist.length === 0) {
       feed.innerHTML = `
         <div class="chat-msg ai">
           <div class="guru-rich-card">
             <div class="guru-rich-h2">🙏 नमस्ते छोटे! मैं हूँ Pharma Guru</div>
-            <p style="margin:6px 0;">यहाँ तुम अपनी किताब, नोट्स या किसी भी सवाल की <strong>📷 Camera से photo</strong> खींचकर डाल सकते हो, <strong>🖼️ Gallery</strong> से भेज सकते हो, या सीधा <strong>लिखकर पूछ</strong> सकते हो।</p>
+            <p style="margin:6px 0;">यहाँ तुम अपनी किताब, नोट्स या किसी भी सवाल की <strong>📷 Camera से photo</strong> खींचकर डाल सकते हो, <strong>🖼️ Gallery</strong> से भेज सकते हो, <strong>🎤 बोलकर</strong> या <strong>लिखकर</strong> पूछ सकते हो।</p>
             <div class="guru-callout">💡 <strong>खास बात:</strong> सारे <span class="guru-tech-pill">Technical Terms</span> एकदम साफ English में रहेंगे और समझाने का अंदाज़ बिल्कुल आसान देसी Hindi में — ताकि एक बार पढ़ते ही दिमाग में बैठ जाए!</div>
           </div>
         </div>`;
       return;
     }
-
     hist.forEach((msg, idx) => {
       const div = document.createElement('div');
       div.className = `chat-msg ${msg.role === 'user' ? 'user' : 'ai'}`;
@@ -9072,25 +9237,26 @@ STRICT LANGUAGE & SCRIPT RULES (NEVER VIOLATE):
         div.innerHTML = renderColorfulGuruCard(msg.text) + `
           <div class="guru-card-actions">
             <button type="button" class="ctrl-btn btn-chat-speak" data-idx="${idx}">🔊 आवाज़ में सुनो</button>
+            <button type="button" class="ctrl-btn btn-chat-copy" data-idx="${idx}">📋 Copy</button>
           </div>`;
       }
       feed.appendChild(div);
     });
-
     feed.querySelectorAll('.btn-chat-speak').forEach(btn => {
       btn.addEventListener('click', () => {
-        const i = Number(btn.getAttribute('data-idx'));
-        const item = loadChatHistory()[i];
+        const item = loadChatHistory()[Number(btn.getAttribute('data-idx'))];
         if (!item) return;
-        unlockGuruAudioSync();
-        stopActivePharmaAudio();
+        unlockGuruAudioSync(); stopActivePharmaAudio();
         btn.textContent = '🔊 बोल रहा है...';
-        speakWithStudioVoice(cleanTextForTTS(item.text), getVoiceConfig(), () => {
-          btn.textContent = '🔊 आवाज़ में सुनो';
-        });
+        speakWithStudioVoice(cleanTextForTTS(item.text), getVoiceConfig(), () => { btn.textContent = '🔊 आवाज़ में सुनो'; });
       });
     });
-
+    feed.querySelectorAll('.btn-chat-copy').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const item = loadChatHistory()[Number(btn.getAttribute('data-idx'))];
+        if (item) navigator.clipboard.writeText(item.text).then(() => showToast('📋 Copied!')).catch(() => {});
+      });
+    });
     feed.scrollTop = feed.scrollHeight;
   }
 
@@ -9100,8 +9266,7 @@ STRICT LANGUAGE & SCRIPT RULES (NEVER VIOLATE):
       reader.onload = () => {
         const img = new Image();
         img.onload = () => {
-          const maxDim = 1280;
-          const sc = Math.min(1, maxDim / Math.max(img.width, img.height));
+          const sc = Math.min(1, 1280 / Math.max(img.width, img.height));
           const c = document.createElement('canvas');
           c.width = Math.max(1, Math.round(img.width * sc));
           c.height = Math.max(1, Math.round(img.height * sc));
@@ -9125,12 +9290,16 @@ STRICT LANGUAGE & SCRIPT RULES (NEVER VIOLATE):
       chatPendingImg = comp;
       document.getElementById('chat-img-preview').src = comp.dataUrl;
       document.getElementById('chat-img-preview-bar').classList.add('show');
-    } catch (err) {
-      showToast('❌ Photo load नहीं हो पाई');
-    }
+    } catch (err) { showToast('❌ Photo load नहीं हो पाई'); }
     e.target.value = '';
   }
 
+  document.querySelectorAll('.chat-subj-pill').forEach(p => {
+    p.addEventListener('click', () => {
+      chatActiveSubject = p.getAttribute('data-subj') || 'All B.Pharm Subjects';
+      document.querySelectorAll('.chat-subj-pill').forEach(x => x.classList.toggle('active', x === p));
+    });
+  });
   document.getElementById('btn-chat-camera').addEventListener('click', () => document.getElementById('chat-camera-input').click());
   document.getElementById('btn-chat-gallery').addEventListener('click', () => document.getElementById('chat-gallery-input').click());
   document.getElementById('chat-camera-input').addEventListener('change', handleChatImagePick);
@@ -9139,7 +9308,6 @@ STRICT LANGUAGE & SCRIPT RULES (NEVER VIOLATE):
     chatPendingImg = null;
     document.getElementById('chat-img-preview-bar').classList.remove('show');
   });
-
   document.querySelectorAll('.chat-chip').forEach(ch => {
     ch.addEventListener('click', () => {
       const inp = document.getElementById('chat-text-input');
@@ -9148,34 +9316,28 @@ STRICT LANGUAGE & SCRIPT RULES (NEVER VIOLATE):
       inp.focus();
     });
   });
-
   document.getElementById('btn-chat-clear').addEventListener('click', () => {
-    saveChatHistory([]);
-    renderChatFeed();
-    showToast('🗑️ Chat साफ हो गई');
+    saveChatHistory([]); renderChatFeed(); showToast('🗑️ Chat साफ हो गई');
   });
 
-  async function sendAskGuruMessage() {
+  async function sendAskGuruMessage(voiceAudioB64, voiceAudioMime) {
     if (chatBusy) return;
     const inp = document.getElementById('chat-text-input');
     const txt = (inp.value || '').trim();
-    if (!txt && !chatPendingImg) {
-      showToast('✏️ कुछ लिखो या 📷 Photo चुनो');
+    if (!txt && !chatPendingImg && !voiceAudioB64) {
+      showToast('✏️ कुछ लिखो, 📷 Photo चुनो या 🎤 बोलो');
       return;
     }
-
     const imgCopy = chatPendingImg ? { ...chatPendingImg } : null;
-    chatPendingImg = null;
-    inp.value = '';
+    chatPendingImg = null; inp.value = '';
     document.getElementById('chat-img-preview-bar').classList.remove('show');
 
     const hist = loadChatHistory();
-    const priorTurns = hist.slice(-6).map(m => ({ role: m.role === 'user' ? 'user' : 'model', text: m.text || '[Image]' }));
-    hist.push({ role: 'user', text: txt, imgThumb: imgCopy ? imgCopy.dataUrl : '' });
+    const priorTurns = hist.slice(-6).map(m => ({ role: m.role === 'user' ? 'user' : 'model', text: m.text || '[Image/Voice]' }));
+    hist.push({ role: 'user', text: txt || (voiceAudioB64 ? '🎤 Voice Doubt भेजा गया' : ''), imgThumb: imgCopy ? imgCopy.dataUrl : '' });
     saveChatHistory(hist);
     renderChatFeed();
 
-    // Add live thinking bubble
     const feed = document.getElementById('chat-feed');
     const loader = document.createElement('div');
     loader.className = 'chat-msg ai';
@@ -9186,13 +9348,13 @@ STRICT LANGUAGE & SCRIPT RULES (NEVER VIOLATE):
     chatBusy = true;
     const sendBtn = document.getElementById('btn-chat-send');
     sendBtn.disabled = true;
-
     try {
       const parts = [];
       if (imgCopy) parts.push({ inlineData: { mimeType: 'image/jpeg', data: imgCopy.b64 } });
-      parts.push({ text: txt || 'इस photo में जो भी लिखा या बना है, उसे एकदम आसान Hindi और English technical terms में समझा दो।' });
+      if (voiceAudioB64) parts.push({ inlineData: { mimeType: voiceAudioMime || 'audio/webm', data: voiceAudioB64 } });
+      parts.push({ text: txt || (voiceAudioB64 ? 'इस voice doubt को ध्यान से सुनकर आसान Hindi + English technical terms में समझा दो।' : 'इस photo में जो भी लिखा या बना है, उसे एकदम आसान Hindi और English technical terms में समझा दो।') });
 
-      const reply = await callPharmaMultimodal(parts, ASK_GURU_SYSTEM_PROMPT, priorTurns);
+      const reply = await callPharmaMultimodal(parts, buildAskGuruSystemPrompt(), priorTurns);
       const updated = loadChatHistory();
       updated.push({ role: 'model', text: reply });
       saveChatHistory(updated);
@@ -9208,17 +9370,45 @@ STRICT LANGUAGE & SCRIPT RULES (NEVER VIOLATE):
     }
   }
 
-  document.getElementById('btn-chat-send').addEventListener('click', sendAskGuruMessage);
+  document.getElementById('btn-chat-send').addEventListener('click', () => sendAskGuruMessage());
   document.getElementById('chat-text-input').addEventListener('keydown', (e) => {
-    if (e.key === 'Enter' && !e.shiftKey) {
-      e.preventDefault();
-      sendAskGuruMessage();
-    }
+    if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendAskGuruMessage(); }
   });
 
-  // Restore last active universe on boot
-  const savedUni = safeGetStorage(PG_UNIVERSE_KEY) || 'mcq';
-  setActiveUniverse(savedUni);
+  // Voice Mic inside Ask Guru Chat Composer
+  const btnChatMic = document.getElementById('btn-chat-mic');
+  btnChatMic.addEventListener('click', async () => {
+    if (chatMicActive && chatMicRec) {
+      chatMicActive = false; btnChatMic.classList.remove('recording'); btnChatMic.textContent = '🎤';
+      try { chatMicRec.stop(); } catch (e) {}
+      return;
+    }
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      chatMicChunks = [];
+      const mime = pickSafeAudioMime();
+      chatMicRec = mime ? new MediaRecorder(stream, { mimeType: mime }) : new MediaRecorder(stream);
+      chatMicRec.ondataavailable = (ev) => { if (ev.data && ev.data.size > 0) chatMicChunks.push(ev.data); };
+      chatMicRec.onstop = () => {
+        stream.getTracks().forEach(t => t.stop());
+        const blob = new Blob(chatMicChunks, { type: mime || 'audio/webm' });
+        const reader = new FileReader();
+        reader.onloadend = () => {
+          const b64 = String(reader.result || '').split(',')[1];
+          if (b64) sendAskGuruMessage(b64, mime || 'audio/webm');
+        };
+        reader.readAsDataURL(blob);
+      };
+      chatMicRec.start();
+      chatMicActive = true;
+      btnChatMic.classList.add('recording');
+      btnChatMic.textContent = '⏹️';
+      showToast('🎤 बोलो... खत्म करके फिर से ⏹️ दबाओ');
+    } catch (err) { showToast('🎤 Mic permission allow करो (HTTPS पर)'); }
+  });
+
+  // Restore last active universe
+  setActiveUniverse(safeGetStorage(PG_UNIVERSE_KEY) || 'mcq');
 })();
 
 </script>
