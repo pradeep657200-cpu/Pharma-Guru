@@ -6289,7 +6289,7 @@ function unlockGuruAudioSync() {
     }
     primeSilentAudioBuffer(guruSharedCtx);
     if (!guruLivePlayCtx || guruLivePlayCtx.state === 'closed') {
-      guruLivePlayCtx = createSafeAudioCtx(24000);
+      guruLivePlayCtx = createSafeAudioCtx();
     }
     primeSilentAudioBuffer(guruLivePlayCtx);
     if (typeof window !== 'undefined' && window.speechSynthesis && window.speechSynthesis.paused) {
@@ -6452,32 +6452,83 @@ function setGuruCaption(text) {
   else { cap.textContent = ''; cap.style.display = 'none'; }
 }
 
+let guruLivePcmCarryByte = null;
+
 function flushLiveAudioQueue() {
-  guruLiveSources.forEach(src => { try { src.stop(); } catch (e) {} });
+  guruLiveSources.forEach(src => { try { src.onended = null; src.stop(); } catch (e) {} });
   guruLiveSources = [];
+  guruLivePcmCarryByte = null;
   if (guruLivePlayCtx) guruLiveNextTime = guruLivePlayCtx.currentTime;
 }
 
-function playLivePcm24k(base64Pcm) {
-  if (!guruLivePlayCtx) {
-    guruLivePlayCtx = createSafeAudioCtx(24000);
+function getCleanAudioBus(ctx) {
+  if (!ctx) return null;
+  if (!ctx.__titanBus) {
+    try {
+      const gain = ctx.createGain();
+      gain.gain.value = 0.84;
+      const comp = ctx.createDynamicsCompressor();
+      comp.threshold.value = -8;
+      comp.knee.value = 14;
+      comp.ratio.value = 4;
+      comp.attack.value = 0.004;
+      comp.release.value = 0.12;
+      gain.connect(comp);
+      comp.connect(ctx.destination);
+      ctx.__titanBus = gain;
+    } catch (e) {
+      ctx.__titanBus = ctx.destination;
+    }
+  }
+  return ctx.__titanBus;
+}
+
+function playLivePcm24k(base64Pcm, mimeType) {
+  if (!guruLivePlayCtx || guruLivePlayCtx.state === 'closed') {
+    guruLivePlayCtx = createSafeAudioCtx(); // Native 48kHz hardware rate prevents Android/iPad earphone crackling!
   }
   if (guruLivePlayCtx.state === 'suspended') guruLivePlayCtx.resume().catch(() => {});
   const bin = atob(base64Pcm);
-  const len = Math.floor(bin.length / 2);
-  if (len <= 0) return;
+  const hasCarry = guruLivePcmCarryByte !== null;
+  const totalBytes = bin.length + (hasCarry ? 1 : 0);
+  const len = Math.floor(totalBytes / 2);
+  if (len <= 0) {
+    if (bin.length === 1 && !hasCarry) guruLivePcmCarryByte = bin.charCodeAt(0);
+    return;
+  }
+  const u8 = new Uint8Array(len * 2);
+  let writeIdx = 0;
+  if (hasCarry) {
+    u8[writeIdx++] = guruLivePcmCarryByte;
+    guruLivePcmCarryByte = null;
+  }
+  const usableBinBytes = (len * 2) - writeIdx;
+  for (let i = 0; i < usableBinBytes; i++) u8[writeIdx + i] = bin.charCodeAt(i);
+  if (bin.length > usableBinBytes) {
+    guruLivePcmCarryByte = bin.charCodeAt(usableBinBytes);
+  }
+  const dv = new DataView(u8.buffer);
   const float32 = new Float32Array(len);
   for (let i = 0; i < len; i++) {
-    let val = (bin.charCodeAt(i * 2 + 1) << 8) | bin.charCodeAt(i * 2);
-    if (val >= 0x8000) val -= 0x10000;
-    float32[i] = val / 32768;
+    float32[i] = Math.max(-0.98, Math.min(0.98, dv.getInt16(i * 2, true) / 32768));
   }
-  const buffer = guruLivePlayCtx.createBuffer(1, len, 24000);
+  const now = guruLivePlayCtx.currentTime;
+  const isContiguous = (guruLiveNextTime > now + 0.004);
+  const startAt = isContiguous ? guruLiveNextTime : (now + 0.085);
+  // Apply 2ms fade-in ONLY on fresh starts/after gaps so contiguous speech has zero mid-stream flutter!
+  if (!isContiguous) {
+    const fade = Math.min(48, Math.floor(len / 8));
+    for (let i = 0; i < fade; i++) {
+      float32[i] *= (i / fade);
+    }
+  }
+  const rateMatch = mimeType ? String(mimeType).match(/rate=(\d+)/i) : null;
+  const pcmRate = rateMatch ? Math.max(8000, Math.min(48000, Number(rateMatch[1]))) : 24000;
+  const buffer = guruLivePlayCtx.createBuffer(1, len, pcmRate);
   buffer.getChannelData(0).set(float32);
   const src = guruLivePlayCtx.createBufferSource();
   src.buffer = buffer;
-  src.connect(guruLivePlayCtx.destination);
-  const startAt = Math.max(guruLivePlayCtx.currentTime + 0.012, guruLiveNextTime);
+  src.connect(getCleanAudioBus(guruLivePlayCtx));
   src.start(startAt);
   guruLiveNextTime = startAt + buffer.duration;
   guruLiveSources.push(src);
@@ -6817,7 +6868,7 @@ function tryStartInstantLiveWebSocket(q, qidTag, btnEl, cfg) {
               if (p.inlineData && p.inlineData.data) {
                 resetWaveBarsCss(); updateGuruDockState('⚡ Instant Live · Speak to interrupt', false);
                 updateGuruMicBtn();
-                playLivePcm24k(p.inlineData.data);
+                playLivePcm24k(p.inlineData.data, p.inlineData.mimeType);
               }
             });
           }
@@ -7024,13 +7075,20 @@ async function speakWithStudioVoice(text, cfg, onFinish) {
         } else {
           const sampleCnt = Math.floor(bytes.length / 2);
           if (sampleCnt > 0) {
+            const rateM = mime.match(/rate=(\d+)/);
+            const pcmRate = rateM ? Math.max(8000, Math.min(48000, Number(rateM[1]))) : 24000;
+            const dv = new DataView(bytes.buffer, bytes.byteOffset, sampleCnt * 2);
             const pcmF32 = new Float32Array(sampleCnt);
             for (let si = 0; si < sampleCnt; si++) {
-              let v = (bytes[si * 2 + 1] << 8) | bytes[si * 2];
-              if (v >= 0x8000) v -= 0x10000;
-              pcmF32[si] = v / 32768;
+              pcmF32[si] = Math.max(-0.98, Math.min(0.98, dv.getInt16(si * 2, true) / 32768));
             }
-            audioBuf = playCtx.createBuffer(1, sampleCnt, 24000);
+            const edge = Math.min(120, Math.floor(sampleCnt / 10));
+            for (let si = 0; si < edge; si++) {
+              const g = si / edge;
+              pcmF32[si] *= g;
+              pcmF32[sampleCnt - 1 - si] *= g;
+            }
+            audioBuf = playCtx.createBuffer(1, sampleCnt, pcmRate);
             audioBuf.getChannelData(0).set(pcmF32);
           }
         }
@@ -7038,7 +7096,7 @@ async function speakWithStudioVoice(text, cfg, onFinish) {
           if (guruStudioWebSrc) { try { guruStudioWebSrc.onended = null; guruStudioWebSrc.stop(); } catch (e) {} }
           const src = playCtx.createBufferSource();
           src.buffer = audioBuf;
-          src.connect(playCtx.destination);
+          src.connect(getCleanAudioBus(playCtx));
           guruStudioWebSrc = src;
           resetWaveBarsCss(); updateGuruDockState('Speaking · Tap orb to interrupt', false);
           updateGuruMicBtn();
