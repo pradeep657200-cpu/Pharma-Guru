@@ -6849,19 +6849,18 @@ async function pgFetchGemini(path, apiKey, fetchOpts) {
   const cleanKey = sanitizeTitanApiKey(apiKey);
   if (!cleanKey) throw new Error('API Key खाली है — Settings में paste करो');
   const baseUrl = `https://generativelanguage.googleapis.com/v1beta/${path}`;
-  const hdrs = Object.assign({}, (fetchOpts && fetchOpts.headers) || {}, { 'x-goog-api-key': cleanKey });
   const ctrl = (!fetchOpts || !fetchOpts.signal) && typeof AbortController !== 'undefined' ? new AbortController() : null;
   const tid = ctrl ? setTimeout(() => ctrl.abort(), 45000) : null;
-  const opts1 = Object.assign({}, fetchOpts || {}, { headers: hdrs }, ctrl ? { signal: ctrl.signal } : {});
   try {
-    let resp = await fetch(baseUrl, opts1);
-    if ((resp.status === 401 || resp.status === 403) && cleanKey.startsWith('AIza')) {
+    if (cleanKey.startsWith('AIza')) {
       const qUrl = `${baseUrl}${baseUrl.includes('?') ? '&' : '?'}key=${encodeURIComponent(cleanKey)}`;
       const hdrsNoKey = Object.assign({}, (fetchOpts && fetchOpts.headers) || {});
-      const opts2 = Object.assign({}, fetchOpts || {}, { headers: hdrsNoKey }, ctrl ? { signal: ctrl.signal } : {});
-      resp = await fetch(qUrl, opts2);
+      const optsDirect = Object.assign({}, fetchOpts || {}, { headers: hdrsNoKey }, ctrl ? { signal: ctrl.signal } : {});
+      return await fetch(qUrl, optsDirect);
     }
-    return resp;
+    const hdrs = Object.assign({}, (fetchOpts && fetchOpts.headers) || {}, { 'x-goog-api-key': cleanKey });
+    const optsHdr = Object.assign({}, fetchOpts || {}, { headers: hdrs }, ctrl ? { signal: ctrl.signal } : {});
+    return await fetch(baseUrl, optsHdr);
   } catch (err) {
     if (err && err.name === 'AbortError') throw new Error('Network slow है (45s timeout) — कृपया दोबारा कोशिश करें');
     throw err;
@@ -6882,16 +6881,17 @@ async function pgDiscoverFlashModels(apiKey) {
       .map(m => String(m.name).replace(/^models\//, ''))
       .filter(n => /gemini/i.test(n) && !/embedding|tts|imagen|veo|aqa|robotics|-image|-audio|vision|learnlm|live|computer-use|deep-research|gemma/i.test(n));
     const rank = (x) => {
-      if (/gemini-4.*flash(?!-lite)/i.test(x)) return 0;
-      if (/gemini-4.*flash-lite/i.test(x)) return 1;
-      if (/gemini-4/i.test(x)) return 2;
-      if (/gemini-3\.[5-9].*flash(?!-lite)/i.test(x)) return 3;
-      if (/gemini-3.*flash(?!-lite)/i.test(x)) return 4;
-      if (/gemini-3.*flash-lite/i.test(x)) return 5;
-      if (/gemini-2\.5-flash(?!-lite)/i.test(x)) return 6;
-      if (/gemini-2\.5-flash-lite/i.test(x)) return 7;
-      if (/flash/i.test(x)) return 8;
-      return 9;
+      const expPen = /preview|exp|thinking/i.test(x) ? 20 : 0;
+      if (/gemini-4.*flash(?!-lite)/i.test(x)) return expPen + 0;
+      if (/gemini-4.*flash-lite/i.test(x)) return expPen + 1;
+      if (/gemini-4/i.test(x)) return expPen + 2;
+      if (/gemini-3\.[5-9].*flash(?!-lite)/i.test(x)) return expPen + 3;
+      if (/gemini-3.*flash(?!-lite)/i.test(x)) return expPen + 4;
+      if (/gemini-3.*flash-lite/i.test(x)) return expPen + 5;
+      if (/gemini-2\.5-flash(?!-lite)/i.test(x)) return expPen + 6;
+      if (/gemini-2\.5-flash-lite/i.test(x)) return expPen + 7;
+      if (/flash/i.test(x)) return expPen + 8;
+      return expPen + 9;
     };
     usable.sort((a, b) => rank(a) - rank(b) || b.localeCompare(a));
     return usable.slice(0, 6);
@@ -10956,8 +10956,8 @@ IRONCLAD SCRIPT & LANGUAGE LAW (100% MANDATORY — ZERO WORD SWAPPING):
         <div class="chat-msg ai">
           <div class="guru-rich-card">
             
-            <div class="guru-rich-h2">🙏 नमस्ते प्रदीप! मैं हूँ Pharma Guru</div>
-            <p style="margin:6px 0;">यहाँ तुम अपनी Civil book, PYQ, या GK notes की <strong>📷 Camera से photo</strong> खींचकर डाल सकते हो, <strong>🖼️ Photo</strong> भेज सकते हो, <strong>🎤 बोलकर</strong> या <strong>लिखकर</strong> पूछ सकते हो।</p>
+            <div class="guru-rich-h2">🙏 नमस्ते जगदीश! मैं हूँ Pharma Guru</div>
+            <p style="margin:6px 0;">यहाँ तुम अपनी B.Pharm, GPAT, या Pharmacy notes की <strong>📷 Camera से photo</strong> खींचकर डाल सकते हो, <strong>🖼️ Photo</strong> भेज सकते हो, <strong>🎤 बोलकर</strong> या <strong>लिखकर</strong> पूछ सकते हो।</p>
             <div class="guru-callout">💡 <strong>खास बात:</strong> सारे <span class="guru-tech-pill">Technical Terms</span> एकदम साफ English में रहेंगे और समझाने का अंदाज़ बिल्कुल आसान देसी Hindi में — ताकि एक बार पढ़ते ही दिमाग में बैठ जाए!</div>
           </div>
         </div>`;
