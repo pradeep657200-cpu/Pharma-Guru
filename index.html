@@ -6282,8 +6282,92 @@ function createSafeAudioCtx(preferredRate) {
   }
   return new AC();
 }
+let guruHtml5Player = null;
+let guruActiveBlobUrl = null;
+const GURU_SILENT_WAV_URI = 'data:audio/wav;base64,UklGRmQBAABXQVZFZm10IBAAAAABAAEAQB8AAIA+AAACABAAZGF0YUABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==';
+
+function setTitanAudioSession(mode) {
+  try {
+    if (typeof navigator !== 'undefined' && navigator.audioSession && 'type' in navigator.audioSession) {
+      navigator.audioSession.type = mode;
+    }
+  } catch (e) {}
+}
+
+function getUnlockedHtml5Player() {
+  if (!guruHtml5Player) {
+    guruHtml5Player = new Audio();
+    guruHtml5Player.preload = 'auto';
+    guruHtml5Player.setAttribute('playsinline', '');
+  }
+  return guruHtml5Player;
+}
+
+function buildPcm16WavBlob(rawBytes, sampleRate) {
+  if (rawBytes.length >= 12 && rawBytes[0] === 0x52 && rawBytes[1] === 0x49 && rawBytes[2] === 0x46 && rawBytes[3] === 0x46) {
+    return new Blob([rawBytes], { type: 'audio/wav' });
+  }
+  const sampleCnt = Math.floor(rawBytes.length / 2);
+  const dataLen = sampleCnt * 2;
+  const wavBuf = new ArrayBuffer(44 + dataLen);
+  const view = new DataView(wavBuf);
+  const writeStr = (off, s) => { for (let i = 0; i < s.length; i++) view.setUint8(off + i, s.charCodeAt(i)); };
+  const sr = Math.max(8000, Math.min(48000, Number(sampleRate) || 24000));
+  writeStr(0, 'RIFF');
+  view.setUint32(4, 36 + dataLen, true);
+  writeStr(8, 'WAVE');
+  writeStr(12, 'fmt ');
+  view.setUint32(16, 16, true);
+  view.setUint16(20, 1, true);
+  view.setUint16(22, 1, true);
+  view.setUint32(24, sr, true);
+  view.setUint32(28, sr * 2, true);
+  view.setUint16(32, 2, true);
+  view.setUint16(34, 16, true);
+  writeStr(36, 'data');
+  view.setUint32(40, dataLen, true);
+  const inView = new DataView(rawBytes.buffer, rawBytes.byteOffset, dataLen);
+  const edge = Math.min(120, Math.floor(sampleCnt / 10));
+  for (let i = 0; i < sampleCnt; i++) {
+    let s = inView.getInt16(i * 2, true) * 0.88;
+    if (i < edge) s *= (i / edge);
+    else if (i >= sampleCnt - edge) s *= ((sampleCnt - 1 - i) / edge);
+    const clamped = Math.max(-32767, Math.min(32767, Math.round(s)));
+    view.setInt16(44 + i * 2, clamped, true);
+  }
+  return new Blob([wavBuf], { type: 'audio/wav' });
+}
+
+function resampleFloat32Linear(input, inRate, outRate) {
+  if (!outRate || inRate === outRate || input.length < 2) return input;
+  const ratio = inRate / outRate;
+  const outLen = Math.max(1, Math.round(input.length / ratio));
+  const out = new Float32Array(outLen);
+  for (let i = 0; i < outLen; i++) {
+    const pos = i * ratio;
+    const idx = Math.floor(pos);
+    const frac = pos - idx;
+    const s0 = input[idx] || 0;
+    const s1 = input[Math.min(idx + 1, input.length - 1)] || s0;
+    out[i] = s0 + (s1 - s0) * frac;
+  }
+  return out;
+}
+
 function unlockGuruAudioSync() {
   try {
+    setTitanAudioSession('playback');
+    const el = getUnlockedHtml5Player();
+    if (!el.__unlocked) {
+      el.muted = true;
+      el.src = GURU_SILENT_WAV_URI;
+      const p = el.play();
+      if (p && p.then) {
+        p.then(() => { el.pause(); el.muted = false; el.__unlocked = true; }).catch(() => { el.muted = false; });
+      } else {
+        el.muted = false; el.__unlocked = true;
+      }
+    }
     if (!guruSharedCtx || guruSharedCtx.state === 'closed') {
       guruSharedCtx = createSafeAudioCtx();
     }
@@ -6524,8 +6608,10 @@ function playLivePcm24k(base64Pcm, mimeType) {
   }
   const rateMatch = mimeType ? String(mimeType).match(/rate=(\d+)/i) : null;
   const pcmRate = rateMatch ? Math.max(8000, Math.min(48000, Number(rateMatch[1]))) : 24000;
-  const buffer = guruLivePlayCtx.createBuffer(1, len, pcmRate);
-  buffer.getChannelData(0).set(float32);
+  const targetRate = guruLivePlayCtx.sampleRate || pcmRate;
+  const nativeFloat = resampleFloat32Linear(float32, pcmRate, targetRate);
+  const buffer = guruLivePlayCtx.createBuffer(1, nativeFloat.length, targetRate);
+  buffer.getChannelData(0).set(nativeFloat);
   const src = guruLivePlayCtx.createBufferSource();
   src.buffer = buffer;
   src.connect(getCleanAudioBus(guruLivePlayCtx));
@@ -6545,10 +6631,19 @@ function stopGuruAudioOnly() {
   flushLiveAudioQueue();
   if (guruAbortCtrl) { try { guruAbortCtrl.abort(); } catch (e) {} guruAbortCtrl = null; }
   if (guruStudioWebSrc) { try { guruStudioWebSrc.onended = null; guruStudioWebSrc.stop(); } catch (e) {} guruStudioWebSrc = null; }
-  if (guruAudioEl) { try { guruAudioEl.pause(); guruAudioEl.currentTime = 0; } catch (e) {} guruAudioEl = null; }
+  if (guruAudioEl) {
+    try { guruAudioEl.onended = null; guruAudioEl.onerror = null; guruAudioEl.pause(); guruAudioEl.currentTime = 0; } catch (e) {}
+    guruAudioEl = null;
+  }
+  if (guruActiveBlobUrl) { try { URL.revokeObjectURL(guruActiveBlobUrl); } catch (e) {} guruActiveBlobUrl = null; }
   __titanSpeechGen++; __titanUtteranceLock = null;
   if (typeof window !== 'undefined' && window.speechSynthesis) { try { window.speechSynthesis.cancel(); } catch (e) {} }
 }
+
+let guruVadSource = null;
+let guruVadAnalyser = null;
+let guruLiveMicSrc = null;
+let guruLiveSilentGain = null;
 
 function stopGuruMicOnly() {
   if (guruVadRaf) { cancelAnimationFrame(guruVadRaf); guruVadRaf = null; }
@@ -6559,8 +6654,12 @@ function stopGuruMicOnly() {
   guruIsRecording = false;
   guruRecChunks = [];
   resetWaveBarsCss();
+  if (guruVadSource) { try { guruVadSource.disconnect(); } catch (e) {} guruVadSource = null; }
+  if (guruVadAnalyser) { try { guruVadAnalyser.disconnect(); } catch (e) {} guruVadAnalyser = null; }
   guruVadCtx = null;
-  if (guruLiveMicNode) { try { guruLiveMicNode.disconnect(); } catch (e) {} guruLiveMicNode = null; }
+  if (guruLiveMicSrc) { try { guruLiveMicSrc.disconnect(); } catch (e) {} guruLiveMicSrc = null; }
+  if (guruLiveMicNode) { try { guruLiveMicNode.onaudioprocess = null; guruLiveMicNode.disconnect(); } catch (e) {} guruLiveMicNode = null; }
+  if (guruLiveSilentGain) { try { guruLiveSilentGain.disconnect(); } catch (e) {} guruLiveSilentGain = null; }
   guruLiveMicCtx = null;
   if (guruMicStream) { try { guruMicStream.getTracks().forEach(t => t.stop()); } catch (e) {} guruMicStream = null; }
 }
@@ -6750,15 +6849,6 @@ function tryStartInstantLiveWebSocket(q, qidTag, btnEl, cfg) {
 
     try {
       let micReady = false;
-      if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
-        try {
-          guruMicStream = await navigator.mediaDevices.getUserMedia({
-            audio: { echoCancellation: true, noiseSuppression: true, autoGainControl: cfg.scope === 'high_sens', channelCount: 1 }
-          });
-          micReady = true;
-        } catch (e) {}
-      }
-
       const wsUrl = `wss://generativelanguage.googleapis.com/ws/google.ai.generativelanguage.v1beta.GenerativeService.BidiGenerateContent?key=${encodeURIComponent(cfg.apiKey)}`;
       guruLiveWs = new WebSocket(wsUrl);
 
@@ -6804,6 +6894,15 @@ function tryStartInstantLiveWebSocket(q, qidTag, btnEl, cfg) {
             updateGuruDockState('⚡ Instant Live · Speaking', false);
             updateGuruMicBtn();
 
+            if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia && !guruMicStream) {
+              try {
+                setTitanAudioSession('play-and-record');
+                guruMicStream = await navigator.mediaDevices.getUserMedia({
+                  audio: { echoCancellation: true, noiseSuppression: true, autoGainControl: cfg.scope === 'high_sens', channelCount: 1 }
+                });
+                micReady = true;
+              } catch (e) {}
+            }
             if (micReady && guruMicStream) {
               unlockGuruAudioSync();
               guruLiveMicCtx = guruSharedCtx;
@@ -6828,11 +6927,13 @@ function tryStartInstantLiveWebSocket(q, qidTag, btnEl, cfg) {
               src.connect(proc);
               proc.connect(silentGain);
               silentGain.connect(guruLiveMicCtx.destination);
+              guruLiveMicSrc = src;
               guruLiveMicNode = proc;
+              guruLiveSilentGain = silentGain;
             }
 
             const kickoff = !q
-              ? 'प्रदीप के लिए 2 लाइन का एकदम natural, warm human स्वागत बोलो।'
+              ? 'जगदीश के लिए 2 लाइन का एकदम natural, warm human स्वागत बोलो।'
               : (guruSessionMode === 'quiz'
                 ? 'Hands-free quiz शुरू करो! पहले यह सवाल साफ-साफ पढ़ो, फिर चारों options (A, B, C, D) आराम से पढ़ो और विनम्रता से पूछो कि किस option पर ताला लगाया जाए।'
                 : 'इस सवाल को 3 आसान देसी हिंदी लाइनों में समझाओ कि क्या पूछ रहा है, और पूछो कि कहाँ अटक रहे हो।');
@@ -6933,9 +7034,10 @@ async function pgDiscoverFlashModels(apiKey) {
       .filter(n => /gemini/i.test(n) && !/embedding|tts|imagen|veo|aqa|robotics|-image|-audio|vision|learnlm|live|computer-use|deep-research|gemma/i.test(n));
     const rank = (x) => {
       const expPen = /preview|exp|thinking/i.test(x) ? 20 : 0;
-      if (/gemini-4.*flash(?!-lite)/i.test(x)) return expPen + 0;
-      if (/gemini-4.*flash-lite/i.test(x)) return expPen + 1;
-      if (/gemini-4/i.test(x)) return expPen + 2;
+      if (/gemini-4-hydrogen/i.test(x)) return expPen + 0;
+      if (/gemini-4.*flash(?!-lite)/i.test(x)) return expPen + 1;
+      if (/gemini-4.*neon/i.test(x)) return expPen + 2;
+      if (/gemini-4/i.test(x)) return expPen + 4;
       if (/gemini-3\.[5-9].*flash(?!-lite)/i.test(x)) return expPen + 3;
       if (/gemini-3.*flash(?!-lite)/i.test(x)) return expPen + 4;
       if (/gemini-3.*flash-lite/i.test(x)) return expPen + 5;
@@ -6981,7 +7083,7 @@ async function pgParseApiError(resp) {
 
 async function callGuruBrain(userParts, cfg) {
   const cleanKey = sanitizeTitanApiKey(cfg.apiKey);
-  const baseModels = ['gemini-2.5-flash', 'gemini-2.5-flash-lite', 'gemini-2.0-flash'];
+  const baseModels = ['gemini-4-hydrogen', 'gemini-3.8-flash', 'gemini-3.5-flash-lite', 'gemini-3.6-flash'];
   const models = await pgGetRankedModels(cleanKey, baseModels);
   const sysText = buildTitanGuruSystemPrompt(guruActiveQ, cfg);
   guruChatHistory.push({ role: 'user', parts: userParts });
@@ -6996,13 +7098,17 @@ async function callGuruBrain(userParts, cfg) {
         body: JSON.stringify({
           systemInstruction: { parts: [{ text: sysText }] },
           contents: guruChatHistory,
-          generationConfig: { temperature: 0.72, maxOutputTokens: 1800 }
+          generationConfig: Object.assign({ temperature: 0.72, maxOutputTokens: 2048 }, /^gemini-4/i.test(m) ? { thinkingConfig: { thinkingLevel: 'low' } } : {})
         }),
         signal: guruAbortCtrl ? guruAbortCtrl.signal : undefined
       });
       if (!resp.ok) {
         const errMsg = await pgParseApiError(resp);
-        lastErr = new Error(errMsg);
+        const sugM = errMsg.match(/use\s+models\/([a-z0-9._-]+)/i);
+        if (sugM && sugM[1] && !models.includes(sugM[1])) models.splice(i + 1, 0, sugM[1]);
+        if (!lastErr || !/HTTP (429|403|401)/.test(lastErr.message || '') || resp.status !== 404) {
+          lastErr = new Error(errMsg);
+        }
         if (resp.status === 400 && /API_KEY_INVALID|API key not valid/i.test(errMsg)) break;
         if (i === models.length - 1 && !triedDiscovery) {
           triedDiscovery = true;
@@ -7013,7 +7119,7 @@ async function callGuruBrain(userParts, cfg) {
       }
       const json = await resp.json();
       const reply = json && json.candidates && json.candidates[0] && json.candidates[0].content &&
-        json.candidates[0].content.parts && json.candidates[0].content.parts.map(p => p.text || '').join(' ').trim();
+        json.candidates[0].content.parts && json.candidates[0].content.parts.filter(p => p && !p.thought && p.text).map(p => p.text).join(' ').trim();
       if (reply) {
         __pgCachedWorkingModel = m;
         const lastUser = guruChatHistory[guruChatHistory.length - 1];
@@ -7035,7 +7141,7 @@ async function callGuruBrain(userParts, cfg) {
 async function speakWithStudioVoice(text, cfg, onFinish) {
   stopGuruMicOnly(); // Release Android earpiece/voice-call route so TTS plays loud on Media Speaker!
   await new Promise(r => setTimeout(r, 320)); // Let Android audio router settle back to loud Media Speaker
-  const ttsModels = ['gemini-2.5-flash-preview-tts', 'gemini-3.8-flash-lite-tts', 'gemini-3.8-flash-tts'];
+  const ttsModels = ['gemini-3.8-flash-lite-tts', 'gemini-3.8-flash-tts', 'gemini-2.5-flash-preview-tts'];
   const styleDesc = 'Speak at a calm, unhurried, relaxed teaching pace (around 0.88x speed, NEVER rushed or fast) like a patient North Indian elder brother sitting right next to the student—clear pronunciation, gentle pauses between sentences so a first-time learner absorbs every single concept effortlessly.';
   for (const m of ttsModels) {
     try {
@@ -7064,19 +7170,58 @@ async function speakWithStudioVoice(text, cfg, onFinish) {
       const bytes = new Uint8Array(binStr.length);
       for (let bi = 0; bi < binStr.length; bi++) bytes[bi] = binStr.charCodeAt(bi);
 
-      // Play directly through unlocked Web Audio API (immune to Android/iOS autoplay blocks!)
+      // PRIMARY ENGINE: Native OS Hardware Media Decoder via Unlocked HTML5 <audio> + True 44-byte RIFF WAV Blob
+      setTitanAudioSession('playback');
+      const rateM = mime.match(/rate=(\d+)/);
+      const pcmRate = rateM ? Math.max(8000, Math.min(48000, Number(rateM[1]))) : 24000;
+      const isEncoded = mime.includes('mp3') || mime.includes('mpeg') || mime.includes('ogg') || mime.includes('mp4') || mime.includes('aac');
+      const wavBlob = isEncoded ? new Blob([bytes], { type: mime }) : buildPcm16WavBlob(bytes, pcmRate);
+
+      try {
+        const player = getUnlockedHtml5Player();
+        if (guruActiveBlobUrl) { try { URL.revokeObjectURL(guruActiveBlobUrl); } catch (e) {} guruActiveBlobUrl = null; }
+        const blobUrl = URL.createObjectURL(wavBlob);
+        guruActiveBlobUrl = blobUrl;
+        guruAudioEl = player;
+        player.onended = null;
+        player.onerror = null;
+        player.muted = false;
+        player.volume = 1.0;
+        player.src = blobUrl;
+        try { player.load(); } catch (e) {}
+        let finished = false;
+        const cleanupHtml5 = () => {
+          if (finished) return;
+          finished = true;
+          player.onended = null;
+          player.onerror = null;
+          if (guruActiveBlobUrl === blobUrl) { try { URL.revokeObjectURL(blobUrl); } catch (e) {} guruActiveBlobUrl = null; }
+          if (guruAudioEl === player) guruAudioEl = null;
+          updateGuruMicBtn();
+          if (onFinish) onFinish();
+        };
+        player.onended = cleanupHtml5;
+        player.onerror = cleanupHtml5;
+        await player.play();
+        resetWaveBarsCss(); updateGuruDockState('Speaking · Tap orb to interrupt', false);
+        updateGuruMicBtn();
+        return true;
+      } catch (html5Err) {
+        if (guruActiveBlobUrl) { try { URL.revokeObjectURL(guruActiveBlobUrl); } catch (e) {} guruActiveBlobUrl = null; }
+        guruAudioEl = null;
+      }
+
+      // SECONDARY FALLBACK: Web Audio API with 1:1 Native-Rate JS Upsampling
       const playCtx = (guruSharedCtx && guruSharedCtx.state !== 'closed') ? guruSharedCtx : createSafeAudioCtx();
       if (playCtx) {
         guruSharedCtx = playCtx;
         if (playCtx.state === 'suspended') await playCtx.resume().catch(() => {});
         let audioBuf = null;
-        if (mime.includes('wav') || mime.includes('mp3') || mime.includes('mpeg') || mime.includes('ogg')) {
+        if (mime.includes('wav') || isEncoded) {
           try { audioBuf = await playCtx.decodeAudioData(bytes.buffer.slice(0)); } catch (de) {}
         } else {
           const sampleCnt = Math.floor(bytes.length / 2);
           if (sampleCnt > 0) {
-            const rateM = mime.match(/rate=(\d+)/);
-            const pcmRate = rateM ? Math.max(8000, Math.min(48000, Number(rateM[1]))) : 24000;
             const dv = new DataView(bytes.buffer, bytes.byteOffset, sampleCnt * 2);
             const pcmF32 = new Float32Array(sampleCnt);
             for (let si = 0; si < sampleCnt; si++) {
@@ -7088,8 +7233,10 @@ async function speakWithStudioVoice(text, cfg, onFinish) {
               pcmF32[si] *= g;
               pcmF32[sampleCnt - 1 - si] *= g;
             }
-            audioBuf = playCtx.createBuffer(1, sampleCnt, pcmRate);
-            audioBuf.getChannelData(0).set(pcmF32);
+            const targetRate = playCtx.sampleRate || pcmRate;
+            const nativeF32 = resampleFloat32Linear(pcmF32, pcmRate, targetRate);
+            audioBuf = playCtx.createBuffer(1, nativeF32.length, targetRate);
+            audioBuf.getChannelData(0).set(nativeF32);
           }
         }
         if (audioBuf) {
@@ -7109,19 +7256,6 @@ async function speakWithStudioVoice(text, cfg, onFinish) {
           return true;
         }
       }
-
-      // Secondary Blob URL Audio fallback
-      const blob = new Blob([bytes], { type: (mime.includes('wav') || mime.includes('mp3') || mime.includes('mpeg')) ? mime : 'audio/wav' });
-      const blobUrl = URL.createObjectURL(blob);
-      const audio = new Audio(blobUrl);
-      guruAudioEl = audio;
-      resetWaveBarsCss(); updateGuruDockState('Speaking · Tap orb to interrupt', false);
-      updateGuruMicBtn();
-      const cleanupBlob = () => { try { URL.revokeObjectURL(blobUrl); } catch (e) {} guruAudioEl = null; updateGuruMicBtn(); if (onFinish) onFinish(); };
-      audio.onended = cleanupBlob;
-      audio.onerror = cleanupBlob;
-      await audio.play();
-      return true;
     } catch (e) {
       if (e && e.name === 'AbortError') return false;
     }
@@ -7198,6 +7332,7 @@ async function startGuruVoiceListen(isAutoLoop = false) {
 
   try {
     const cfg = getVoiceConfig();
+    setTitanAudioSession('play-and-record');
     guruMicStream = await navigator.mediaDevices.getUserMedia({
       audio: { echoCancellation: true, noiseSuppression: true, autoGainControl: cfg.scope === 'high_sens', channelCount: 1 }
     });
@@ -7208,6 +7343,8 @@ async function startGuruVoiceListen(isAutoLoop = false) {
     const analyser = guruVadCtx.createAnalyser();
     analyser.fftSize = 1024;
     src.connect(analyser);
+    guruVadSource = src;
+    guruVadAnalyser = analyser;
     const timeData = new Uint8Array(analyser.fftSize);
     const mimeType = (typeof MediaRecorder !== 'undefined' && MediaRecorder.isTypeSupported('audio/webm;codecs=opus'))
       ? 'audio/webm;codecs=opus'
@@ -7355,7 +7492,7 @@ async function startTitanGuruLive(q, qidTag, btnEl) {
   if (activeSpeakingQid !== qidTag) return;
   if (btnEl) { btnEl.classList.remove('is-loading'); btnEl.classList.add('is-speaking'); btnEl.textContent = '✨'; }
   const kickoff = !q
-    ? 'प्रदीप के लिए 2 लाइन का एकदम natural, warm human स्वागत बोलो।'
+    ? 'जगदीश के लिए 2 लाइन का एकदम natural, warm human स्वागत बोलो।'
     : (guruSessionMode === 'quiz'
       ? 'Hands-free quiz शुरू करो! पहले यह सवाल साफ-साफ पढ़ो, फिर चारों options (A, B, C, D) आराम से पढ़ो और विनम्रता से पूछो कि किस option पर ताला लगाया जाए।'
       : 'इस सवाल को एकदम तसल्ली से, आराम-आराम से, बिल्कुल आसान देसी हिंदी और असली ज़िंदगी के उदाहरण से पूरा समझाओ कि सवाल क्या पूछ रहा है, इसके पीछे का असली concept क्या है, और फिर प्यार से पूछो कि कोई और doubt या cross-question हो तो खुलकर पूछो।');
@@ -10258,7 +10395,7 @@ if ('serviceWorker' in navigator && (location.protocol === 'https:' || location.
       btnVerifyKey.disabled = true;
       try {
         const discovered = await pgDiscoverFlashModels(cleanKey);
-        const testModels = [...new Set([...discovered, 'gemini-2.5-flash', 'gemini-2.5-flash-lite', 'gemini-3.5-flash-lite', 'gemini-2.0-flash'])];
+        const testModels = [...new Set([...discovered, 'gemini-4-hydrogen', 'gemini-3.8-flash', 'gemini-3.5-flash-lite', 'gemini-3.6-flash'])];
         let okModel = '';
         let lastErr = '';
         for (const m of testModels) {
@@ -10267,7 +10404,7 @@ if ('serviceWorker' in navigator && (location.protocol === 'https:' || location.
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
               contents: [{ role: 'user', parts: [{ text: 'Reply OK' }] }],
-              generationConfig: { maxOutputTokens: 8 }
+              generationConfig: Object.assign({ maxOutputTokens: 32 }, /^gemini-4/i.test(m) ? { thinkingConfig: { thinkingLevel: 'low' } } : {})
             })
           });
           if (resp.ok) { okModel = m; break; }
@@ -10302,7 +10439,7 @@ if ('serviceWorker' in navigator && (location.protocol === 'https:' || location.
       openVoiceModal();
       throw new Error('NO_API_KEY');
     }
-    const baseModels = ['gemini-2.5-flash', 'gemini-2.5-flash-lite', 'gemini-2.0-flash'];
+    const baseModels = ['gemini-4-hydrogen', 'gemini-3.8-flash', 'gemini-3.5-flash-lite', 'gemini-3.6-flash'];
     const models = await pgGetRankedModels(cleanKey, baseModels);
 
     const contents = [];
@@ -10324,12 +10461,17 @@ if ('serviceWorker' in navigator && (location.protocol === 'https:' || location.
           body: JSON.stringify({
             systemInstruction: { parts: [{ text: systemInstruction }] },
             contents: contents,
-            generationConfig: { temperature: 0.45, maxOutputTokens: 8192 }
+            generationConfig: Object.assign({ temperature: 0.45, maxOutputTokens: 8192 }, /^gemini-4/i.test(m) ? { thinkingConfig: { thinkingLevel: 'low' } } : {})
           })
         });
         if (!resp.ok) {
-          lastErr = await pgParseApiError(resp);
-          if (resp.status === 400 && /API_KEY_INVALID|API key not valid/i.test(lastErr)) break;
+          const errMsg = await pgParseApiError(resp);
+          const sugM = errMsg.match(/use\s+models\/([a-z0-9._-]+)/i);
+          if (sugM && sugM[1] && !models.includes(sugM[1])) models.splice(i + 1, 0, sugM[1]);
+          if (!/HTTP (429|403|401)/.test(lastErr) || resp.status !== 404) {
+            lastErr = errMsg;
+          }
+          if (resp.status === 400 && /API_KEY_INVALID|API key not valid/i.test(errMsg)) break;
           if (i === models.length - 1 && !triedDiscovery) {
             triedDiscovery = true;
             const disc = await pgDiscoverFlashModels(cleanKey);
