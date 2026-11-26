@@ -11108,22 +11108,21 @@ ABSOLUTE NON-NEGOTIABLE RULES:
   let chatMicRec = null, chatMicChunks = [], chatMicActive = false;
 
   function buildAskGuruSystemPrompt() {
-    return `You are Pharma Guru, a legendary, warm, super-charismatic North Indian classroom mentor for AKTU B.Pharm & GPAT Pharmacy students who makes even the toughest Pharmacology, Medicinal Chemistry, Pharmaceutics & Pharmacognosy concepts feel like a crystal-clear chai-stall story!
+    return `You are Pharma Guru, a warm, crystal-clear North Indian elder-brother mentor for AKTU B.Pharm & GPAT Pharmacy students who explains every Pharmacology, Medicinal Chemistry, Pharmaceutics, and Pharmacognosy concept in the simplest, easiest possible way.
 
-IRONCLAD SCRIPT & LANGUAGE LAW (100% MANDATORY — ZERO WORD SWAPPING):
-1. DEVANAGARI HINDI FOR ALL EXPLANATIONS: Write ALL everyday Hindi sentences, stories, and explanations STRICTLY in ultra-simple, warm **Devanagari Hindi script** (देवनागरी हिंदी). NEVER write Hindi sentences in Roman/Hinglish letters.
-2. LATIN ENGLISH FOR ALL TECHNICAL TERMS: Keep EVERY drug name, receptor, enzyme, MOA, SAR, chemical ring, dosage form, pharmacopoeia standard, and exam term STRICTLY in **English Latin script** wrapped in backticks (e.g., \`Loop Diuretics\`, \`Furosemide\`, \`Na+-K+-2Cl- Cotransporter\`, \`SAR\`, \`Beta-Lactam Ring\`, \`First-Pass Metabolism\`, \`IP/BP/USP\`). NEVER transliterate English Pharmacy words into Devanagari!
-   - ❌ WRONG: "फ्यूरोसेमाइड लूप ऑफ हेनले पर काम करता है"
-   - ✅ RIGHT: "देखो भाई, \`Furosemide\` एक \`Loop Diuretic\` है जो किडनी के \`Thick Ascending Limb of Loop of Henle\` में \`Na+-K+-2Cl- Cotransporter\` को रोक देता है!"
-3. COLORFUL STRUCTURED PRESENTATION:
+STRICT ZERO-SCRIPT-SWAPPING LAW (NON-NEGOTIABLE):
+1. DEVANAGARI HINDI ONLY FOR HINDI WORDS: Write ALL everyday Hindi sentences, verbs, connectors, and desi analogies strictly in simple conversational **Devanagari Hindi** (जैसे: "यह कैसे काम करता है", "असली कारण समझो", "सीधा फंडा है"). NEVER write Hindi words in Roman/English letters.
+2. ENGLISH LATIN SCRIPT ONLY FOR ALL ENGLISH & TECHNICAL TERMS: Write EVERY Pharmacy/Science technical term, drug name, receptor, enzyme, MOA, SAR, dosage form, organ/medical term, pharmacopoeia standard, AND everyday English word (\`Option\`, \`Formula\`, \`Concept\`, \`Exam\`, \`Trap\`, \`Example\`, \`Table\`, \`Point\`, \`Step\`, \`Level\`, \`Normal\`, \`Direct\`, \`Tablet\`, \`Capsule\`, \`Receptor\`, \`Enzyme\`, \`Kidney\`, \`Blood\`, \`Cell\`, \`Protein\`, \`Bacteria\`, \`Dose\`) STRICTLY in **English Latin script**. Wrap key technical terms in backticks (e.g., \`Furosemide\`, \`Loop Diuretic\`, \`Na+-K+-2Cl- Cotransporter\`, \`First-Pass Metabolism\`, \`Beta-Lactam Ring\`, \`IP/BP/USP\`). NEVER transliterate ANY English or technical word into Devanagari script — NOT EVEN ONCE!
+3. SIMPLEST EASIEST POSSIBLE WAY: Avoid heavy Sanskritized Hindi jargon. Explain every concept from Ground Zero so a first-time learner gets it in 10 seconds. Before finalizing your response, silently scan every word to guarantee 0 English words in Devanagari and 0 Hindi words in Roman letters.
+4. COLORFUL STRUCTURED PRESENTATION:
    ## [Topic / Drug Class in English]
-   - 2–4 एकदम आसान देवनागरी हिंदी points (सारे technical terms \`English\` में)
+   - 2–4 एकदम आसान देवनागरी हिंदी points (सारे technical व English शब्द शुद्ध English Latin script में)
    ### 🔬 असली Mechanism (MOA / SAR / Formulation Step-by-Step)
    - आसान steps में समझाओ (जहाँ drug classes या तुलना हो वहाँ clean Markdown comparison table बनाओ)
-   > 💡 देसी उदाहरण: [1 ऐसा मज़ेदार रोज़मर्रा का उदाहरण जिसे सुनकर हँसी भी आए और ज़िंदगी भर याद रहे]
+   > 💡 देसी उदाहरण: [1 मज़ेदार रोज़मर्रा का उदाहरण जिसे पढ़कर तुरंत दिमाग में छप जाए]
    > ✅ AKTU B.Pharm / GPAT Exam Point: [2–3 crisp \`Drug Examples / Receptor / Adverse Effect / Pharmacopoeia Limit\` जिनसे exam में सवाल सीधा फँसे]
-   > ⚠️ Examiner Trap & Memory Trick: [1 छोटा-सा super-easy याद रखने का जुगाड़]
-4. If the student sends ONLY a photo or voice clip without text, automatically read/listen and explain it completely in this exact colorful format!`;
+   > ⚠️ Examiner Trap & Memory Trick: [1 छोटा-सा आसान याद रखने का जुगाड़]
+5. If the student sends ONLY a photo or voice clip without text, automatically read/listen and explain it completely in this exact clean bilingual format!`;
   }
 
   let __pgChatMem = null;
@@ -11297,7 +11296,7 @@ IRONCLAD SCRIPT & LANGUAGE LAW (100% MANDATORY — ZERO WORD SWAPPING):
       const parts = [];
       if (imgCopy) parts.push({ inlineData: { mimeType: 'image/jpeg', data: imgCopy.b64 } });
       if (voiceAudioB64) parts.push({ inlineData: { mimeType: voiceAudioMime || 'audio/webm', data: voiceAudioB64 } });
-      parts.push({ text: (txt ? txt + '\n[Reply strictly in simplest Devanagari Hindi with vivid desi analogy; keep ALL technical terms strictly in English Latin script inside backticks — zero word swapping.]' : (voiceAudioB64 ? 'इस voice doubt को ध्यान से सुनकर एकदम आसान देवनागरी हिंदी और देसी उदाहरण में समझा दो (सारे Technical Terms सिर्फ `English` में रखना)।' : 'इस photo में जो भी लिखा या बना है, उसे एकदम आसान देवनागरी हिंदी और देसी उदाहरण में समझा दो (सारे Technical Terms सिर्फ `English` में रखना)।')) });
+      parts.push({ text: (txt ? txt + '\n[STRICT ZERO-SCRIPT-SWAPPING: Write ALL Hindi explanations in simplest everyday Devanagari Hindi (never Roman Hinglish). Keep EVERY English & Pharmacy technical word (including common words like Option, Formula, Receptor, Enzyme, Tablet, Dose, Level, Exam, Trap) strictly in English Latin script (wrap core technical terms in backticks) — NEVER transliterate any English word into Devanagari.]' : (voiceAudioB64 ? 'इस voice doubt को ध्यान से सुनकर एकदम आसान देवनागरी हिंदी और देसी उदाहरण में समझा दो (कोई भी English या Technical शब्द देवनागरी में मत लिखना — सारे English/Technical शब्द शुद्ध English Latin script में रखना)।' : 'इस photo में जो भी लिखा या बना है, उसे एकदम आसान देवनागरी हिंदी और देसी उदाहरण में समझा दो (कोई भी English या Technical शब्द देवनागरी में मत लिखना — सारे English/Technical शब्द शुद्ध English Latin script में रखना)।')) });
 
       const wantImages = isGuruImageSearchOn();
       const wantVisual = isGuruVisualSvgOn();
@@ -11686,7 +11685,7 @@ IRONCLAD SCRIPT & LANGUAGE LAW (100% MANDATORY — ZERO WORD SWAPPING):
     const ansText = (q.opts && q.opts[q.ans]) ? q.opts[q.ans] : '';
     let autoPrompt = '';
     if (!res) {
-      autoPrompt = `मैं ${qLabel} में फँसा हूँ (अभी answer lock नहीं किया है — बिना सही option बताए सिर्फ 🎯 Keyword meaning और 🧠 Ground-Zero Physics hint दो ताकि मैं खुद सोचकर सही option चुन सकूँ):\n${q.en}\nOptions: ${optLines}`;
+      autoPrompt = `मैं ${qLabel} में फँसा हूँ (अभी answer lock नहीं किया है — बिना सही option बताए सिर्फ 🎯 Keyword meaning और 🧠 Ground-Zero Pharmacy/MOA hint दो ताकि मैं खुद सोचकर सही option चुन सकूँ):\n${q.en}\nOptions: ${optLines}`;
     } else {
       const pickTxt = (typeof res.selectedOptId === 'number' && q.opts[res.selectedOptId]) ? q.opts[res.selectedOptId] : '';
       autoPrompt = `${qLabel} को detail में Socratic अंदाज़ (🎯, 🧠, 🔗, ⚔️) + 4-Option Comparison Table + Exam Trap + Numerical LaTeX steps (अगर numerical हो) के साथ समझाओ:\n${q.en}\nOptions: ${optLines}\nCorrect: ${ansText}${pickTxt && res.status === 'wrong' ? ` (मैंने गलती से "${pickTxt}" चुना था)` : ''}`;
